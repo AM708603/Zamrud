@@ -1,0 +1,17 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Zamrud</title></head>
+<body><script src="/store-builder.js"></script>
+<script>
+/* GitHub Pages serves this file for any URL that is not a real page, e.g. zamrud.co/ahmed-store */
+(async function(){
+  var slug=(location.pathname.split("/").filter(Boolean)[0]||"").toLowerCase();
+  try{
+    if(!slug)throw 0;
+    var r=await fetch(ZStore.API+"/public/store/"+encodeURIComponent(slug));
+    if(!r.ok)throw 0;
+    var d=await r.json();
+    document.open();document.write(ZStore.render(d.store.config,d.products||[],false,slug));document.close();
+  }catch(e){
+    document.body.innerHTML='<div style="font-family:sans-serif;text-align:center;margin-top:20vh"><h2>Page not found</h2><a href="/">Go to Zamrud</a></div>';
+  }
+})();
+</script></body></html>
