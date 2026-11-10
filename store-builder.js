@@ -131,7 +131,9 @@ function app(C, P, E, slug, API) {
 
   const cats = [...new Set(P.map(p => p.category).filter(Boolean))], pm = {}; P.forEach(p => pm[p.id] = p);
   const money = n => Number(n).toLocaleString("en", { maximumFractionDigits: 2 }) + " " + (C.cur || "AED");
-  let cart = [], tm = [], q = "", so = "new", fc = "", last = "", io = null;
+  let cart = [], tm = [], q = "", so = "new", fc = "", last = "", io = null, rt = "#/";
+  /* In the editor preview (srcdoc iframe) real #links would load the dashboard, so routing is kept in memory there */
+  const cur = () => E ? rt : location.hash, nav = h => { if (E) { rt = h; R(); scrollTo(0, 0); } else location.hash = h; };
   try { cart = JSON.parse(localStorage["zc_" + slug] || "[]"); } catch (e) {}
   cart = cart.filter(i => pm[i.id]);
   const sv = () => { try { localStorage["zc_" + slug] = JSON.stringify(cart); } catch (e) {} };
@@ -200,7 +202,7 @@ ${summary('<a class="b full" href="#/checkout">Continue to checkout</a>', 1)}</d
 
   function R() {
     tm.forEach(clearInterval); tm = []; if (io) io.disconnect();
-    const [, k, a] = (location.hash.slice(1) || "/").split("/"), key = k || "home";
+    const [, k, a] = (cur().slice(1) || "/").split("/"), key = k || "home";
     const v = key == "c" ? V.shop(decodeURIComponent(a || "")) : key == "p" ? V.p(a || "") : key == "shop" ? V.shop("") : (V[key] ? V[key]() : V.home());
     D.body.className = key == "p" ? "pdp" : "";
     const links = cats.map(c => `<a href="${cl(c)}">${esc(c)}</a>`).join(""), soc = [["ig", "Instagram"], ["fb", "Facebook"], ["tt", "TikTok"]].filter(x => C[x[0]]).map(x => `<a href="${esc(C[x[0]])}" target="_blank" rel="noopener">${x[1]}</a>`).join("");
@@ -218,12 +220,13 @@ ${summary('<a class="b full" href="#/checkout">Continue to checkout</a>', 1)}</d
   D.onclick = e => {
     const t = e.target; let x;
     const s = t.closest("[data-s]"); if (E && s) parent.postMessage({ zbSel: s.dataset.s }, "*");
+    const an = t.closest("a[href^='#']"); if (an) { e.preventDefault(); nav(an.getAttribute("href")); return; }
     const g = a => t.closest("[" + a + "]");
     if (x = g("data-q")) { const el = D.getElementById("q"); el.textContent = Math.max(1, +el.textContent + +x.dataset.q); }
     else if (x = g("data-add") || g("data-buy")) {
       const id = x.dataset.add || x.dataset.buy, el = D.getElementById("q"), n = x.closest(".c") || !el ? 1 : +el.textContent || 1, i = cart.find(y => y.id == id);
       i ? i.q += n : cart.push({ id, q: n }); sv();
-      if (x.dataset.buy) location.hash = "#/checkout"; else { uc(); toast(pm[id].name + " added"); }
+      if (x.dataset.buy) nav("#/checkout"); else { uc(); toast(pm[id].name + " added"); }
     }
     else if (x = g("data-ci")) { const i = cart.find(y => y.id == x.dataset.ci); i.q += +x.dataset.dd; if (i.q < 1) cart = cart.filter(y => y != i); sv(); R(); }
     else if (x = g("data-rm")) { cart = cart.filter(y => y.id != x.dataset.rm); sv(); R(); }
@@ -238,10 +241,10 @@ ${summary('<a class="b full" href="#/checkout">Continue to checkout</a>', 1)}</d
     b.disabled = true; b.textContent = "Placing order";
     fetch(API + "/public/store/" + slug + "/order", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: cart.map(i => ({ product_id: i.id, quantity: i.q })), customer_name: f.n.value, customer_phone: f.p.value, customer_city: f.c.value, customer_address: f.a.value }) })
       .then(r => r.json().then(d => { if (!r.ok) throw Error(d.error || "Something went wrong. Please try again."); return d; }))
-      .then(d => { cart = []; sv(); last = d.order_number; location.hash = "#/done"; })
+      .then(d => { cart = []; sv(); last = d.order_number; nav("#/done"); })
       .catch(x => { er.textContent = x.message; b.disabled = false; b.textContent = "Place order"; });
   };
-  window.addEventListener("message", e => { if (e.data && e.data.go) location.hash = e.data.go; });
+  window.addEventListener("message", e => { if (e.data && e.data.go) nav(e.data.go); });
   window.addEventListener("hashchange", () => { R(); scrollTo(0, 0); });
   R();
 }
