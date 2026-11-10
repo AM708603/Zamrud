@@ -35,7 +35,7 @@
     <div class="hidden lg:flex gradient-hero text-white relative overflow-hidden flex-col justify-between p-10 xl:p-14">
       <div class="absolute inset-0 opacity-30" style="background-image:radial-gradient(at 20% 20%,rgba(45,212,191,.2) 0,transparent 50%),radial-gradient(at 80% 80%,rgba(251,191,36,.15) 0,transparent 40%)"></div>
       <div class="relative">
-        <a href="index.html" class="inline-flex items-center gap-2.5">
+        <a href="/" class="inline-flex items-center gap-2.5">
           <div class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center font-display font-extrabold text-lg">Z</div>
           <span class="font-display text-xl font-extrabold">Zam<span class="text-gold-400">rud</span></span>
         </a>
@@ -56,7 +56,7 @@
     <div class="flex items-center justify-center p-6 sm:p-10">
       <div class="w-full max-w-md">
         <div class="lg:hidden mb-8 flex items-center gap-2">
-          <a href="index.html" class="inline-flex items-center gap-2">
+          <a href="/" class="inline-flex items-center gap-2">
             <div class="w-9 h-9 rounded-xl bg-brand-600 text-white flex items-center justify-center font-display font-extrabold">Z</div>
             <span class="font-display text-lg font-extrabold">Zam<span class="text-brand-600">rud</span></span>
           </a>
@@ -148,7 +148,7 @@
         </div>
 
         <p class="text-center text-sm text-slate-500 mt-8">
-          <a href="index.html" class="text-brand-600 font-semibold hover:underline"><i class="fas fa-arrow-left text-xs mr-1"></i> Back to home</a>
+          <a href="/" class="text-brand-600 font-semibold hover:underline"><i class="fas fa-arrow-left text-xs mr-1"></i> Back to home</a>
         </p>
       </div>
     </div>
@@ -158,10 +158,10 @@
     const API = "https://zamrud.borntow2.workers.dev";
 
     const DASHBOARDS = {
-      admin: "admin.html",
-      staff: "staff.html",
-      agency: "agency.html",
-      dropshipper: "dropshipper.html"
+      admin: "/admin",
+      staff: "/staff",
+      agency: "/agency",
+      dropshipper: "/dropshipper"
     };
 
     function showVerify(email) {
@@ -209,7 +209,7 @@
     }
 
     function redirectByRole(role) {
-      const page = DASHBOARDS[role] || "dropshipper.html";
+      const page = DASHBOARDS[role] || "/dropshipper";
       window.location.href = page;
     }
 
