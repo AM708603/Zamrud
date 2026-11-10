@@ -38,8 +38,11 @@ const DEF = {
   trust: "Cash on delivery\nFast delivery across the UAE\nEasy returns", related: 1, quick: 1,
   ckNote: "We will call you to confirm your order before dispatch.", cartNote: "Delivery is free. You pay cash when you receive your order.",
   theme: { c: "#0d9488", bg: "#ffffff", f: "Inter", hf: "", r: 12, dark: 0, btn: "solid", card: "border", cols: 4, ratio: "1/1",
-    hover: "lift", anim: 1, width: 1180, ft: "dark" },
-  wishlist: 1, search: 1, scrollTop: 1,
+    hover: "lift", anim: 1, width: 1180, ft: "dark",
+    sectionSpace: 44, gridGap: 18, chipSize: 13, chipPad: 16, chipRadius: 999, chipBorder: 1, toolbarGap: 14, searchWidth: 210, sortWidth: 180,
+    bodySize: 15, headingScale: 100, headerPad: 14, headerGap: 24, cardTitleSize: 14, priceSize: 15, cardImageFit: "cover", cardPadding: 10, buttonPad: 24, buttonWeight: 600,
+    announcementPad: 9, footerPad: 48, accentBorder: "", mutedColor: "" },
+  wishlist: 1, search: 1, sort: 1, scrollTop: 1,
   sections: [mk("announcement", "s1"), mk("hero", "s2"), mk("features", "s3"), mk("cats", "s4"), mk("products", "s5"), mk("promo", "s6"), mk("text", "s7")]
 };
 const sl = (t, s2, b, bg) => ({ t, s: s2, b, img: "", bg, cat: "" });
@@ -203,8 +206,7 @@ function app(C, P, E, slug, API) {
       const pr = c && C.sections.find(s => s.type == "promo" && s.cat == c);
       return `<div class="w">${pr ? `<div class="pm" style="background:${esc(pr.bg)};color:${tc(pr.bg)}"><div><h2>${esc(pr.title)}</h2><p>${esc(pr.text)}</p></div></div>` : ""}${head(c || "All products")}
 <div class="tb"><div class="chips"><a class="${c ? "" : "on"}" href="#/shop">All</a>${cats.map(x => `<a class="${x == c ? "on" : ""}" href="${cl(x)}">${esc(x)}</a>`).join("")}</div>
-<div class="tr2"><label class="se">${ic("search", 16)}<input data-sq placeholder="Search products" value="${esc(q)}" aria-label="Search products"></label>
-<select data-so aria-label="Sort"><option value="new"${so == "new" ? " selected" : ""}>Newest</option><option value="lo"${so == "lo" ? " selected" : ""}>Price: low to high</option><option value="hi"${so == "hi" ? " selected" : ""}>Price: high to low</option><option value="az"${so == "az" ? " selected" : ""}>Name: A to Z</option></select></div></div>
+<div class="tr2">${+C.search ? `<label class="se">${ic("search", 16)}<input data-sq placeholder="Search products" value="${esc(q)}" aria-label="Search products"></label>` : ""}${+C.sort ? `<select data-so aria-label="Sort"><option value="new"${so == "new" ? " selected" : ""}>Newest</option><option value="lo"${so == "lo" ? " selected" : ""}>Price: low to high</option><option value="hi"${so == "hi" ? " selected" : ""}>Price: high to low</option><option value="az"${so == "az" ? " selected" : ""}>Name: A to Z</option></select>` : ""}</div></div>
 <div id="sg">${grid(flt(c))}</div></div>`;
     },
     p: id => {
@@ -295,8 +297,8 @@ function css(t) {
   const dk = +t.dark, cols = Math.min(5, Math.max(2, +t.cols || 4)), W = +t.width || 1180, r = +t.r || 0, out = t.btn == "outline";
   const tc = h => { h = String(h || "").replace("#", ""); if (h.length == 3) h = h.replace(/./g, "$&$&"); const n = parseInt(h, 16); if (isNaN(n)) return "#fff"; return (((n >> 16) * 299 + ((n >> 8) & 255) * 587 + (n & 255) * 114) / 1000) > 150 ? "#111827" : "#fff"; };
   const F = { dark: ["#0f172a", "#e2e8f0", "#94a3b8"], light: [dk ? "#1e293b" : "#f1f5f9", "var(--t)", "var(--mu)"], brand: [t.c, tc(t.c), tc(t.c)] }[t.ft] || ["#0f172a", "#e2e8f0", "#94a3b8"];
-  const cardCss = t.card == "shadow" ? ".c{background:var(--cd);box-shadow:0 2px 16px rgba(15,23,42,.1);padding:10px}"
-    : t.card == "flat" ? ".c{padding:0}.cb{padding:10px 2px}" : ".c{background:var(--cd);border:1px solid var(--bd);padding:10px}";
+  const cardCss = t.card == "shadow" ? ".c{background:var(--cd);box-shadow:0 2px 16px rgba(15,23,42,.1);padding:var(--z-card-padding)}"
+    : t.card == "flat" ? ".c{padding:0}.cb{padding:10px 2px}" : ".c{background:var(--cd);border:1px solid var(--bd);padding:var(--z-card-padding)}";
   const hov = t.hover == "lift" ? ".c:hover{transform:translateY(-4px)}" : t.hover == "zoom" ? ".c:hover .im img{transform:scale(1.07)}" : "";
   const hf = t.hf || t.f, an = +t.anim || 0;
   return `:root{--c:${esc(t.c)};--on:${tc(t.c)};--bg:${esc(t.bg)};--t:${dk ? "#f1f5f9" : "#1e293b"};--cd:${dk ? "#1e293b" : "#fff"};--bd:${dk ? "#334155" : "#e2e8f0"};--mu:${dk ? "#94a3b8" : "#64748b"};--sf:${dk ? "#273449" : "#f1f5f9"};--r:${r}px;--br:${t.btn == "pill" ? "999px" : r + "px"};--ar:${esc(t.ratio || "1/1")};--hf:'${esc(hf)}',system-ui,sans-serif;--ft:${F[0]};--fx:${F[1]};--fm:${F[2]}}
@@ -343,6 +345,20 @@ ${an ? ".pg{animation:fi .45s both}.rv{opacity:0;transform:translateY(18px);tran
 .wish{position:absolute;top:10px;right:10px;z-index:4;width:34px;height:34px;border:1px solid var(--bd);background:var(--cd);color:var(--mu);border-radius:50%;display:grid;place-items:center;cursor:pointer}.wish.saved{background:var(--c);color:var(--on);border-color:var(--c)}.wish-link{display:flex;gap:6px;align-items:center;font-size:12px;font-weight:700}.wish-link svg{color:var(--c)}
 @media(max-width:700px){.reviews{grid-template-columns:1fr}.editorial{grid-template-columns:1fr}.editorial.reverse .editorial-image{order:0}.editorial-image{max-height:360px}.editorial-copy{padding:28px}.wish-link span{display:none}}
 
+/* Premium v5: theme-safe product filtering and design tokens */
+:root{--z-section:${Math.max(12,Math.min(100,+t.sectionSpace||44))}px;--z-gap:${Math.max(6,Math.min(48,+t.gridGap||18))}px;--z-chip-font:${Math.max(10,Math.min(20,+t.chipSize||13))}px;--z-chip-pad:${Math.max(6,Math.min(32,+t.chipPad||16))}px;--z-chip-radius:${Math.max(0,Math.min(999,+t.chipRadius??999))}px;--z-chip-border:${Math.max(0,Math.min(4,+t.chipBorder??1))}px;--z-toolbar-gap:${Math.max(4,Math.min(36,+t.toolbarGap||14))}px;--z-search-width:${Math.max(120,Math.min(480,+t.searchWidth||210))}px;--z-sort-width:${Math.max(120,Math.min(350,+t.sortWidth||180))}px;--z-body-size:${Math.max(12,Math.min(22,+t.bodySize||15))}px;--z-heading-scale:${Math.max(.7,Math.min(1.5,(+t.headingScale||100)/100))};--z-header-pad:${Math.max(6,Math.min(40,+t.headerPad||14))}px;--z-header-gap:${Math.max(6,Math.min(50,+t.headerGap||24))}px;--z-card-title:${Math.max(11,Math.min(23,+t.cardTitleSize||14))}px;--z-price-size:${Math.max(12,Math.min(28,+t.priceSize||15))}px;--z-card-padding:${Math.max(0,Math.min(28,+t.cardPadding??10))}px;--z-button-pad:${Math.max(8,Math.min(48,+t.buttonPad||24))}px;--z-button-weight:${Math.max(400,Math.min(900,+t.buttonWeight||600))};--z-announcement-pad:${Math.max(4,Math.min(30,+t.announcementPad||9))}px;--z-footer-pad:${Math.max(16,Math.min(100,+t.footerPad||48))}px}
+body{font-size:var(--z-body-size)}.w{padding-top:var(--z-section);padding-bottom:var(--z-section)}.g{gap:var(--z-gap)}.hi2{padding-top:var(--z-header-pad);padding-bottom:var(--z-header-pad)}.hd nav{gap:var(--z-header-gap)}.sh h2{font-size:calc(clamp(22px,3vw,30px)*var(--z-heading-scale))}.hi h1{font-size:calc(clamp(30px,5vw,56px)*var(--z-heading-scale))}.cb h3{font-size:var(--z-card-title)}.cb b{font-size:var(--z-price-size)}.im img{object-fit:${t.cardImageFit === "contain" ? "contain" : "cover"}}.b{padding-left:var(--z-button-pad);padding-right:var(--z-button-pad);font-weight:var(--z-button-weight)}.an{padding-top:var(--z-announcement-pad);padding-bottom:var(--z-announcement-pad)}footer{padding-top:var(--z-footer-pad)}
+/* Never allow generic form rules to stretch category links into tall pills */
+.tb{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:var(--z-toolbar-gap);min-width:0}
+.chips{display:flex;flex:1 1 280px;flex-wrap:wrap;align-items:center;align-content:flex-start;align-self:flex-start;gap:8px;min-width:0;width:auto;height:auto}
+.chips a,.chips a.on{display:inline-flex;align-items:center;justify-content:center;align-self:flex-start;flex:0 0 auto;width:auto;height:auto;min-height:36px;max-height:none;line-height:1.3;white-space:nowrap;padding:8px var(--z-chip-pad);border-width:var(--z-chip-border);border-radius:var(--z-chip-radius);font-size:var(--z-chip-font)}
+.tr2{display:flex;flex:0 1 auto;align-items:center;align-self:flex-start;gap:10px;flex-wrap:wrap;min-width:0;margin:0}
+.tr2 .se{display:flex;flex:0 1 var(--z-search-width);width:var(--z-search-width);max-width:100%;min-width:140px;min-height:42px;height:42px;padding:0 12px;align-items:center;border-radius:var(--br)}
+.tr2 .se input{display:block;flex:1 1 auto;width:100%;min-width:0;max-width:100%;min-height:0;height:38px;padding:6px 0;border:0;box-shadow:none;background:transparent;border-radius:0;font-size:13px}
+.tr2 select{display:block;flex:0 0 var(--z-sort-width);width:var(--z-sort-width);max-width:100%;min-width:120px;height:42px;min-height:42px;padding:7px 32px 7px 12px;font-size:13px;line-height:1.4;border:1px solid var(--bd);border-radius:var(--br);background-color:var(--cd);color:var(--t)}
+${t.accentBorder ? `.c,.fi,.review,.sm,.fm{border-color:${esc(t.accentBorder)}}` : ""}${t.mutedColor ? `.m,.body,.fg p,.fg a{color:${esc(t.mutedColor)}}` : ""}
+@media(max-width:750px){.tb{display:grid;grid-template-columns:minmax(0,1fr)}.chips{width:100%;flex:none;gap:7px}.tr2{width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,160px)}.tr2 .se,.tr2 select{width:100%;min-width:0;max-width:100%;flex:none}.w{padding-left:16px;padding-right:16px}}
+@media(max-width:380px){.tr2{grid-template-columns:1fr}.tr2 .se,.tr2 select{width:100%}.chips a{min-height:34px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv{opacity:1!important;transform:none!important}html{scroll-behavior:auto}}`;
 }
 
@@ -424,6 +440,21 @@ function panel() {
       AC("Colors", `<div class="flex gap-1.5 mb-3">${PAL.map(c => `<button onclick="ZB.th('c','${c}');ZB.re()" class="w-7 h-7 rounded-full border-2 border-white shadow" style="background:${c}"></button>`).join("")}</div>` +
         IN("Brand color", th.c, T("c", "this.value"), "color") + IN("Page background", th.bg, T("bg", "this.value"), "color") + CK("Dark mode", th.dark, T("dark", "this.checked?1:0")) +
         SEL("Footer style", th.ft, [["dark", "Dark"], ["light", "Light"], ["brand", "Brand color"]], T("ft", "this.value"))) +
+      AC("Category buttons & filters", CK("Show search field",cfg.search,"ZB.g('search',this.checked?1:0)") + CK("Show sort dropdown",cfg.sort,"ZB.g('sort',this.checked?1:0)") +
+        RG("Category button font size", th.chipSize??13, 10, 20, T("chipSize", "+this.value")) + RG("Button horizontal padding", th.chipPad??16, 6, 32, T("chipPad", "+this.value")) +
+        RG("Category button corner radius", th.chipRadius??999, 0, 999, T("chipRadius", "+this.value")) + RG("Button border thickness", th.chipBorder??1, 0, 4, T("chipBorder", "+this.value")) +
+        RG("Toolbar spacing", th.toolbarGap??14, 4, 36, T("toolbarGap", "+this.value")) + RG("Search width", th.searchWidth??210, 120, 480, T("searchWidth", "+this.value")) +
+        RG("Sorting width", th.sortWidth??180, 120, 350, T("sortWidth", "+this.value"))) +
+      AC("Spacing & layout", RG("Section vertical spacing",th.sectionSpace??44,12,100,T("sectionSpace","+this.value")) + RG("Product grid gap",th.gridGap??18,6,48,T("gridGap","+this.value")) +
+        RG("Header height / padding",th.headerPad??14,6,40,T("headerPad","+this.value")) + RG("Navigation spacing",th.headerGap??24,6,50,T("headerGap","+this.value")) +
+        RG("Footer top padding",th.footerPad??48,16,100,T("footerPad","+this.value"))) +
+      AC("Text & button details", RG("Body font size",th.bodySize??15,12,22,T("bodySize","+this.value")) + RG("Heading size percentage",th.headingScale??100,70,150,T("headingScale","+this.value")) +
+        RG("Product name font size",th.cardTitleSize??14,11,23,T("cardTitleSize","+this.value")) + RG("Price font size",th.priceSize??15,12,28,T("priceSize","+this.value")) +
+        RG("Main button horizontal padding",th.buttonPad??24,8,48,T("buttonPad","+this.value")) + SEL("Button font weight",th.buttonWeight??600,[[400,"Regular"],[500,"Medium"],[600,"Semibold"],[700,"Bold"],[800,"Extra bold"]],T("buttonWeight","+this.value")) +
+        RG("Announcement height / padding",th.announcementPad??9,4,30,T("announcementPad","+this.value"))) +
+      AC("Advanced product styling", SEL("Product image fit",th.cardImageFit||"cover",[["cover","Fill / crop"],["contain","Fit entire image"]],T("cardImageFit","this.value")) +
+        RG("Card internal padding",th.cardPadding??10,0,28,T("cardPadding","+this.value")) + IN("Custom card border color (optional)",th.accentBorder||"",T("accentBorder","this.value")) +
+        IN("Custom muted text color (optional)",th.mutedColor||"",T("mutedColor","this.value"))) +
       AC("Typography", SEL("Body font", th.f, FONTS.map(f => [f, f]), T("f", "this.value")) + SEL("Heading font", th.hf || "", [["", "Same as body"]].concat(FONTS.map(f => [f, f])), T("hf", "this.value"))) +
       AC("Style", SEL("Buttons", th.btn, [["solid", "Solid"], ["outline", "Outline"], ["pill", "Pill"]], T("btn", "this.value")) + RG("Corner roundness", th.r, 0, 24, T("r", "this.value")) +
         SEL("Content width", th.width, [[1000, "Narrow"], [1180, "Standard"], [1360, "Wide"]], T("width", "+this.value"))) +
