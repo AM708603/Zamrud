@@ -50,6 +50,7 @@
       <button onclick="showTab('catalog')" class="sidebar-link w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600" data-tab="catalog"><i class="fas fa-store w-5 text-center"></i> Catalog</button>
       <button onclick="showTab('payouts')" class="sidebar-link w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600" data-tab="payouts"><i class="fas fa-wallet w-5 text-center"></i> Payouts</button>
       <button onclick="showTab('shopify')" class="sidebar-link w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600" data-tab="shopify"><i class="fab fa-shopify w-5 text-center"></i> Shopify</button>
+      <button onclick="showTab('store')" class="sidebar-link w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600" data-tab="store"><i class="fas fa-paint-brush w-5 text-center"></i> Store Builder</button>
     </nav>
     <div class="p-3 border-t"><div class="flex items-center gap-3 px-3 py-2"><div class="w-8 h-8 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center text-xs font-bold" id="avatar">D</div><div class="min-w-0 flex-1"><div class="text-sm font-semibold truncate" id="user-name">Seller</div><div class="text-[11px] text-slate-400" id="user-email"></div></div><button onclick="logout()" class="text-slate-400 hover:text-red-500"><i class="fas fa-sign-out-alt"></i></button></div></div>
   </aside>
@@ -117,6 +118,7 @@
           </div>
         </div>
       </div>
+      <div id="tab-store" class="tab-panel"><div id="store-builder"></div></div>
 
       <div id="tab-payouts" class="tab-panel"><div class="bg-white rounded-2xl border overflow-hidden"><table class="w-full text-sm"><thead><tr class="bg-slate-50 text-left text-xs text-slate-500 uppercase"><th class="px-4 py-3">ID</th><th class="px-4 py-3">Amount</th><th class="px-4 py-3">Status</th><th class="px-4 py-3">Date</th></tr></thead><tbody id="payouts-body" class="divide-y"></tbody></table></div></div>
 
@@ -206,13 +208,14 @@ function showTab(id) {
   document.querySelectorAll(".tab-panel").forEach(function (p) { p.classList.remove("active"); });
   document.getElementById("tab-" + id).classList.add("active");
   document.querySelectorAll(".sidebar-link").forEach(function (l) { l.classList.toggle("active", l.dataset.tab === id); });
-  var titles = { overview: "Overview", orders: "Orders", products: "My Products", catalog: "Catalog", payouts: "Payouts", shopify: "Shopify" };
+  var titles = { overview: "Overview", orders: "Orders", products: "My Products", catalog: "Catalog", payouts: "Payouts", shopify: "Shopify", store: "Store Builder" };
   document.getElementById("page-title").textContent = titles[id] || id;
   if (id === "orders") loadOrders();
   if (id === "products") loadMyProducts();
   if (id === "catalog") loadCatalog();
   if (id === "payouts") loadPayouts();
   if (id === "shopify") loadShops();
+  if (id === "store") ZB.open();
 }
 
 async function loadOverview() {
@@ -641,6 +644,6 @@ async function enterApp() {
 enterApp();
 
 </script>
-
+<script src="/store-builder.js"></script>
 </body>
 </html>
