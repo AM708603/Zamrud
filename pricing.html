@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zamrud UAE — Premium Dropshipping with Own Inventory</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d9488'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='18' fill='white'%3EZ%3C/text%3E%3C/svg%3E"/>
+  <meta name="description" content="UAE's premium dropshipping platform. Our own local inventory, higher profit margins, agency partner program, weekly payouts." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              200: '#99f6e4',
+              300: '#5eead4',
+              400: '#2dd4bf',
+              500: '#14b8a6',
+              600: '#0d9488',
+              700: '#0f766e',
+              800: '#115e59',
+              900: '#134e4a',
+              950: '#042f2e',
+            },
+            gold: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'soft': '0 4px 24px -4px rgba(0,0,0,0.08)',
+            'card': '0 12px 48px -12px rgba(0,0,0,0.14)',
+            'glow': '0 0 40px -8px rgba(13,148,136,0.35)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .font-display { font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif; }
+    .gradient-hero {
+      background: linear-gradient(145deg, #042f2e 0%, #115e59 35%, #0d9488 70%, #0f766e 100%);
+    }
+    .gradient-mesh {
+      background-image:
+        radial-gradient(at 20% 20%, rgba(45,212,191,0.15) 0, transparent 50%),
+        radial-gradient(at 80% 10%, rgba(251,191,36,0.12) 0, transparent 40%),
+        radial-gradient(at 60% 80%, rgba(20,184,166,0.1) 0, transparent 50%);
+    }
+    .product-card { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+    .product-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -12px rgba(0,0,0,0.15); }
+    .nav-link.active { color: #0d9488; font-weight: 600; }
+    .badge-hot { background: linear-gradient(135deg, #ef4444, #f97316); }
+    .badge-new { background: linear-gradient(135deg, #0d9488, #14b8a6); }
+    .badge-margin { background: linear-gradient(135deg, #d97706, #f59e0b); }
+    .view { display: none; }
+    .view.active { display: block; animation: fadeUp 0.35s ease; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.12); }
+    .stat-card { background: linear-gradient(160deg, #ffffff 0%, #f8fafc 100%); }
+    .agency-card { transition: all 0.3s ease; }
+    .agency-card:hover { transform: translateY(-4px); }
+    .agency-card.featured { border-color: #14b8a6; box-shadow: 0 0 0 1px #14b8a6, 0 12px 40px -10px rgba(13,148,136,0.25); }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+  <!-- ==================== TOP BAR ==================== -->
+  <div class="bg-brand-950 text-white text-sm py-2.5 px-4">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-5">
+        <span class="flex items-center gap-1.5 font-medium"><i class="fas fa-warehouse text-gold-400"></i> Our Own UAE Inventory</span>
+        <span class="hidden sm:flex items-center gap-1.5"><i class="fas fa-percent text-gold-400"></i> Higher Profit Margins</span>
+        <span class="hidden md:flex items-center gap-1.5"><i class="fas fa-truck-fast text-gold-400"></i> 1–2 Day Delivery</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="/contact" class="hover:text-gold-400 transition flex items-center gap-1.5"><i class="fab fa-whatsapp"></i> Support</a>
+        <button onclick="toggleLang()" class="hover:text-gold-400 transition flex items-center gap-1.5">
+          <i class="fas fa-globe"></i> <span id="lang-label">العربية</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== NAVBAR ==================== -->
+  <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-[68px]">
+        <a href="/" class="flex items-center gap-2.5 cursor-pointer" onclick="event.preventDefault();showView('home')">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-800 flex items-center justify-center text-white font-display font-extrabold text-lg shadow-lg shadow-brand-500/30">
+            Z
+          </div>
+          <div>
+            <span class="font-display text-xl font-extrabold text-slate-900 tracking-tight">Zam<span class="text-brand-600">rud</span></span>
+            <span class="hidden sm:inline text-[10px] font-bold text-brand-700 bg-brand-50 px-1.5 py-0.5 rounded ml-1.5 tracking-wide">UAE</span>
+          </div>
+        </a>
+
+        <div class="hidden lg:flex items-center gap-0.5">
+          <a href="/" data-view="home" onclick="event.preventDefault();showView('home')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Home</a>
+          <a href="/catalog" data-view="catalog" onclick="event.preventDefault();showView('catalog')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Catalog</a>
+          <a href="/how-it-works" data-view="how-it-works" onclick="event.preventDefault();showView('how-it-works')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">How it Works</a>
+          <a href="/pricing" data-view="pricing" onclick="event.preventDefault();showView('pricing')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Pricing</a>
+          <a href="/agency-program" data-view="agency" onclick="event.preventDefault();showView('agency')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Agency</a>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a href="/login" class="px-4 py-2.5 text-sm font-semibold text-slate-600 hover:text-brand-600 transition hidden sm:inline">Log in</a>
+          <a href="/login?register=1" class="px-5 py-2.5 text-sm font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl shadow-md shadow-brand-600/25 transition">
+            Start Free
+          </a>
+          <button onclick="toggleMobileMenu()" class="lg:hidden p-2.5 text-slate-600 hover:bg-slate-100 rounded-xl">
+            <i class="fas fa-bars text-lg"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-100 bg-white">
+      <div class="px-4 py-3 space-y-0.5">
+        <a href="/" data-view="home" onclick="event.preventDefault();showView('home');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Home</a>
+        <a href="/catalog" data-view="catalog" onclick="event.preventDefault();showView('catalog');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Product Catalog</a>
+        <a href="/how-it-works" data-view="how-it-works" onclick="event.preventDefault();showView('how-it-works');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">How it Works</a>
+        <a href="/pricing" data-view="pricing" onclick="event.preventDefault();showView('pricing');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Pricing & Fees</a>
+        <a href="/agency-program" data-view="agency" onclick="event.preventDefault();showView('agency');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Agency Program</a>
+        <a href="/login" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Log in</a>
+        <a href="/login?register=1" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-bold text-brand-700 bg-brand-50 mt-1">Create Free Account</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== HOME VIEW ==================== -->
+  <div id="view-home" class="view active">
+
+    <!-- Hero -->
+    <section class="gradient-hero text-white relative overflow-hidden">
+      <div class="absolute inset-0 gradient-mesh"></div>
+      <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-400/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24 relative">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div>
+            <div class="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-sm mb-6">
+              <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+              <span class="font-medium">Our Own Inventory · Not a Marketplace</span>
+            </div>
+            <h1 class="font-display text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold leading-[1.15] tracking-tight mb-6">
+              Dropship from<br />
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-amber-200">Our UAE Warehouses</span>
+            </h1>
+            <p class="text-lg text-brand-100/90 mb-5 max-w-lg leading-relaxed">
+              We stock, own and fulfill every product. No third-party sellers. 
+              That means <strong class="text-white">higher profit margins</strong>, reliable stock, and faster delivery for your customers.
+            </p>
+            <div class="flex flex-wrap gap-3 mb-8">
+              <div class="flex items-center gap-2 text-sm bg-white/10 rounded-lg px-3 py-1.5">
+                <i class="fas fa-check text-gold-400"></i> Higher margins
+              </div>
+              <div class="flex items-center gap-2 text-sm bg-white/10 rounded-lg px-3 py-1.5">
+                <i class="fas fa-check text-gold-400"></i> 95% local stock
+              </div>
+              <div class="flex items-center gap-2 text-sm bg-white/10 rounded-lg px-3 py-1.5">
+                <i class="fas fa-check text-gold-400"></i> Weekly payouts
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <a href="/login?register=1" class="px-7 py-3.5 bg-gold-500 hover:bg-gold-400 text-slate-900 font-bold rounded-xl shadow-lg shadow-gold-500/30 transition flex items-center gap-2.5">
+                Start Selling Free <i class="fas fa-arrow-right text-sm"></i>
+              </a>
+              <button onclick="showView('catalog')" class="px-7 py-3.5 glass hover:bg-white/15 font-semibold rounded-xl transition flex items-center gap-2.5">
+                Browse Catalog <i class="fas fa-box-open text-sm"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Hero Card -->
+          <div class="relative">
+            <div class="glass rounded-3xl p-6 md:p-7 shadow-2xl">
+              <div class="grid grid-cols-2 gap-3 mb-5">
+                <div class="bg-white/10 rounded-2xl p-4 text-center">
+                  <div class="font-display text-3xl font-extrabold text-gold-400">12K+</div>
+                  <div class="text-sm text-brand-100 mt-1">Products We Own</div>
+                </div>
+                <div class="bg-white/10 rounded-2xl p-4 text-center">
+                  <div class="font-display text-3xl font-extrabold text-gold-400">40–60%</div>
+                  <div class="text-sm text-brand-100 mt-1">Avg. Profit Margin</div>
+                </div>
+                <div class="bg-white/10 rounded-2xl p-4 text-center">
+                  <div class="font-display text-3xl font-extrabold text-gold-400">18 AED</div>
+                  <div class="text-sm text-brand-100 mt-1">Flat Shipping</div>
+                </div>
+                <div class="bg-white/10 rounded-2xl p-4 text-center">
+                  <div class="font-display text-3xl font-extrabold text-gold-400">Fri</div>
+                  <div class="text-sm text-brand-100 mt-1">Weekly Payouts</div>
+                </div>
+              </div>
+              <div class="bg-white rounded-2xl p-4 text-slate-800">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="text-sm font-semibold">This Week's Top Seller</span>
+                  <span class="text-[10px] font-bold badge-hot text-white px-2 py-0.5 rounded-full">HOT</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="w-14 h-14 bg-slate-100 rounded-xl flex items-center justify-center text-2xl">🎧</div>
+                  <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-sm truncate">Wireless ANC Earbuds Pro</div>
+                    <div class="text-xs text-slate-500">Our cost: 45 AED · You sell: 129 AED</div>
+                  </div>
+                  <div class="text-right flex-shrink-0">
+                    <div class="text-brand-600 font-extrabold">+66 AED</div>
+                    <div class="text-[10px] text-slate-400">your profit</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Bar -->
+    <section class="bg-white border-b border-slate-100 py-7">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div>
+            <div class="font-display text-2xl font-extrabold text-brand-700">8,500+</div>
+            <div class="text-sm text-slate-500 mt-0.5">Active Resellers</div>
+          </div>
+          <div>
+            <div class="font-display text-2xl font-extrabold text-brand-700">620K+</div>
+            <div class="text-sm text-slate-500 mt-0.5">Orders Fulfilled</div>
+          </div>
+          <div>
+            <div class="font-display text-2xl font-extrabold text-brand-700">78%</div>
+            <div class="text-sm text-slate-500 mt-0.5">COD Success Rate</div>
+          </div>
+          <div>
+            <div class="font-display text-2xl font-extrabold text-brand-700">100%</div>
+            <div class="text-sm text-slate-500 mt-0.5">Own Inventory</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Own Inventory Advantage -->
+    <section class="py-16 md:py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-12">
+          <div class="inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">Why Margins Are Higher</div>
+          <h2 class="font-display text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">We Own the Inventory.<br class="hidden sm:block" /> You Keep More Profit.</h2>
+          <p class="text-slate-500 max-w-2xl mx-auto">Unlike marketplace platforms where products belong to random suppliers, every item in our catalog is sourced, quality-checked and stocked by us in UAE warehouses.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-white rounded-2xl border border-slate-200 p-7 shadow-soft hover:shadow-card transition">
+            <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-2xl flex items-center justify-center text-xl mb-5"><i class="fas fa-boxes-stacked"></i></div>
+            <h3 class="font-display font-bold text-lg mb-2">Our Own Stock</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">No third-party sellers. We buy in bulk, negotiate factory prices, and hold inventory in Dubai & Sharjah. You get wholesale rates that others can't match.</p>
+          </div>
+          <div class="bg-white rounded-2xl border border-slate-200 p-7 shadow-soft hover:shadow-card transition">
+            <div class="w-12 h-12 bg-gold-500/15 text-gold-600 rounded-2xl flex items-center justify-center text-xl mb-5"><i class="fas fa-chart-line"></i></div>
+            <h3 class="font-display font-bold text-lg mb-2">40–60% Profit Margins</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">Because we cut out middlemen, your cost is lower. Most products deliver 40–60% net profit after shipping — significantly higher than typical dropshipping platforms.</p>
+          </div>
+          <div class="bg-white rounded-2xl border border-slate-200 p-7 shadow-soft hover:shadow-card transition">
+            <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-xl mb-5"><i class="fas fa-shield-halved"></i></div>
+            <h3 class="font-display font-bold text-lg mb-2">Reliable Quality & Stock</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">Every product is inspected by our team. Stock levels are accurate. No cancelled orders due to supplier issues. Your customers get consistent quality.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it Works -->
+    <section class="py-16 bg-slate-100/70">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-12">
+          <h2 class="font-display text-3xl font-extrabold text-slate-900 mb-3">From Sign-up to Payday</h2>
+          <p class="text-slate-500 max-w-xl mx-auto">Five simple steps. No inventory investment. Profit every Friday.</p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-5">
+          <div class="bg-white rounded-2xl p-6 shadow-soft border border-slate-100 text-center relative">
+            <div class="w-11 h-11 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center text-lg font-bold mx-auto mb-4 font-display">1</div>
+            <h3 class="font-semibold mb-1.5">Create Account</h3>
+            <p class="text-sm text-slate-500">Free. No company docs needed.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-6 shadow-soft border border-slate-100 text-center">
+            <div class="w-11 h-11 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center text-lg font-bold mx-auto mb-4 font-display">2</div>
+            <h3 class="font-semibold mb-1.5">Browse & List</h3>
+            <p class="text-sm text-slate-500">Pick from our catalog. Set your price.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-6 shadow-soft border border-slate-100 text-center">
+            <div class="w-11 h-11 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center text-lg font-bold mx-auto mb-4 font-display">3</div>
+            <h3 class="font-semibold mb-1.5">Connect Store</h3>
+            <p class="text-sm text-slate-500">Shopify, Salla, Zid or manual.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-6 shadow-soft border border-slate-100 text-center">
+            <div class="w-11 h-11 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center text-lg font-bold mx-auto mb-4 font-display">4</div>
+            <h3 class="font-semibold mb-1.5">We Fulfill</h3>
+            <p class="text-sm text-slate-500">Pack, COD call, ship from UAE.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-6 shadow-soft border border-slate-100 text-center">
+            <div class="w-11 h-11 bg-gold-500 text-white rounded-xl flex items-center justify-center text-lg font-bold mx-auto mb-4 font-display">5</div>
+            <h3 class="font-semibold mb-1.5">Get Paid</h3>
+            <p class="text-sm text-slate-500">Profit every Friday. Bank or Binance.</p>
+          </div>
+        </div>
+        <div class="text-center mt-8">
+          <button onclick="showView('how-it-works')" class="text-brand-600 font-semibold hover:underline text-sm">See full process →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="py-14">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="font-display text-2xl font-extrabold text-slate-900">Popular Categories</h2>
+          <button onclick="showView('catalog')" class="text-brand-600 font-semibold text-sm hover:underline">View all →</button>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <button onclick="showView('catalog')" class="bg-white rounded-2xl p-5 text-center shadow-soft hover:shadow-card transition border border-slate-100 group">
+            <div class="text-3xl mb-2 group-hover:scale-110 transition duration-300">💄</div>
+            <div class="font-semibold text-sm">Beauty & Care</div>
+            <div class="text-xs text-slate-400 mt-1">2,140 items</div>
+          </button>
+          <button onclick="showView('catalog')" class="bg-white rounded-2xl p-5 text-center shadow-soft hover:shadow-card transition border border-slate-100 group">
+            <div class="text-3xl mb-2 group-hover:scale-110 transition duration-300">📱</div>
+            <div class="font-semibold text-sm">Mobile Acc.</div>
+            <div class="text-xs text-slate-400 mt-1">1,890 items</div>
+          </button>
+          <button onclick="showView('catalog')" class="bg-white rounded-2xl p-5 text-center shadow-soft hover:shadow-card transition border border-slate-100 group">
+            <div class="text-3xl mb-2 group-hover:scale-110 transition duration-300">🏠</div>
+            <div class="font-semibold text-sm">Home & Kitchen</div>
+            <div class="text-xs text-slate-400 mt-1">3,210 items</div>
+          </button>
+          <button onclick="showView('catalog')" class="bg-white rounded-2xl p-5 text-center shadow-soft hover:shadow-card transition border border-slate-100 group">
+            <div class="text-3xl mb-2 group-hover:scale-110 transition duration-300">💪</div>
+            <div class="font-semibold text-sm">Sports & Fitness</div>
+            <div class="text-xs text-slate-400 mt-1">980 items</div>
+          </button>
+          <button onclick="showView('catalog')" class="bg-white rounded-2xl p-5 text-center shadow-soft hover:shadow-card transition border border-slate-100 group">
+            <div class="text-3xl mb-2 group-hover:scale-110 transition duration-300">🚗</div>
+            <div class="font-semibold text-sm">Car Accessories</div>
+            <div class="text-xs text-slate-400 mt-1">1,120 items</div>
+          </button>
+          <button onclick="showView('catalog')" class="bg-white rounded-2xl p-5 text-center shadow-soft hover:shadow-card transition border border-slate-100 group">
+            <div class="text-3xl mb-2 group-hover:scale-110 transition duration-300">🧸</div>
+            <div class="font-semibold text-sm">Toys & Kids</div>
+            <div class="text-xs text-slate-400 mt-1">760 items</div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trending Products -->
+    <section class="py-14 bg-slate-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <h2 class="font-display text-2xl font-extrabold text-slate-900">Trending This Week</h2>
+            <p class="text-slate-500 text-sm mt-1">High-margin products from our warehouses performing in UAE</p>
+          </div>
+          <button onclick="showView('catalog')" class="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 bg-brand-600 text-white text-sm font-bold rounded-xl hover:bg-brand-700 transition shadow-md shadow-brand-600/20">
+            Explore Catalog <i class="fas fa-arrow-right text-xs"></i>
+          </button>
+        </div>
+        <div id="home-products" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
+      </div>
+    </section>
+
+    <!-- Agency CTA Preview -->
+    <section class="py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="bg-gradient-to-br from-brand-900 via-brand-800 to-brand-950 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-80 h-80 bg-brand-400/10 rounded-full blur-3xl"></div>
+          <div class="relative grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <div class="inline-flex items-center gap-2 bg-white/10 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider mb-4">Agency Program</div>
+              <h2 class="font-display text-2xl md:text-3xl font-extrabold mb-3">Manage Clients. Earn Extra Commission.</h2>
+              <p class="text-brand-100 text-sm leading-relaxed mb-6">Built for marketing agencies, freelancers and growth partners. Manage multiple client stores under one account and earn up to <strong class="text-gold-400">25,000 AED</strong> extra per month.</p>
+              <button onclick="showView('agency')" class="px-6 py-3 bg-gold-500 hover:bg-gold-400 text-slate-900 font-bold rounded-xl transition">Explore Agency Plans →</button>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-white/10 rounded-2xl p-5 text-center">
+                <div class="font-display text-2xl font-extrabold text-gold-400">1 Account</div>
+                <div class="text-sm text-brand-100 mt-1">Manage all clients</div>
+              </div>
+              <div class="bg-white/10 rounded-2xl p-5 text-center">
+                <div class="font-display text-2xl font-extrabold text-gold-400">25K AED</div>
+                <div class="text-sm text-brand-100 mt-1">Extra income / month</div>
+              </div>
+              <div class="bg-white/10 rounded-2xl p-5 text-center">
+                <div class="font-display text-2xl font-extrabold text-gold-400">Priority</div>
+                <div class="text-sm text-brand-100 mt-1">Dedicated support</div>
+              </div>
+              <div class="bg-white/10 rounded-2xl p-5 text-center">
+                <div class="font-display text-2xl font-extrabold text-gold-400">Winning</div>
+                <div class="text-sm text-brand-100 mt-1">Products & creatives</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-16 bg-white">
+      <div class="max-w-3xl mx-auto px-4 text-center">
+        <h2 class="font-display text-3xl font-extrabold text-slate-900 mb-4">Ready to start earning in the UAE?</h2>
+        <p class="text-slate-500 mb-8">Join thousands of resellers selling from our warehouses. Free to start. Higher margins because we own the stock.</p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a href="/login?register=1" class="px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg shadow-brand-600/25 transition inline-block">Create Free Account</a>
+          <button onclick="showView('catalog')" class="px-8 py-3.5 bg-white border-2 border-slate-200 hover:border-brand-300 text-slate-700 font-semibold rounded-xl transition">Browse Products</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ==================== CATALOG VIEW ==================== -->
+  <div id="view-catalog" class="view">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <div class="mb-6">
+        <h1 class="font-display text-2xl font-extrabold text-slate-900">Product Catalog</h1>
+        <p class="text-slate-500 text-sm mt-1">12,000+ products from <strong class="text-brand-700">our own UAE warehouses</strong> · Higher margins · Ready to list</p>
+      </div>
+      <div class="flex flex-col lg:flex-row gap-6">
+        <aside class="lg:w-64 flex-shrink-0">
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 sticky top-24 shadow-soft">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-semibold text-slate-800">Filters</h3>
+              <button onclick="resetFilters()" class="text-xs text-brand-600 hover:underline font-medium">Reset</button>
+            </div>
+            <div class="mb-5">
+              <label class="text-xs font-medium text-slate-500 mb-1.5 block">Search</label>
+              <div class="relative">
+                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input id="search-input" type="text" placeholder="Product name..." oninput="filterProducts()"
+                  class="w-full pl-9 pr-3 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent" />
+              </div>
+            </div>
+            <div class="mb-5">
+              <label class="text-xs font-medium text-slate-500 mb-2 block">Category</label>
+              <div class="space-y-1.5">
+                <label class="flex items-center gap-2 cursor-pointer text-sm"><input type="checkbox" class="filter-cat rounded text-brand-600 focus:ring-brand-500" value="Beauty" onchange="filterProducts()" /> Beauty & Personal Care</label>
+                <label class="flex items-center gap-2 cursor-pointer text-sm"><input type="checkbox" class="filter-cat rounded text-brand-600 focus:ring-brand-500" value="Mobile" onchange="filterProducts()" /> Mobile Accessories</label>
+                <label class="flex items-center gap-2 cursor-pointer text-sm"><input type="checkbox" class="filter-cat rounded text-brand-600 focus:ring-brand-500" value="Home" onchange="filterProducts()" /> Home & Kitchen</label>
+                <label class="flex items-center gap-2 cursor-pointer text-sm"><input type="checkbox" class="filter-cat rounded text-brand-600 focus:ring-brand-500" value="Sports" onchange="filterProducts()" /> Sports & Fitness</label>
+                <label class="flex items-center gap-2 cursor-pointer text-sm"><input type="checkbox" class="filter-cat rounded text-brand-600 focus:ring-brand-500" value="Car" onchange="filterProducts()" /> Car Accessories</label>
+                <label class="flex items-center gap-2 cursor-pointer text-sm"><input type="checkbox" class="filter-cat rounded text-brand-600 focus:ring-brand-500" value="Toys" onchange="filterProducts()" /> Toys & Kids</label>
+              </div>
+            </div>
+            <div class="mb-5">
+              <label class="text-xs font-medium text-slate-500 mb-2 block">Cost Price (AED)</label>
+              <div class="flex items-center gap-2">
+                <input id="price-min" type="number" placeholder="Min" value="0" onchange="filterProducts()" class="w-full px-2.5 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" />
+                <span class="text-slate-400">–</span>
+                <input id="price-max" type="number" placeholder="Max" value="500" onchange="filterProducts()" class="w-full px-2.5 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500" />
+              </div>
+            </div>
+            <div class="mb-5">
+              <label class="flex items-center gap-2 cursor-pointer text-sm"><input type="checkbox" id="filter-instock" checked onchange="filterProducts()" class="rounded text-brand-600 focus:ring-brand-500" /> In Stock (Our Warehouse)</label>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-2 block">Tags</label>
+              <div class="flex flex-wrap gap-2">
+                <button onclick="toggleTag(this,'hot')" class="tag-btn px-2.5 py-1 text-xs rounded-full border border-slate-200 text-slate-600 hover:border-brand-400 transition">🔥 Hot</button>
+                <button onclick="toggleTag(this,'new')" class="tag-btn px-2.5 py-1 text-xs rounded-full border border-slate-200 text-slate-600 hover:border-brand-400 transition">✨ New</button>
+                <button onclick="toggleTag(this,'high-margin')" class="tag-btn px-2.5 py-1 text-xs rounded-full border border-slate-200 text-slate-600 hover:border-brand-400 transition">💰 High Margin</button>
+              </div>
+            </div>
+          </div>
+        </aside>
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+            <div class="text-sm text-slate-500">Showing <span id="product-count" class="font-semibold text-slate-800">0</span> products</div>
+            <div class="flex items-center gap-2">
+              <label class="text-sm text-slate-500">Sort:</label>
+              <select id="sort-select" onchange="filterProducts()" class="text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                <option value="popular">Most Popular</option>
+                <option value="profit-desc">Highest Profit</option>
+                <option value="price-asc">Cost: Low to High</option>
+                <option value="price-desc">Cost: High to Low</option>
+                <option value="newest">Newest</option>
+              </select>
+            </div>
+          </div>
+          <div id="catalog-grid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+          <div id="empty-state" class="hidden text-center py-16">
+            <div class="text-5xl mb-4">🔍</div>
+            <h3 class="text-lg font-semibold text-slate-700 mb-2">No products found</h3>
+            <p class="text-slate-500 text-sm">Try adjusting your filters.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Modal -->
+  <div id="product-modal" class="fixed inset-0 z-[100] hidden">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeProductModal()"></div>
+    <div class="absolute inset-4 md:inset-10 lg:inset-y-10 lg:left-1/2 lg:-translate-x-1/2 lg:w-full lg:max-w-3xl bg-white rounded-3xl shadow-2xl overflow-y-auto">
+      <div id="modal-content" class="p-6 md:p-8"></div>
+    </div>
+  </div>
+
+  <!-- ==================== HOW IT WORKS ==================== -->
+  <div id="view-how-it-works" class="view">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-12">
+      <div class="text-center mb-14">
+        <h1 class="font-display text-3xl font-extrabold text-slate-900 mb-3">How Zamrud Works</h1>
+        <p class="text-slate-500 max-w-xl mx-auto">Simple process. Our inventory. Your profit. Built for UAE resellers.</p>
+      </div>
+      <div class="space-y-8">
+        <div class="flex flex-col md:flex-row gap-6 items-start">
+          <div class="w-14 h-14 flex-shrink-0 bg-brand-600 text-white rounded-2xl flex items-center justify-center text-xl font-bold shadow-lg font-display">01</div>
+          <div class="flex-1 bg-white rounded-2xl border border-slate-200 p-6 shadow-soft">
+            <h3 class="text-xl font-bold mb-2">Register free</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">Name, email, WhatsApp. No trade license or company documents. Instant portal access.</p>
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row gap-6 items-start">
+          <div class="w-14 h-14 flex-shrink-0 bg-brand-600 text-white rounded-2xl flex items-center justify-center text-xl font-bold shadow-lg font-display">02</div>
+          <div class="flex-1 bg-white rounded-2xl border border-slate-200 p-6 shadow-soft">
+            <h3 class="text-xl font-bold mb-2">Browse our catalog & set prices</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">Every product is from our warehouses. Clear cost, suggested retail, and estimated profit. Filter by margin or category.</p>
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row gap-6 items-start">
+          <div class="w-14 h-14 flex-shrink-0 bg-brand-600 text-white rounded-2xl flex items-center justify-center text-xl font-bold shadow-lg font-display">03</div>
+          <div class="flex-1 bg-white rounded-2xl border border-slate-200 p-6 shadow-soft">
+            <h3 class="text-xl font-bold mb-2">Connect your store</h3>
+            <p class="text-slate-500 text-sm leading-relaxed mb-3">Shopify, Salla, Zid, EasyOrders — or upload orders manually / via WhatsApp.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 bg-slate-100 rounded-full text-xs font-medium">Shopify</span>
+              <span class="px-3 py-1 bg-slate-100 rounded-full text-xs font-medium">Salla</span>
+              <span class="px-3 py-1 bg-slate-100 rounded-full text-xs font-medium">Zid</span>
+              <span class="px-3 py-1 bg-slate-100 rounded-full text-xs font-medium">EasyOrders</span>
+              <span class="px-3 py-1 bg-slate-100 rounded-full text-xs font-medium">Manual</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row gap-6 items-start">
+          <div class="w-14 h-14 flex-shrink-0 bg-brand-600 text-white rounded-2xl flex items-center justify-center text-xl font-bold shadow-lg font-display">04</div>
+          <div class="flex-1 bg-white rounded-2xl border border-slate-200 p-6 shadow-soft">
+            <h3 class="text-xl font-bold mb-2">We confirm, pack & deliver</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">COD confirmation call → pick from our UAE warehouse → pack → ship. Tracking shared instantly. 1–2 day delivery across UAE.</p>
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row gap-6 items-start">
+          <div class="w-14 h-14 flex-shrink-0 bg-gold-500 text-white rounded-2xl flex items-center justify-center text-xl font-bold shadow-lg font-display">05</div>
+          <div class="flex-1 bg-white rounded-2xl border border-slate-200 p-6 shadow-soft">
+            <h3 class="text-xl font-bold mb-2">Receive profit every Friday</h3>
+            <p class="text-slate-500 text-sm leading-relaxed mb-3">We deduct product cost + 18 AED shipping. Remaining profit hits your bank or Binance every Friday.</p>
+            <div class="bg-brand-50 rounded-xl p-4 text-sm">
+              <div class="font-semibold text-brand-800 mb-1">Example</div>
+              <div class="text-slate-600">Customer pays <strong>149 AED</strong> · Our cost 52 AED · Shipping 18 AED · <span class="text-brand-700 font-bold">Your profit: 79 AED</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PRICING ==================== -->
+  <div id="view-pricing" class="view">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-12">
+      <div class="text-center mb-12">
+        <h1 class="font-display text-3xl font-extrabold text-slate-900 mb-3">Transparent Pricing</h1>
+        <p class="text-slate-500 max-w-xl mx-auto">No monthly fees. No hidden charges. Higher margins because we own the inventory.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-soft text-center">
+          <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center mx-auto mb-4 text-xl"><i class="fas fa-box"></i></div>
+          <div class="font-display text-3xl font-extrabold text-slate-900 mb-1">18 AED</div>
+          <div class="text-sm font-medium text-slate-600 mb-2">Shipping & Fulfillment</div>
+          <p class="text-xs text-slate-400">Per order up to 3 kg · COD call + packaging included</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-soft text-center">
+          <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center mx-auto mb-4 text-xl"><i class="fas fa-undo"></i></div>
+          <div class="font-display text-3xl font-extrabold text-slate-900 mb-1">5 AED</div>
+          <div class="text-sm font-medium text-slate-600 mb-2">Return Fee</div>
+          <p class="text-xs text-slate-400">Only on returned / rejected orders</p>
+        </div>
+        <div class="bg-white rounded-2xl border-2 border-brand-500 p-6 shadow-card text-center relative">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-600 text-white text-xs font-bold px-3 py-1 rounded-full">FREE</div>
+          <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center mx-auto mb-4 text-xl"><i class="fas fa-user-plus"></i></div>
+          <div class="font-display text-3xl font-extrabold text-slate-900 mb-1">0 AED</div>
+          <div class="text-sm font-medium text-slate-600 mb-2">Account & Listing</div>
+          <p class="text-xs text-slate-400">No subscription · Unlimited access to our catalog</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft mb-10">
+        <div class="px-6 py-4 border-b border-slate-100 bg-slate-50">
+          <h3 class="font-semibold">What you pay vs. what you earn</h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-100 text-left text-slate-500">
+                <th class="px-6 py-3 font-medium">Item</th>
+                <th class="px-6 py-3 font-medium">Amount</th>
+                <th class="px-6 py-3 font-medium">Notes</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-50">
+              <tr>
+                <td class="px-6 py-3.5">Customer pays (your selling price)</td>
+                <td class="px-6 py-3.5 font-semibold text-green-600">+ 149 AED</td>
+                <td class="px-6 py-3.5 text-slate-400">You set this</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-3.5">Product cost (our warehouse price)</td>
+                <td class="px-6 py-3.5 font-semibold text-red-500">− 52 AED</td>
+                <td class="px-6 py-3.5 text-slate-400">Lower because we own stock</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-3.5">Shipping + COD confirmation</td>
+                <td class="px-6 py-3.5 font-semibold text-red-500">− 18 AED</td>
+                <td class="px-6 py-3.5 text-slate-400">Flat rate up to 3 kg</td>
+              </tr>
+              <tr class="bg-brand-50">
+                <td class="px-6 py-3.5 font-semibold text-brand-800">Your net profit</td>
+                <td class="px-6 py-3.5 font-bold text-brand-700 text-lg">79 AED</td>
+                <td class="px-6 py-3.5 text-brand-600">~53% margin · Paid every Friday</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+          <h4 class="font-semibold mb-3 flex items-center gap-2"><i class="fas fa-info-circle text-brand-600"></i> Delivery Times</h4>
+          <ul class="space-y-2 text-sm text-slate-600">
+            <li class="flex justify-between"><span>Dubai & Sharjah</span><span class="font-medium">1 day</span></li>
+            <li class="flex justify-between"><span>Abu Dhabi & Ajman</span><span class="font-medium">1–2 days</span></li>
+            <li class="flex justify-between"><span>Rest of UAE</span><span class="font-medium">2–3 days</span></li>
+          </ul>
+        </div>
+        <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+          <h4 class="font-semibold mb-3 flex items-center gap-2"><i class="fas fa-university text-brand-600"></i> Payout Methods</h4>
+          <ul class="space-y-2 text-sm text-slate-600">
+            <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-xs"></i> UAE bank transfer (AED)</li>
+            <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-xs"></i> International bank (SWIFT)</li>
+            <li class="flex items-center gap-2"><i class="fas fa-check text-brand-500 text-xs"></i> Binance / USDT</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== AGENCY VIEW ==================== -->
+  <div id="view-agency" class="view">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+      <!-- Header -->
+      <div class="text-center mb-14">
+        <div class="inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">Agency Partner Program</div>
+        <h1 class="font-display text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Manage Clients.<br />Earn Up to 25,000 AED Extra / Month</h1>
+        <p class="text-slate-500 max-w-2xl mx-auto">Built for marketing agencies, freelancers and growth partners. One account for all your clients. Priority support. Winning products & creatives. Commission on every client order.</p>
+      </div>
+
+      <!-- Benefits -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-soft text-center">
+          <div class="w-12 h-12 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center mx-auto mb-3 text-xl"><i class="fas fa-users"></i></div>
+          <h3 class="font-bold mb-1">One Account</h3>
+          <p class="text-sm text-slate-500">Manage all client stores from a single dashboard</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-soft text-center">
+          <div class="w-12 h-12 bg-gold-500/15 text-gold-600 rounded-xl flex items-center justify-center mx-auto mb-3 text-xl"><i class="fas fa-coins"></i></div>
+          <h3 class="font-bold mb-1">Extra Commission</h3>
+          <p class="text-sm text-slate-500">Earn on every client order — up to 25K AED / month</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-soft text-center">
+          <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center mx-auto mb-3 text-xl"><i class="fas fa-headset"></i></div>
+          <h3 class="font-bold mb-1">Priority Support</h3>
+          <p class="text-sm text-slate-500">Dedicated account manager for you and your clients</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-soft text-center">
+          <div class="w-12 h-12 bg-violet-100 text-violet-700 rounded-xl flex items-center justify-center mx-auto mb-3 text-xl"><i class="fas fa-trophy"></i></div>
+          <h3 class="font-bold mb-1">Winning Assets</h3>
+          <p class="text-sm text-slate-500">Exclusive products, creatives & ad strategies</p>
+        </div>
+      </div>
+
+      <!-- Plans -->
+      <div class="mb-6 text-center">
+        <h2 class="font-display text-2xl font-extrabold text-slate-900 mb-2">Agency Plans</h2>
+        <p class="text-slate-500 text-sm">Choose your plan · Scale your agency · Earn cashback rewards</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6 mb-14">
+        <!-- Free -->
+        <div class="agency-card bg-white rounded-2xl border border-slate-200 p-7 shadow-soft">
+          <div class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-1">Free</div>
+          <div class="font-display text-3xl font-extrabold text-slate-900 mb-1">$0</div>
+          <div class="text-sm text-slate-400 mb-6">No monthly fee</div>
+          <ul class="space-y-3 text-sm text-slate-600 mb-8">
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Manage up to 3 clients</li>
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Access to full catalog</li>
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Standard support</li>
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Basic reporting</li>
+          </ul>
+          <a href="/login?register=1" class="block w-full text-center py-3 border-2 border-slate-200 hover:border-brand-400 text-slate-700 font-bold rounded-xl transition">Get Started</a>
+        </div>
+        <!-- Gold -->
+        <div class="agency-card featured bg-white rounded-2xl border-2 p-7 relative">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-brand-600 text-white text-xs font-bold px-4 py-1 rounded-full">MOST POPULAR</div>
+          <div class="text-sm font-bold text-brand-600 uppercase tracking-wide mb-1">Gold</div>
+          <div class="font-display text-3xl font-extrabold text-slate-900 mb-1">$120<span class="text-base font-semibold text-slate-400">/mo</span></div>
+          <div class="text-sm text-slate-400 mb-6">or $99/mo billed yearly</div>
+          <ul class="space-y-3 text-sm text-slate-600 mb-8">
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Unlimited clients</li>
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Affiliate earnings: Unlimited</li>
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Client referrals from Zamrud</li>
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Winning products & creatives</li>
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Priority support</li>
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Social media promotion support</li>
+          </ul>
+          <a href="/login?register=1" class="block w-full text-center py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition shadow-md shadow-brand-600/20">Apply for Gold</a>
+        </div>
+        <!-- Diamond -->
+        <div class="agency-card bg-white rounded-2xl border border-slate-200 p-7 shadow-soft">
+          <div class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-1">Diamond</div>
+          <div class="font-display text-3xl font-extrabold text-slate-900 mb-1">$499<span class="text-base font-semibold text-slate-400">/6 mo</span></div>
+          <div class="text-sm text-slate-400 mb-6">Best for large agencies</div>
+          <ul class="space-y-3 text-sm text-slate-600 mb-8">
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Everything in Gold</li>
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Dedicated senior account manager</li>
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Custom commission rates</li>
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Co-branded materials</li>
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Early access to new products</li>
+            <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Quarterly strategy calls</li>
+          </ul>
+          <a href="/login?register=1" class="block w-full text-center py-3 border-2 border-slate-200 hover:border-brand-400 text-slate-700 font-bold rounded-xl transition">Apply for Diamond</a>
+        </div>
+      </div>
+
+      <!-- How Agency Works -->
+      <div class="bg-slate-50 rounded-3xl p-8 md:p-10 border border-slate-100 mb-12">
+        <h2 class="font-display text-xl font-extrabold text-slate-900 mb-6 text-center">How the Agency Program Works</h2>
+        <div class="grid md:grid-cols-4 gap-6">
+          <div class="text-center">
+            <div class="w-10 h-10 bg-brand-600 text-white rounded-xl flex items-center justify-center font-bold mx-auto mb-3">1</div>
+            <h4 class="font-semibold text-sm mb-1">Apply</h4>
+            <p class="text-xs text-slate-500">Submit your agency details. Approval usually within 48 hours.</p>
+          </div>
+          <div class="text-center">
+            <div class="w-10 h-10 bg-brand-600 text-white rounded-xl flex items-center justify-center font-bold mx-auto mb-3">2</div>
+            <h4 class="font-semibold text-sm mb-1">Onboard Clients</h4>
+            <p class="text-xs text-slate-500">Add client stores under your account. They sell from our inventory.</p>
+          </div>
+          <div class="text-center">
+            <div class="w-10 h-10 bg-brand-600 text-white rounded-xl flex items-center justify-center font-bold mx-auto mb-3">3</div>
+            <h4 class="font-semibold text-sm mb-1">Run & Scale</h4>
+            <p class="text-xs text-slate-500">Use our winning products & creatives. We fulfill every order.</p>
+          </div>
+          <div class="text-center">
+            <div class="w-10 h-10 bg-gold-500 text-white rounded-xl flex items-center justify-center font-bold mx-auto mb-3">4</div>
+            <h4 class="font-semibold text-sm mb-1">Earn Commission</h4>
+            <p class="text-xs text-slate-500">Get paid weekly on client delivered orders + your own sales.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="max-w-2xl mx-auto">
+        <h2 class="font-display text-xl font-extrabold text-slate-900 mb-6 text-center">Agency FAQ</h2>
+        <div class="space-y-3">
+          <details class="bg-white rounded-xl border border-slate-200 p-4 group">
+            <summary class="font-semibold text-sm cursor-pointer list-none flex items-center justify-between">Who can apply? <i class="fas fa-chevron-down text-slate-400 text-xs group-open:rotate-180 transition"></i></summary>
+            <p class="text-sm text-slate-500 mt-3">Marketing agencies, freelancers, media buyers and growth consultants who manage or plan to manage multiple e-commerce clients in the UAE / GCC.</p>
+          </details>
+          <details class="bg-white rounded-xl border border-slate-200 p-4 group">
+            <summary class="font-semibold text-sm cursor-pointer list-none flex items-center justify-between">How is commission calculated? <i class="fas fa-chevron-down text-slate-400 text-xs group-open:rotate-180 transition"></i></summary>
+            <p class="text-sm text-slate-500 mt-3">You earn a percentage of the profit from every delivered order placed by your clients. Exact rates depend on your plan (Gold / Diamond) and volume.</p>
+          </details>
+          <details class="bg-white rounded-xl border border-slate-200 p-4 group">
+            <summary class="font-semibold text-sm cursor-pointer list-none flex items-center justify-between">When do I get paid? <i class="fas fa-chevron-down text-slate-400 text-xs group-open:rotate-180 transition"></i></summary>
+            <p class="text-sm text-slate-500 mt-3">Same as regular sellers — every Friday. Commission from client orders is included in your weekly payout.</p>
+          </details>
+          <details class="bg-white rounded-xl border border-slate-200 p-4 group">
+            <summary class="font-semibold text-sm cursor-pointer list-none flex items-center justify-between">Do clients need their own accounts? <i class="fas fa-chevron-down text-slate-400 text-xs group-open:rotate-180 transition"></i></summary>
+            <p class="text-sm text-slate-500 mt-3">No. You manage everything under your agency account. Clients can optionally get view-only access if needed.</p>
+          </details>
+        </div>
+      </div>
+
+      <div class="text-center mt-12">
+        <a href="/login?register=1" class="px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg shadow-brand-600/25 transition inline-block">Apply to Agency Program</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== REGISTER ==================== -->
+  <div id="view-register" class="view">
+    <div class="max-w-md mx-auto px-4 py-12">
+      <div class="bg-white rounded-3xl border border-slate-200 shadow-card p-8">
+        <div class="text-center mb-8">
+          <div class="w-12 h-12 bg-gradient-to-br from-brand-500 to-brand-700 text-white rounded-xl flex items-center justify-center text-xl font-bold mx-auto mb-4 shadow-lg shadow-brand-500/30">Z</div>
+          <h1 class="font-display text-2xl font-extrabold text-slate-900">Create Free Account</h1>
+          <p class="text-sm text-slate-500 mt-1">Start selling from our warehouses in under 2 minutes</p>
+        </div>
+        <form onsubmit="event.preventDefault(); alert('Demo: Account created successfully!'); showView('home');" class="space-y-4">
+          <div><label class="text-xs font-medium text-slate-600 mb-1.5 block">Full Name</label><input required type="text" placeholder="Your full name" class="w-full px-3.5 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500" /></div>
+          <div><label class="text-xs font-medium text-slate-600 mb-1.5 block">Email Address</label><input required type="email" placeholder="you@example.com" class="w-full px-3.5 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500" /></div>
+          <div><label class="text-xs font-medium text-slate-600 mb-1.5 block">WhatsApp Number</label><input required type="tel" placeholder="+971 50 000 0000" class="w-full px-3.5 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500" /></div>
+          <div><label class="text-xs font-medium text-slate-600 mb-1.5 block">Password</label><input required type="password" placeholder="Min. 8 characters" class="w-full px-3.5 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500" /></div>
+          <div>
+            <label class="text-xs font-medium text-slate-600 mb-1.5 block">I am a</label>
+            <select class="w-full px-3.5 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">
+              <option>Individual Reseller</option>
+              <option>Marketing Agency / Freelancer</option>
+              <option>Brand / Store Owner</option>
+            </select>
+          </div>
+          <label class="flex items-start gap-2 cursor-pointer text-sm text-slate-600">
+            <input type="checkbox" required class="mt-0.5 rounded text-brand-600 focus:ring-brand-500" />
+            <span>I agree to the <a href="/terms" target="_blank" class="text-brand-600 hover:underline">Terms</a> and <a href="/privacy" target="_blank" class="text-brand-600 hover:underline">Privacy Policy</a></span>
+          </label>
+          <button type="submit" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition shadow-md shadow-brand-600/20">Create Free Account</button>
+        </form>
+        <p class="text-center text-sm text-slate-500 mt-6">Already have an account? <a href="/login" class="text-brand-600 font-semibold hover:underline">Log in</a></p>
+      </div>
+      <div class="mt-6 text-center text-xs text-slate-400 space-y-1">
+        <p>✓ Our own inventory · Higher profit margins</p>
+        <p>✓ Free forever · Pay only on delivered orders</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-slate-900 text-slate-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white font-bold">Z</div>
+            <span class="text-lg font-bold text-white font-display">Zamrud</span>
+          </div>
+          <p class="text-sm text-slate-400 leading-relaxed">Premium UAE dropshipping with our own inventory. Higher margins. Local warehouses. Agency support.</p>
+        </div>
+        <div>
+          <h4 class="font-semibold text-white mb-3 text-sm">Platform</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/catalog" data-view="catalog" onclick="event.preventDefault();showView('catalog')" class="hover:text-white transition">Product Catalog</a></li>
+            <li><a href="/how-it-works" data-view="how-it-works" onclick="event.preventDefault();showView('how-it-works')" class="hover:text-white transition">How it Works</a></li>
+            <li><a href="/pricing" data-view="pricing" onclick="event.preventDefault();showView('pricing')" class="hover:text-white transition">Pricing</a></li>
+            <li><a href="/agency-program" data-view="agency" onclick="event.preventDefault();showView('agency')" class="hover:text-white transition">Agency Program</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-white mb-3 text-sm">Support</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/help-center" class="hover:text-white transition">Help Center</a></li>
+            <li><a href="/contact" class="hover:text-white transition">WhatsApp Support</a></li>
+            <li><a href="/contact" class="hover:text-white transition">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-white mb-3 text-sm">Legal</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/terms" class="hover:text-white transition">Terms of Service</a></li>
+            <li><a href="/privacy" class="hover:text-white transition">Privacy Policy</a></li>
+            <li><a href="/refund-policy" class="hover:text-white transition">Refund Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-slate-800 pt-6 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500">
+        <p>© 2026 Zamrud UAE. All rights reserved. Own inventory. Higher margins.</p>
+        <div class="flex items-center gap-4">
+          <a href="#" class="hover:text-white"><i class="fab fa-whatsapp text-lg"></i></a>
+          <a href="#" class="hover:text-white"><i class="fab fa-instagram text-lg"></i></a>
+          <a href="#" class="hover:text-white"><i class="fab fa-telegram text-lg"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  
+<script>
+    const API = "https://zamrud.borntow2.workers.dev";
+    let products = [];
+    let activeTags = new Set();
+
+    function mapApiProduct(p) {
+      const cost = Number(p.cost_aed) || 0;
+      const suggested = Number(p.suggested_price_aed) || 0;
+      const shipping = 18;
+      return {
+        id: p.id,
+        name: p.name,
+        category: p.category || "Other",
+        cost: cost,
+        suggested: suggested,
+        profit: suggested - cost - shipping,
+        stock: Number(p.stock) || 0,
+        tag: p.tag || null,
+        emoji: p.emoji || "📦",
+        sku: p.sku || "",
+        image_key: p.image_key || null,
+        sold: Number(p.stock) || 0,
+        rating: 4.6,
+        warehouse: p.warehouse || "dubai"
+      };
+    }
+
+    async function loadProductsFromAPI() {
+      try {
+        const res = await fetch(API + "/products");
+        const data = await res.json();
+        products = (data.products || []).map(mapApiProduct);
+      } catch (e) {
+        console.error(e);
+        products = [];
+      }
+      renderHomeProducts();
+      filterProducts();
+    }
+
+    const VIEW_PATHS = {
+      'home': '/', 'catalog': '/catalog', 'how-it-works': '/how-it-works',
+      'pricing': '/pricing', 'agency': '/agency-program'
+    };
+
+    function viewFromPath() {
+      const p = location.pathname.replace(/\.html$/, '').replace(/\/+$/, '') || '/';
+      if (p === '/' || p === '/index') return 'home';
+      for (const k in VIEW_PATHS) if (VIEW_PATHS[k] === p) return k;
+      return 'home';
+    }
+
+    function showView(name, opts) {
+      opts = opts || {};
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      const el = document.getElementById('view-' + name);
+      if (el) el.classList.add('active');
+      document.querySelectorAll('.nav-link').forEach(a =>
+        a.classList.toggle('active', a.dataset.view === name));
+      if (VIEW_PATHS[name] && !opts.fromHistory && location.pathname !== VIEW_PATHS[name]) {
+        history.pushState({ view: name }, '', VIEW_PATHS[name]);
+      }
+      if (!opts.initial) window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (name === 'home') renderHomeProducts();
+      if (name === 'catalog') filterProducts();
+    }
+
+    window.addEventListener('popstate', () => showView(viewFromPath(), { fromHistory: true }));
+
+    function toggleMobileMenu() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    }
+
+    function toggleLang() {
+      const label = document.getElementById('lang-label');
+      label.textContent = label.textContent === 'العربية' ? 'English' : 'العربية';
+    }
+
+    function productCard(p) {
+      const tagBadge = p.tag === 'hot' ? '<span class="absolute top-2 left-2 badge-hot text-white text-[10px] font-bold px-2 py-0.5 rounded-full">HOT</span>'
+        : p.tag === 'new' ? '<span class="absolute top-2 left-2 badge-new text-white text-[10px] font-bold px-2 py-0.5 rounded-full">NEW</span>'
+        : p.tag === 'high-margin' ? '<span class="absolute top-2 left-2 badge-margin text-white text-[10px] font-bold px-2 py-0.5 rounded-full">HIGH $</span>'
+        : '';
+      const media = p.image_key
+        ? '<img src="' + API + '/images/' + p.image_key + '" alt="" class="w-full h-full object-cover"/>'
+        : '<span class="text-5xl">' + (p.emoji || '📦') + '</span>';
+      return `
+        <div class="product-card bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-soft cursor-pointer" onclick="openProduct('${p.id}')">
+          <div class="relative bg-gradient-to-b from-slate-50 to-slate-100/50 h-40 flex items-center justify-center overflow-hidden">
+            ${tagBadge}
+            ${media}
+            ${p.stock < 100 ? '<span class="absolute top-2 right-2 bg-red-100 text-red-600 text-[10px] font-bold px-2 py-0.5 rounded-full">Low Stock</span>' : ''}
+          </div>
+          <div class="p-4">
+            <div class="text-xs text-slate-400 mb-1">${p.category || ''}${p.sku ? ' · ' + p.sku : ''}</div>
+            <h3 class="font-semibold text-sm text-slate-800 leading-snug mb-2 line-clamp-2">${p.name}</h3>
+            <div class="flex items-end justify-between">
+              <div>
+                <div class="text-xs text-slate-400">Our cost</div>
+                <div class="font-bold text-slate-900">${p.cost} AED</div>
+              </div>
+              <div class="text-right">
+                <div class="text-xs text-slate-400">Your profit</div>
+                <div class="font-bold text-brand-600">+${p.profit} AED</div>
+              </div>
+            </div>
+            <div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+              <span>Sell at: ${p.suggested} AED</span>
+              <span class="text-green-600 font-medium">${p.stock} in stock</span>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function renderHomeProducts() {
+      const container = document.getElementById('home-products');
+      if (!container) return;
+      if (!products.length) {
+        container.innerHTML = '<p class="text-slate-400 text-sm col-span-4 text-center py-8">No products yet. Check back soon.</p>';
+        return;
+      }
+      const top = [...products].sort((a,b) => b.stock - a.stock).slice(0, 4);
+      container.innerHTML = top.map(productCard).join('');
+    }
+
+    function filterProducts() {
+      const search = (document.getElementById('search-input')?.value || '').toLowerCase();
+      const cats = [...document.querySelectorAll('.filter-cat:checked')].map(c => c.value);
+      const minP = Number(document.getElementById('price-min')?.value || 0);
+      const maxP = Number(document.getElementById('price-max')?.value || 9999);
+      const inStock = document.getElementById('filter-instock')?.checked;
+      const sort = document.getElementById('sort-select')?.value || 'popular';
+
+      let filtered = products.filter(p => {
+        if (search && !p.name.toLowerCase().includes(search) && !(p.sku || '').toLowerCase().includes(search)) return false;
+        if (cats.length && !cats.includes(p.category)) return false;
+        if (p.cost < minP || p.cost > maxP) return false;
+        if (inStock && p.stock <= 0) return false;
+        if (activeTags.size > 0 && !activeTags.has(p.tag)) return false;
+        return true;
+      });
+
+      if (sort === 'popular') filtered.sort((a,b) => b.stock - a.stock);
+      else if (sort === 'profit-desc') filtered.sort((a,b) => b.profit - a.profit);
+      else if (sort === 'price-asc') filtered.sort((a,b) => a.cost - b.cost);
+      else if (sort === 'price-desc') filtered.sort((a,b) => b.cost - a.cost);
+      else if (sort === 'newest') filtered.sort((a,b) => String(b.id).localeCompare(String(a.id)));
+
+      const grid = document.getElementById('catalog-grid');
+      const empty = document.getElementById('empty-state');
+      const countEl = document.getElementById('product-count');
+      if (countEl) countEl.textContent = filtered.length;
+
+      if (!grid) return;
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        if (empty) empty.classList.remove('hidden');
+      } else {
+        if (empty) empty.classList.add('hidden');
+        grid.innerHTML = filtered.map(productCard).join('');
+      }
+    }
+
+    function resetFilters() {
+      const s = document.getElementById('search-input');
+      if (s) s.value = '';
+      document.querySelectorAll('.filter-cat').forEach(c => c.checked = false);
+      const pmin = document.getElementById('price-min');
+      const pmax = document.getElementById('price-max');
+      if (pmin) pmin.value = 0;
+      if (pmax) pmax.value = 500;
+      const instock = document.getElementById('filter-instock');
+      if (instock) instock.checked = true;
+      const sort = document.getElementById('sort-select');
+      if (sort) sort.value = 'popular';
+      activeTags.clear();
+      document.querySelectorAll('.tag-btn').forEach(b => {
+        b.classList.remove('bg-brand-600', 'text-white', 'border-brand-600');
+        b.classList.add('border-slate-200', 'text-slate-600');
+      });
+      filterProducts();
+    }
+
+    function toggleTag(btn, tag) {
+      if (activeTags.has(tag)) {
+        activeTags.delete(tag);
+        btn.classList.remove('bg-brand-600', 'text-white', 'border-brand-600');
+        btn.classList.add('border-slate-200', 'text-slate-600');
+      } else {
+        activeTags.add(tag);
+        btn.classList.add('bg-brand-600', 'text-white', 'border-brand-600');
+        btn.classList.remove('border-slate-200', 'text-slate-600');
+      }
+      filterProducts();
+    }
+
+    function openProduct(id) {
+      const p = products.find(x => String(x.id) === String(id));
+      if (!p) return;
+      const shipping = 18;
+      const netProfit = p.suggested - p.cost - shipping;
+      const media = p.image_key
+        ? '<img src="' + API + '/images/' + p.image_key + '" class="w-full h-full object-cover rounded-2xl" alt=""/>'
+        : '<div class="text-7xl">' + (p.emoji || '📦') + '</div>';
+      document.getElementById('modal-content').innerHTML = `
+        <div class="flex items-start justify-between mb-6">
+          <div>
+            <div class="text-xs text-slate-400 mb-1">${p.category || ''} · Our Warehouse${p.sku ? ' · ' + p.sku : ''}</div>
+            <h2 class="text-xl font-bold text-slate-900">${p.name}</h2>
+          </div>
+          <button onclick="closeProductModal()" class="p-2 hover:bg-slate-100 rounded-lg text-slate-400"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="bg-gradient-to-b from-slate-50 to-slate-100 rounded-2xl h-56 flex items-center justify-center overflow-hidden">${media}</div>
+          <div>
+            <div class="grid grid-cols-2 gap-3 mb-5">
+              <div class="bg-slate-50 rounded-xl p-3"><div class="text-xs text-slate-400">Our Cost</div><div class="text-lg font-bold">${p.cost} AED</div></div>
+              <div class="bg-slate-50 rounded-xl p-3"><div class="text-xs text-slate-400">Suggested Price</div><div class="text-lg font-bold">${p.suggested} AED</div></div>
+              <div class="bg-brand-50 rounded-xl p-3"><div class="text-xs text-brand-600">Est. Profit</div><div class="text-lg font-bold text-brand-700">+${netProfit} AED</div></div>
+              <div class="bg-slate-50 rounded-xl p-3"><div class="text-xs text-slate-400">In Our Warehouse</div><div class="text-lg font-bold text-green-600">${p.stock}</div></div>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-4 mb-5 text-sm">
+              <div class="font-medium mb-2">Profit Calculator</div>
+              <div class="flex justify-between text-slate-500 mb-1"><span>Selling price</span><span>${p.suggested} AED</span></div>
+              <div class="flex justify-between text-slate-500 mb-1"><span>Our cost (own inventory)</span><span>− ${p.cost} AED</span></div>
+              <div class="flex justify-between text-slate-500 mb-1"><span>Shipping + COD</span><span>− ${shipping} AED</span></div>
+              <div class="flex justify-between font-bold text-brand-700 pt-2 border-t border-slate-200"><span>Net Profit</span><span>+${netProfit} AED</span></div>
+            </div>
+            <div class="flex gap-2">
+              <a href="/login?register=1" class="flex-1 text-center py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl transition">Start Selling</a>
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById('product-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProductModal() {
+      document.getElementById('product-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      showView(viewFromPath(), { fromHistory: true, initial: true });
+      loadProductsFromAPI();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeProductModal();
+    });
+  </script>
+
+</body>
+</html>
