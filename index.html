@@ -88,7 +88,7 @@
         <span class="hidden md:flex items-center gap-1.5"><i class="fas fa-truck-fast text-gold-400"></i> 1–2 Day Delivery</span>
       </div>
       <div class="flex items-center gap-4">
-        <a href="#" class="hover:text-gold-400 transition flex items-center gap-1.5"><i class="fab fa-whatsapp"></i> Support</a>
+        <a href="/contact" class="hover:text-gold-400 transition flex items-center gap-1.5"><i class="fab fa-whatsapp"></i> Support</a>
         <button onclick="toggleLang()" class="hover:text-gold-400 transition flex items-center gap-1.5">
           <i class="fas fa-globe"></i> <span id="lang-label">العربية</span>
         </button>
@@ -100,7 +100,7 @@
   <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
       <div class="flex items-center justify-between h-[68px]">
-        <div class="flex items-center gap-2.5 cursor-pointer" onclick="showView('home')">
+        <a href="/" class="flex items-center gap-2.5 cursor-pointer" onclick="event.preventDefault();showView('home')">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-800 flex items-center justify-center text-white font-display font-extrabold text-lg shadow-lg shadow-brand-500/30">
             Z
           </div>
@@ -108,14 +108,14 @@
             <span class="font-display text-xl font-extrabold text-slate-900 tracking-tight">Zam<span class="text-brand-600">rud</span></span>
             <span class="hidden sm:inline text-[10px] font-bold text-brand-700 bg-brand-50 px-1.5 py-0.5 rounded ml-1.5 tracking-wide">UAE</span>
           </div>
-        </div>
+        </a>
 
         <div class="hidden lg:flex items-center gap-0.5">
-          <button onclick="showView('home')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Home</button>
-          <button onclick="showView('catalog')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Catalog</button>
-          <button onclick="showView('how-it-works')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">How it Works</button>
-          <button onclick="showView('pricing')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Pricing</button>
-          <button onclick="showView('agency')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Agency</button>
+          <a href="/" data-view="home" onclick="event.preventDefault();showView('home')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Home</a>
+          <a href="/catalog" data-view="catalog" onclick="event.preventDefault();showView('catalog')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Catalog</a>
+          <a href="/how-it-works" data-view="how-it-works" onclick="event.preventDefault();showView('how-it-works')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">How it Works</a>
+          <a href="/pricing" data-view="pricing" onclick="event.preventDefault();showView('pricing')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Pricing</a>
+          <a href="/agency-program" data-view="agency" onclick="event.preventDefault();showView('agency')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Agency</a>
         </div>
 
         <div class="flex items-center gap-2 sm:gap-3">
@@ -131,11 +131,11 @@
     </div>
     <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-100 bg-white">
       <div class="px-4 py-3 space-y-0.5">
-        <button onclick="showView('home');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Home</button>
-        <button onclick="showView('catalog');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Product Catalog</button>
-        <button onclick="showView('how-it-works');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">How it Works</button>
-        <button onclick="showView('pricing');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Pricing & Fees</button>
-        <button onclick="showView('agency');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Agency Program</button>
+        <a href="/" data-view="home" onclick="event.preventDefault();showView('home');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Home</a>
+        <a href="/catalog" data-view="catalog" onclick="event.preventDefault();showView('catalog');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Product Catalog</a>
+        <a href="/how-it-works" data-view="how-it-works" onclick="event.preventDefault();showView('how-it-works');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">How it Works</a>
+        <a href="/pricing" data-view="pricing" onclick="event.preventDefault();showView('pricing');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Pricing & Fees</a>
+        <a href="/agency-program" data-view="agency" onclick="event.preventDefault();showView('agency');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Agency Program</a>
         <a href="/login" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Log in</a>
         <a href="/login?register=1" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-bold text-brand-700 bg-brand-50 mt-1">Create Free Account</a>
       </div>
@@ -825,7 +825,7 @@
           </div>
           <label class="flex items-start gap-2 cursor-pointer text-sm text-slate-600">
             <input type="checkbox" required class="mt-0.5 rounded text-brand-600 focus:ring-brand-500" />
-            <span>I agree to the <a href="#" class="text-brand-600 hover:underline">Terms</a> and <a href="#" class="text-brand-600 hover:underline">Privacy Policy</a></span>
+            <span>I agree to the <a href="/terms" target="_blank" class="text-brand-600 hover:underline">Terms</a> and <a href="/privacy" target="_blank" class="text-brand-600 hover:underline">Privacy Policy</a></span>
           </label>
           <button type="submit" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition shadow-md shadow-brand-600/20">Create Free Account</button>
         </form>
@@ -852,26 +852,26 @@
         <div>
           <h4 class="font-semibold text-white mb-3 text-sm">Platform</h4>
           <ul class="space-y-2 text-sm">
-            <li><button onclick="showView('catalog')" class="hover:text-white transition">Product Catalog</button></li>
-            <li><button onclick="showView('how-it-works')" class="hover:text-white transition">How it Works</button></li>
-            <li><button onclick="showView('pricing')" class="hover:text-white transition">Pricing</button></li>
-            <li><button onclick="showView('agency')" class="hover:text-white transition">Agency Program</button></li>
+            <li><a href="/catalog" data-view="catalog" onclick="event.preventDefault();showView('catalog')" class="hover:text-white transition">Product Catalog</a></li>
+            <li><a href="/how-it-works" data-view="how-it-works" onclick="event.preventDefault();showView('how-it-works')" class="hover:text-white transition">How it Works</a></li>
+            <li><a href="/pricing" data-view="pricing" onclick="event.preventDefault();showView('pricing')" class="hover:text-white transition">Pricing</a></li>
+            <li><a href="/agency-program" data-view="agency" onclick="event.preventDefault();showView('agency')" class="hover:text-white transition">Agency Program</a></li>
           </ul>
         </div>
         <div>
           <h4 class="font-semibold text-white mb-3 text-sm">Support</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="#" class="hover:text-white transition">Help Center</a></li>
-            <li><a href="#" class="hover:text-white transition">WhatsApp Support</a></li>
-            <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
+            <li><a href="/help-center" class="hover:text-white transition">Help Center</a></li>
+            <li><a href="/contact" class="hover:text-white transition">WhatsApp Support</a></li>
+            <li><a href="/contact" class="hover:text-white transition">Contact Us</a></li>
           </ul>
         </div>
         <div>
           <h4 class="font-semibold text-white mb-3 text-sm">Legal</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
-            <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
-            <li><a href="#" class="hover:text-white transition">Refund Policy</a></li>
+            <li><a href="/terms" class="hover:text-white transition">Terms of Service</a></li>
+            <li><a href="/privacy" class="hover:text-white transition">Privacy Policy</a></li>
+            <li><a href="/refund-policy" class="hover:text-white transition">Refund Policy</a></li>
           </ul>
         </div>
       </div>
@@ -927,14 +927,34 @@
       filterProducts();
     }
 
-    function showView(name) {
+    const VIEW_PATHS = {
+      'home': '/', 'catalog': '/catalog', 'how-it-works': '/how-it-works',
+      'pricing': '/pricing', 'agency': '/agency-program'
+    };
+
+    function viewFromPath() {
+      const p = location.pathname.replace(/\.html$/, '').replace(/\/+$/, '') || '/';
+      if (p === '/' || p === '/index') return 'home';
+      for (const k in VIEW_PATHS) if (VIEW_PATHS[k] === p) return k;
+      return 'home';
+    }
+
+    function showView(name, opts) {
+      opts = opts || {};
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       const el = document.getElementById('view-' + name);
       if (el) el.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.querySelectorAll('.nav-link').forEach(a =>
+        a.classList.toggle('active', a.dataset.view === name));
+      if (VIEW_PATHS[name] && !opts.fromHistory && location.pathname !== VIEW_PATHS[name]) {
+        history.pushState({ view: name }, '', VIEW_PATHS[name]);
+      }
+      if (!opts.initial) window.scrollTo({ top: 0, behavior: 'smooth' });
       if (name === 'home') renderHomeProducts();
       if (name === 'catalog') filterProducts();
     }
+
+    window.addEventListener('popstate', () => showView(viewFromPath(), { fromHistory: true }));
 
     function toggleMobileMenu() {
       document.getElementById('mobile-menu').classList.toggle('hidden');
@@ -1111,6 +1131,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      showView(viewFromPath(), { fromHistory: true, initial: true });
       loadProductsFromAPI();
     });
 
