@@ -28,7 +28,7 @@
   if (!token || !user || roles.indexOf(user.role) === -1) {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
-    location.replace("login.html");
+    location.replace("/login");
   } else {
     localStorage.setItem(TOKEN_KEY, token);
     localStorage.setItem(USER_KEY, JSON.stringify(user));
@@ -210,7 +210,7 @@ function logout() {
   localStorage.removeItem(USER_KEY);
   localStorage.removeItem("zamrud_token");
   localStorage.removeItem("zamrud_user");
-  location.href = "login.html";
+  location.href = "/login";
 }
 
 
