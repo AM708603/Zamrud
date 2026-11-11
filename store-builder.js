@@ -32,7 +32,7 @@ const SEC = {
 };
 const mk = (t, id) => Object.assign(clone(SEC[t]), { id });
 const DEF = {
-  slug: "", name: "My Store", logo: "", cur: "AED", dir: "ltr",
+  slug: "", name: "My Store", logo: "", catImages: {}, cur: "AED", dir: "ltr",
   wa: "", waShow: 1, waPos: "right", waMsg: "Hello, I have a question about", email: "", phone: "", ig: "", fb: "", tt: "",
   footer: "Quality products delivered across the UAE. Cash on delivery.", hdr: "left", sticky: 1,
   trust: "Cash on delivery\nFast delivery across the UAE\nEasy returns", related: 1, quick: 1,
@@ -139,6 +139,7 @@ const NAMES = { testimonials:"Customer reviews", stats:"Brand statistics", edito
 const norm = c => {
   c = Object.assign(clone(DEF), c || {});
   c.theme = Object.assign({}, DEF.theme, c.theme);
+   c.catImages = c.catImages && typeof c.catImages === "object" && !Array.isArray(c.catImages) ? c.catImages : {};
   const f = (c.sections || []).find(s => s.type === "footer");
   if (f) { c.wa = c.wa || f.wa || ""; c.footer = c.footer || f.text; }
   c.sections = (c.sections || []).filter(s => s.type !== "footer" && SEC[s.type]).map(s => s.type === "hero" && !s.slides
@@ -160,7 +161,7 @@ function app(C, P, E, slug, API) {
     refresh: '<path d="M4 12a8 8 0 0 1 14-5.3L20 9M20 4v5h-5M20 12a8 8 0 0 1-14 5.3L4 15M4 20v-5h5"/>',
     box: '<path d="M3.5 7.5L12 3l8.5 4.5v9L12 21l-8.5-4.5zM3.5 7.5L12 12l8.5-4.5M12 12v9"/>',
     left: '<path d="M15 5l-7 7 7 7"/>', right: '<path d="M9 5l7 7-7 7"/>', plus: '<path d="M12 5v14M5 12h14"/>', minus: '<path d="M5 12h14"/>',
-    x: '<path d="M6 6l12 12M18 6L6 18"/>', search: '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>', star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>'
+    x: '<path d="M6 6l12 12M18 6L6 18"/>', search: '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>', star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>', menu: '<path d="M4 6h16M4 12h16M4 18h16"/>'
   };
   const ic = (n, s) => `<svg class="ic" width="${s || 20}" height="${s || 20}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n] || IC.check}</svg>`;
   /* official WhatsApp glyph */
@@ -184,7 +185,7 @@ function app(C, P, E, slug, API) {
   const S = {
     hero: s => { const o = (s.ov == null ? 35 : s.ov) / 100; return `<div class="hero" style="height:${s.h || 480}px">${s.slides.map((x, i) => { const bg = x.bg || "#0d9488"; return `<div class="sl ${s.fx || "fade"}${s.al == "left" ? " left" : ""}${i ? "" : " on"}" style="background-color:${esc(bg)};color:${x.img ? "#fff" : tc(bg)}${x.img ? `;background-image:linear-gradient(rgba(0,0,0,${o}),rgba(0,0,0,${o})),url('${esc(x.img)}')` : ""}"><div class="hi"><h1>${esc(x.t)}</h1><p>${esc(x.s)}</p>${x.b ? `<a class="b w2" href="${x.cat ? cl(x.cat) : "#/shop"}">${esc(x.b)}</a>` : ""}</div></div>`; }).join("")}${s.slides.length > 1 ? `<button class="ar l" data-ar="-1" aria-label="Previous slide">${ic("left", 22)}</button><button class="ar r" data-ar="1" aria-label="Next slide">${ic("right", 22)}</button><div class="dt">${s.slides.map((_, i) => `<button data-dot="${i}" class="${i ? "" : "on"}" aria-label="Slide ${i + 1}"></button>`).join("")}</div>` : ""}</div>`; },
     features: s => `<div class="w">${s.title ? head(s.title) : ""}<div class="fts">${(s.items || []).map(i => `<div class="fi"><span class="fic">${ic(i.i, 22)}</span><div><b>${esc(i.t)}</b><p class="m">${esc(i.d)}</p></div></div>`).join("")}</div></div>`,
-    cats: s => `<div class="w">${head(s.title)}<div class="g">${cats.map(c => { const p = P.find(x => x.category == c); return `<a class="c cc" href="${cl(c)}"><span class="im">${p ? img(p) : `<div class="ph">${ic("box", 40)}</div>`}</span><span class="cb"><h3>${esc(c)}</h3></span></a>`; }).join("") || '<p class="m">Categories appear once you add products.</p>'}</div></div>`,
+    cats: s => `<div class="w">${head(s.title)}<div class="g">${cats.map(c => { const p = P.find(x => x.category == c), ci = C.catImages && C.catImages[c]; return `<a class="c cc" href="${cl(c)}"><span class="im">${ci ? `<img src="${esc(ci)}" alt="${esc(c)}" loading="lazy">` : p ? img(p) : `<div class="ph">${ic("box", 40)}</div>`}</span><span class="cb"><h3>${esc(c)}</h3></span></a>`; }).join("") || '<p class="m">Categories appear once you add products.</p>'}</div></div>`,
     products: s => `<div class="w">${head(s.title, 1)}${grid(P.filter(p => !s.cat || p.category == s.cat).slice(0, s.n || 8))}</div>`,
     promo: s => `<div class="w"><a class="pm" style="background:${esc(s.bg)};color:${tc(s.bg)}" href="${s.cat ? cl(s.cat) : "#/shop"}"><div><h2>${esc(s.title)}</h2><p>${esc(s.text)}</p></div><span class="b w2">Shop now</span></a></div>`,
     faq: s => `<div class="w nrw">${head(s.title)}${(s.items || []).map(i => `<details class="fq"><summary>${esc(i.q)}</summary><p class="m">${esc(i.a)}</p></details>`).join("")}</div>`,
@@ -249,7 +250,7 @@ ${summary('<a class="b full" href="#/checkout">Continue to checkout</a>', 1)}</d
     const links = cats.map(c => `<a href="${cl(c)}">${esc(c)}</a>`).join(""), soc = [["ig", "Instagram"], ["fb", "Facebook"], ["tt", "TikTok"]].filter(x => C[x[0]]).map(x => `<a href="${esc(C[x[0]])}" target="_blank" rel="noopener">${x[1]}</a>`).join("");
     D.getElementById("app").innerHTML =
       C.sections.filter(s => s.type == "announcement").map(s => `<section data-s="${esc(s.id)}"><div class="an" style="${s.bg ? `background:${esc(s.bg)};color:${tc(s.bg)}` : ""}">${esc(s.text)}</div></section>`).join("") +
-      `<header class="hd ${esc(C.hdr)}${+C.sticky ? " st" : ""}"><div class="hi2"><a href="#/" class="br">${C.logo ? `<img src="${esc(C.logo)}" class="lg" alt="">` : ""}<span>${esc(C.name)}</span></a><nav>${cats.slice(0, 6).map(c => `<a href="${cl(c)}">${esc(c)}</a>`).join("")}<a href="#/shop">All products</a></nav>${+C.wishlist ? `<a href="#/wishlist" class="wish-link" aria-label="Wishlist">${ic("star",21)}<span>Wishlist</span></a>` : ""}<a href="#/cart" class="ct" aria-label="Cart">${ic("cart", 22)}<i class="${cnt() ? "" : "z"}">${cnt()}</i></a></div></header>` +
+      `<header class="hd ${esc(C.hdr)}${+C.sticky ? " st" : ""}"><div class="hi2"><button type="button" class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>${ic("menu",24)}</button><a href="#/" class="br">${C.logo ? `<img src="${esc(C.logo)}" class="lg" alt="">` : ""}<span>${esc(C.name)}</span></a><nav class="desktop-nav">${cats.slice(0, 6).map(c => `<a href="${cl(c)}">${esc(c)}</a>`).join("")}<a href="#/shop">All products</a></nav>${+C.wishlist ? `<a href="#/wishlist" class="wish-link" aria-label="Wishlist">${ic("star",21)}<span>Wishlist</span></a>` : ""}<a href="#/cart" class="ct" aria-label="Cart">${ic("cart", 22)}<i class="${cnt() ? "" : "z"}">${cnt()}</i></a></div><nav id="mobile-menu" class="mobile-menu" aria-label="Mobile store navigation" hidden><a href="#/">Home</a><a href="#/shop">All products</a>${cats.map(c => `<a href="${cl(c)}">${esc(c)}</a>`).join("")}${+C.wishlist ? `<a href="#/wishlist">Wishlist</a>` : ""}<a href="#/cart">Shopping cart (${cnt()})</a><a href="#/checkout">Checkout</a></nav></header>` +
       `<main class="pg">${v}</main><footer><div class="fc"><div class="fg"><div><b>${esc(C.name)}</b><p>${esc(C.footer)}</p></div><div><b>Shop</b>${links || '<a href="#/shop">All products</a>'}</div><div><b>Contact</b>${wad ? `<a href="https://wa.me/${wad}" target="_blank" rel="noopener" class="fw">${waI(16)}WhatsApp</a>` : ""}${C.phone ? `<a href="tel:${esc(C.phone)}">${esc(C.phone)}</a>` : ""}${C.email ? `<a href="mailto:${esc(C.email)}">${esc(C.email)}</a>` : ""}${soc}</div></div><small>&copy; ${new Date().getFullYear()} ${esc(C.name)}. Cash on delivery across the UAE.</small></div></footer>` +
       (wad && +C.waShow ? `<a class="wa ${C.waPos == "left" ? "wl" : ""}" href="https://wa.me/${wad}?text=${encodeURIComponent(C.waMsg || "Hello")}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">${waI(32, "#fff")}</a>` : "");
     D.querySelectorAll("[data-wish]").forEach(b => { const saved=wish.includes(String(b.dataset.wish)); b.classList.toggle("saved",saved);b.setAttribute("aria-pressed",String(saved)); });
@@ -263,7 +264,9 @@ ${summary('<a class="b full" href="#/checkout">Continue to checkout</a>', 1)}</d
   D.onclick = e => {
     const t = e.target; let x;
     const s = t.closest("[data-s]"); if (E && s) parent.postMessage({ zbSel: s.dataset.s }, "*");
-    const an = t.closest("a[href^='#']"); if (an) { e.preventDefault(); nav(an.getAttribute("href")); return; }
+    const toggle = t.closest("[data-menu-toggle]");
+     if (toggle) { const m = D.getElementById("mobile-menu"); const opening = m.hasAttribute("hidden"); m.toggleAttribute("hidden", !opening); toggle.setAttribute("aria-expanded", String(opening)); toggle.setAttribute("aria-label", opening ? "Close menu" : "Open menu"); return; }
+     const an = t.closest("a[href^='#']"); if (an) { e.preventDefault(); nav(an.getAttribute("href")); return; }
     const g = a => t.closest("[" + a + "]");
     if (x = g("data-wish")) { const id=String(x.dataset.wish); wish = wish.includes(id) ? wish.filter(y=>y!==id) : wish.concat(id); try { localStorage["zw_"+slug]=JSON.stringify(wish); } catch(e) {} x.classList.toggle("saved",wish.includes(id)); x.setAttribute("aria-pressed",String(wish.includes(id))); if (keyFromHash()==="wishlist") R(); }
     else if (x = g("data-q")) { const el = D.getElementById("q"); el.textContent = Math.max(1, +el.textContent + +x.dataset.q); }
@@ -359,6 +362,10 @@ body{font-size:var(--z-body-size)}.w{padding-top:var(--z-section);padding-bottom
 ${t.accentBorder ? `.c,.fi,.review,.sm,.fm{border-color:${esc(t.accentBorder)}}` : ""}${t.mutedColor ? `.m,.body,.fg p,.fg a{color:${esc(t.mutedColor)}}` : ""}
 @media(max-width:750px){.tb{display:grid;grid-template-columns:minmax(0,1fr)}.chips{width:100%;flex:none;gap:7px}.tr2{width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,160px)}.tr2 .se,.tr2 select{width:100%;min-width:0;max-width:100%;flex:none}.w{padding-left:16px;padding-right:16px}}
 @media(max-width:380px){.tr2{grid-template-columns:1fr}.tr2 .se,.tr2 select{width:100%}.chips a{min-height:34px}}
+/* Mobile drawer navigation */
+.menu-toggle{display:none;border:0;background:transparent;color:var(--t);padding:7px;cursor:pointer;align-items:center;justify-content:center;border-radius:var(--r)}
+.mobile-menu[hidden]{display:none!important}.mobile-menu{display:none}
+@media(max-width:800px){.hd .hi2{flex-wrap:nowrap;gap:10px}.hd .hi2 .desktop-nav{display:none}.hd .menu-toggle{display:inline-flex;flex-shrink:0}.hd.center .hi2{flex-direction:row;flex-wrap:nowrap}.hd.center .br{flex:1;min-width:0}.hd .br{min-width:0;overflow:hidden;font-size:17px}.hd .br span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hd .ct{margin-inline-start:0}.hd .wish-link{margin-inline-start:auto}.hd.center .ct{margin-inline-start:0}.mobile-menu:not([hidden]){display:flex;flex-direction:column;max-height:min(72vh,600px);overflow-y:auto;padding:10px 16px 18px;background:var(--cd);border-top:1px solid var(--bd);box-shadow:0 12px 20px rgba(0,0,0,.09)}.mobile-menu a{display:block;padding:12px 10px;border-bottom:1px solid var(--bd);font-size:14px;font-weight:600}.mobile-menu a:last-child{border-bottom:0}.mobile-menu a:hover,.mobile-menu a:focus-visible{color:var(--c);background:var(--sf)}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv{opacity:1!important;transform:none!important}html{scroll-behavior:auto}}`;
 }
 
@@ -478,14 +485,14 @@ function panel() {
   if (t == "marquee") b = S("text","Scrolling message") + S("bg","Background","color");
   if (t == "editorial") b = S("title","Heading") + TA("Description",s.body,"ZB.set('body',this.value)") + S("button","Button text") + S("image","Image URL") + SEL("Link to category",s.cat,CATOPT(),"ZB.set('cat',this.value)") + CK("Image on right",s.reverse,"ZB.set('reverse',this.checked?1:0)");
   if (t == "announcement") b = S("text", "Text") + S("bg", "Background (leave as brand color if unsure)", "color");
-  if (t == "cats") b = S("title", "Title");
+  if (t == "cats") b = S("title", "Title") + `<p class="text-xs text-slate-500 mb-3">Upload a unique image for each product category. Without a custom image, the first product image is used.</p>` + (cats().length ? cats().map((name,n) => { const image = cfg.catImages[name]; return `<div class="border rounded-xl p-3 mb-2"><b class="block text-xs mb-2">${esc(name)}</b>${image ? `<img src="${esc(image)}" alt="" class="w-full h-24 object-cover rounded-lg mb-2"/>` : ""}<input type="file" accept="image/*" onchange="ZB.catImage(${n},this.files[0])" class="block w-full text-xs"/>${image ? `<button class="text-xs text-red-500 mt-2" onclick="ZB.removeCatImage(${n})">Remove category image</button>` : ""}</div>`; }).join("") : `<p class="text-xs text-slate-400">Add products with categories to enable category images.</p>`);
   if (t == "text") b = S("title", "Title") + TA("Text", s.body, "ZB.set('body',this.value)", 5);
   if (t == "features") b = S("title", "Title (optional)") + items("items", [["i", "", "icon"], ["t", "Heading"], ["d", "Description"]], s);
   if (t == "faq") b = S("title", "Title") + items("items", [["q", "Question"], ["a", "Answer"]], s);
   if (t == "products") b = S("title", "Title") + SEL("Category", s.cat, CATOPT(), "ZB.set('cat',this.value)") + RG("How many", s.n || 8, 2, 12, "ZB.set('n',+this.value)");
   if (t == "promo") b = S("title", "Headline") + S("text", "Text") + SEL("Promotes category", s.cat, CATOPT(), "ZB.set('cat',this.value)") + S("bg", "Color", "color") + `<p class="text-[11px] text-slate-400">This banner also shows at the top of its category page.</p>`;
   if (t == "hero") b = SEL("Transition", s.fx, [["fade", "Fade"], ["slide", "Slide in"], ["zoom", "Zoom"]], "ZB.set('fx',this.value)") + SEL("Text alignment", s.al || "center", [["center", "Center"], ["left", "Start"]], "ZB.set('al',this.value)") + RG("Height", s.h || 480, 260, 680, "ZB.set('h',+this.value)") + RG("Image darkness", s.ov == null ? 35 : s.ov, 0, 70, "ZB.set('ov',+this.value)") +
-    s.slides.map((x, n) => `<div class="border rounded-xl p-2 mb-2"><div class="flex justify-between text-xs font-bold mb-1"><span>Slide ${n + 1}</span><button onclick="ZB.sld(${n})" class="text-red-500">Remove</button></div>${IN("Heading", x.t, `ZB.sl(${n},'t',this.value)`)}${IN("Subheading", x.s, `ZB.sl(${n},'s',this.value)`)}${IN("Button text", x.b, `ZB.sl(${n},'b',this.value)`)}${SEL("Button opens", x.cat || "", CATOPT(), `ZB.sl(${n},'cat',this.value)`)}${IN("Image URL", x.img, `ZB.sl(${n},'img',this.value)`)}${IN("Background", x.bg || "#0d9488", `ZB.sl(${n},'bg',this.value)`, "color")}</div>`).join("") +
+    s.slides.map((x, n) => `<div class="border rounded-xl p-2 mb-2"><div class="flex justify-between text-xs font-bold mb-1"><span>Slide ${n + 1}</span><button onclick="ZB.sld(${n})" class="text-red-500">Remove</button></div>${IN("Heading", x.t, `ZB.sl(${n},'t',this.value)`)}${IN("Subheading", x.s, `ZB.sl(${n},'s',this.value)`)}${IN("Button text", x.b, `ZB.sl(${n},'b',this.value)`)}${SEL("Button opens", x.cat || "", CATOPT(), `ZB.sl(${n},'cat',this.value)`)}${IN("Image URL", x.img, `ZB.sl(${n},'img',this.value)`)}${L("Or upload hero image", `<input type="file" accept="image/*" onchange="ZB.heroImage(${n},this.files[0])" class="block w-full text-xs mt-1"/>`)}${x.img ? `<img src="${esc(x.img)}" class="w-full h-24 object-cover rounded-lg mb-2" alt="Hero slide preview"/><button class="text-xs text-red-500 mb-2" onclick="ZB.sl(${n},'img','');ZB.re()">Remove image</button>` : ""}${IN("Background", x.bg || "#0d9488", `ZB.sl(${n},'bg',this.value)`, "color")}</div>`).join("") +
     `<button onclick="ZB.sla()" class="w-full py-2 text-xs font-bold border rounded-xl text-brand-700">Add slide</button>`;
   p.innerHTML = `<div class="p-4 border-b flex items-center gap-2"><button onclick="ZB.sel(null)" class="text-slate-500" title="Back"><i class="fas fa-arrow-left"></i></button><b class="text-sm">${NAMES[t]}</b></div><div class="p-4">${b}</div>`;
 }
@@ -519,6 +526,24 @@ ZB.logo = f => {
   r.onload = () => { const im = new Image(); im.onload = () => { const k = Math.min(1, 256 / Math.max(im.width, im.height)), c = document.createElement("canvas"); c.width = im.width * k; c.height = im.height * k; c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); cfg.logo = c.toDataURL("image/png"); ZB.re(); }; im.src = r.result; };
   r.readAsDataURL(f);
 };
+/* Image uploads are resized and stored directly in storefront config; no new API endpoint needed. */
+ZB.readImage = (f, maxWidth, cb) => {
+  if (!f) return;
+  if (!f.type.startsWith("image/")) return msg("Please select an image file.", 0);
+  if (f.size > 12 * 1024 * 1024) return msg("Image must be smaller than 12 MB.", 0);
+  const reader = new FileReader();
+  reader.onerror = () => msg("Could not read the selected image.", 0);
+  reader.onload = () => { const im = new Image(); im.onerror = () => msg("Invalid image.", 0);
+    im.onload = () => { const scale = Math.min(1, maxWidth / Math.max(im.width, im.height));
+      const canvas = document.createElement("canvas"); canvas.width = Math.max(1,Math.round(im.width * scale)); canvas.height = Math.max(1,Math.round(im.height * scale));
+      canvas.getContext("2d").drawImage(im, 0, 0, canvas.width, canvas.height);
+      cb(canvas.toDataURL("image/jpeg", .78));
+    }; im.src = reader.result;
+  }; reader.readAsDataURL(f);
+};
+ZB.catImage = (n, f) => { const name = cats()[n]; if (!name) return; ZB.readImage(f, 700, data => { cfg.catImages[name] = data; ZB.re(); }); };
+ZB.removeCatImage = n => { const name = cats()[n]; if (!name) return; delete cfg.catImages[name]; ZB.re(); };
+ZB.heroImage = (n, f) => { const id = sel; ZB.readImage(f, 1400, data => { const section = cfg.sections.find(x => x.id === id); if (!section || !section.slides[n]) return; section.slides[n].img = data; ZB.re(); }); };
 ZB.save = async function (pub) {
   if (!/^[a-z0-9-]{3,30}$/.test(cfg.slug || "")) return msg("Store address must be 3 to 30 letters, numbers or dashes.", 0);
   msg("Saving", 1);
