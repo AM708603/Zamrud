@@ -653,7 +653,15 @@ ZB.save = async function (pub) {
   if (!/^[a-z0-9-]{3,30}$/.test(cfg.slug || "")) return msg("Store address must be 3 to 30 letters, numbers or dashes.", 0);
   msg("Saving", 1);
   try {
-    await api("/me/store", { method: "PUT", body: JSON.stringify({ slug: cfg.slug, config: cfg, published: pub ? 1 : 0 }) });
+    const savingSnapshot = JSON.stringify(cfg);
+    const result = await api("/me/store", { method: "PUT", body: JSON.stringify({ slug: cfg.slug, config: cfg, published: pub ? 1 : 0 }) });
+    // The API replaces inline images with durable R2 URLs when configured.
+    // Only adopt the response if nothing changed while the request was in flight.
+    if (result.config && JSON.stringify(cfg) === savingSnapshot) {
+      cfg = norm(result.config);
+      ZB.historyReset();
+      ZB.re();
+    }
     msg(pub ? "Published. Your store is live." : "Draft saved.", 1);
     if (pub) { const a = $("zb-view"); a.href = "https://" + DOM + cfg.slug; a.classList.remove("hidden"); }
   } catch (e) { msg(e.message, 0); }
