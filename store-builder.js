@@ -386,6 +386,47 @@ window.ZStore = { render, API, templates: Object.keys(TPL), fromTemplate: n => a
 /* ---------- editor ---------- */
 const ZB = window.ZB = {};
 let cfg, sel = null, prods = [], tm, ready = false;
+/* Per-editor-session undo/redo: snapshots include all config, sections and image data. */
+const HISTORY_LIMIT = 50;
+let undoStack = [], redoStack = [], lastHistoryKey = "", lastHistoryAt = 0;
+const snapshot = () => JSON.stringify(cfg);
+const historyButtons = () => {
+  const u = $("zb-undo"), r = $("zb-redo");
+  if (u) { u.disabled = !undoStack.length; u.title = undoStack.length ? "Undo (Ctrl+Z)" : "Nothing to undo"; }
+  if (r) { r.disabled = !redoStack.length; r.title = redoStack.length ? "Redo (Ctrl+Y or Ctrl+Shift+Z)" : "Nothing to redo"; }
+};
+const remember = (before, key, coalesce = false) => {
+  if (!cfg || before === snapshot()) return;
+  const now = Date.now();
+  if (!(coalesce && undoStack.length && key === lastHistoryKey && now - lastHistoryAt < 900)) {
+    undoStack.push(before);
+    if (undoStack.length > HISTORY_LIMIT) undoStack.shift();
+  }
+  redoStack = [];
+  lastHistoryKey = key; lastHistoryAt = now;
+  historyButtons();
+};
+const recordChange = (key, fn, coalesce = false) => {
+  if (!cfg) return;
+  const before = snapshot(); fn(); remember(before, key, coalesce);
+};
+ZB.undo = () => {
+  if (!undoStack.length) return;
+  redoStack.push(snapshot());
+  cfg = norm(JSON.parse(undoStack.pop()));
+  if (sel && !cfg.sections.some(s => s.id === sel)) sel = null;
+  lastHistoryKey = ""; ZB.re(); historyButtons();
+};
+ZB.redo = () => {
+  if (!redoStack.length) return;
+  undoStack.push(snapshot());
+  if (undoStack.length > HISTORY_LIMIT) undoStack.shift();
+  cfg = norm(JSON.parse(redoStack.pop()));
+  if (sel && !cfg.sections.some(s => s.id === sel)) sel = null;
+  lastHistoryKey = ""; ZB.re(); historyButtons();
+};
+ZB.historyReset = () => { undoStack = []; redoStack = []; lastHistoryKey = ""; historyButtons(); };
+
 const OPEN = {};
 const $ = id => document.getElementById(id);
 const slugify = s => String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 30);
@@ -410,11 +451,23 @@ ZB.open = async function () {
     try { const d = await api("/me/store"); if (d.store) cfg = d.store.config; } catch (e) {}
     if (!cfg) try { cfg = JSON.parse(localStorage.zb_draft); } catch (e) {}
     cfg = norm(cfg);
+    ZB.historyReset();
     if (!cfg.slug) { const u = currentUser(); cfg.slug = slugify(u && u.name); if (u && cfg.name === "My Store") cfg.name = u.name + "'s Store"; }
     window.addEventListener("message", e => { if (e.data && e.data.zbSel) { sel = e.data.zbSel; panel(); } });
   }
   draw();
 };
+/* Ignore shortcuts outside builder and native text input history only when editor is active. */
+if (!window.__zbHistoryKeys) {
+  window.__zbHistoryKeys = true;
+  window.addEventListener("keydown", e => {
+    const host = $("store-builder");
+    if (!host || !host.children.length || e.altKey || !(e.ctrlKey || e.metaKey)) return;
+    const k = e.key.toLowerCase();
+    if (k === "z") { e.preventDefault(); e.shiftKey ? ZB.redo() : ZB.undo(); }
+    else if (k === "y") { e.preventDefault(); ZB.redo(); }
+  });
+}
 
 function draw() {
   const p1 = prods[0] ? `<option value="#/p/${esc(prods[0].id)}">Product page</option>` : "";
@@ -423,11 +476,12 @@ function draw() {
 <a id="zb-view" target="_blank" class="text-xs text-brand-600 font-semibold hidden">View live</a><div class="flex-1"></div>
 <select onchange="ZB.go(this.value)" class="text-xs border rounded-xl px-2 py-2"><option value="#/">Home</option><option value="#/shop">All products</option>${p1}<option value="#/wishlist">Wishlist</option><option value="#/cart">Cart</option><option value="#/checkout">Checkout</option><option value="#/done">Order confirmation</option></select>
 <button onclick="ZB.dev('d')" title="Desktop" class="px-3 py-2 border rounded-xl text-sm"><i class="fas fa-desktop"></i></button><button onclick="ZB.dev('m')" title="Mobile" class="px-3 py-2 border rounded-xl text-sm"><i class="fas fa-mobile-alt"></i></button>
+<button id="zb-undo" type="button" onclick="ZB.undo()" title="Undo (Ctrl+Z)" aria-label="Undo" class="px-3 py-2 text-xs font-bold border rounded-xl disabled:opacity-40 disabled:cursor-not-allowed"><i class="fas fa-undo"></i> Undo</button><button id="zb-redo" type="button" onclick="ZB.redo()" title="Redo (Ctrl+Y)" aria-label="Redo" class="px-3 py-2 text-xs font-bold border rounded-xl disabled:opacity-40 disabled:cursor-not-allowed"><i class="fas fa-redo"></i> Redo</button>
 <button onclick="ZB.save(0)" class="px-3 py-2 text-xs font-bold border rounded-xl">Save draft</button><button onclick="ZB.save(1)" class="px-4 py-2 text-xs font-bold bg-brand-600 text-white rounded-xl">Publish</button></div>
 <div class="flex flex-col lg:flex-row gap-3" style="min-height:560px;height:calc(100vh - 190px)">
 <div id="zb-panel" class="lg:w-80 flex-shrink-0 bg-white border rounded-2xl overflow-y-auto max-h-[60vh] lg:max-h-none"></div>
 <div class="flex-1 bg-slate-200 rounded-2xl p-3 flex justify-center min-h-[400px]"><iframe id="zb-frame" class="bg-white rounded-xl h-full shadow" style="width:100%;max-width:1280px;transition:max-width .3s"></iframe></div></div><p id="zb-msg" class="text-xs mt-2"></p>`;
-  panel(); prev();
+  panel(); prev(); historyButtons();
 }
 
 function items(k, fields, s) {
@@ -501,29 +555,28 @@ const sec = () => cfg.sections[idx()];
 ZB.re = () => { panel(); prev(); };
 ZB.go = h => { const f = $("zb-frame"); f && f.contentWindow.postMessage({ go: h }, "*"); };
 ZB.dev = d => { $("zb-frame").style.maxWidth = d == "m" ? "390px" : "1280px"; };
-ZB.slug = v => { cfg.slug = slugify(v); prev(); };
-ZB.g = (k, v) => { cfg[k] = v; prev(); };
-ZB.th = (k, v) => { cfg.theme[k] = v; prev(); };
-ZB.set = (k, v) => { sec()[k] = v; prev(); };
-ZB.sl = (n, k, v) => { sec().slides[n][k] = v; prev(); };
-ZB.sla = () => { sec().slides.push({ t: "New slide", s: "", b: "Shop now", img: "", bg: cfg.theme.c }); ZB.re(); };
-ZB.sld = n => { const s = sec(); if (s.slides.length > 1) { s.slides.splice(n, 1); ZB.re(); } };
-ZB.it = (k, n, f, v) => { sec()[k][n][f] = v; prev(); };
-ZB.ita = k => { const s = sec(); s[k] = s[k] || []; s[k].push(s.type == "faq" ? { q: "New question", a: "Answer" } : s.type == "testimonials" ? {name:"Customer",quote:"Share your customer feedback",stars:5} : s.type == "stats" ? {value:"100+",label:"Happy orders"} : { i: "check", t: "New feature", d: "Short description" }); ZB.re(); };
-ZB.itd = (k, n) => { sec()[k].splice(n, 1); ZB.re(); };
+ZB.slug = v => recordChange("slug", () => { cfg.slug = slugify(v); prev(); }, true);
+ZB.g = (k, v) => recordChange("g:" + k, () => { cfg[k] = v; prev(); }, true);
+ZB.th = (k, v) => recordChange("th:" + k, () => { cfg.theme[k] = v; prev(); }, true);
+ZB.set = (k, v) => recordChange("set:" + sel + ":" + k, () => { sec()[k] = v; prev(); }, true);
+ZB.sl = (n, k, v) => recordChange("sl:" + sel + ":" + n + ":" + k, () => { sec().slides[n][k] = v; prev(); }, true);
+ZB.sla = () => recordChange("add slide", () => { sec().slides.push({ t: "New slide", s: "", b: "Shop now", img: "", bg: cfg.theme.c }); ZB.re(); });
+ZB.sld = n => { const s = sec(); if (s.slides.length > 1) recordChange("delete slide", () => { s.slides.splice(n, 1); ZB.re(); }); };
+ZB.it = (k, n, f, v) => recordChange("it:" + sel + ":" + k + ":" + n + ":" + f, () => { sec()[k][n][f] = v; prev(); }, true);
+ZB.ita = k => recordChange("add item", () => { const s = sec(); s[k] = s[k] || []; s[k].push(s.type == "faq" ? { q: "New question", a: "Answer" } : s.type == "testimonials" ? {name:"Customer",quote:"Share your customer feedback",stars:5} : s.type == "stats" ? {value:"100+",label:"Happy orders"} : { i: "check", t: "New feature", d: "Short description" }); ZB.re(); });
+ZB.itd = (k, n) => recordChange("delete item", () => { sec()[k].splice(n, 1); ZB.re(); });
 ZB.sel = id => { sel = id; panel(); };
-ZB.add = t => { if (!t || !SEC[t]) return; const d = mk(t, "s" + Date.now()); cfg.sections.push(d); sel = d.id; ZB.re(); };
-ZB.mv = (n, d) => { const m = n + d; if (m < 0 || m >= cfg.sections.length) return; cfg.sections.splice(m, 0, cfg.sections.splice(n, 1)[0]); ZB.re(); };
-ZB.del = n => { if (confirm("Remove this section?")) { cfg.sections.splice(n, 1); ZB.re(); } };
+ZB.add = t => { if (!t || !SEC[t]) return; recordChange("add section", () => { const d = mk(t, "s" + Date.now()); cfg.sections.push(d); sel = d.id; ZB.re(); }); };
+ZB.mv = (n, d) => { const m = n + d; if (m < 0 || m >= cfg.sections.length) return; recordChange("move section", () => { cfg.sections.splice(m, 0, cfg.sections.splice(n, 1)[0]); ZB.re(); }); };
+ZB.del = n => { if (confirm("Remove this section?")) recordChange("delete section", () => { cfg.sections.splice(n, 1); ZB.re(); }); };
 ZB.tpl = n => {
-  const t = TPL[n];
+  const t = TPL[n]; if (!t) return;
   if (!confirm("Apply the " + t.label + " template? Your logo, store name and contact details are kept. Styling and sections will be replaced.")) return;
-  applyTpl(cfg, n);
-  sel = null; ZB.re();
+  recordChange("template", () => { applyTpl(cfg, n); sel = null; ZB.re(); });
 };
 ZB.logo = f => {
   if (!f) return; const r = new FileReader();
-  r.onload = () => { const im = new Image(); im.onload = () => { const k = Math.min(1, 256 / Math.max(im.width, im.height)), c = document.createElement("canvas"); c.width = im.width * k; c.height = im.height * k; c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); cfg.logo = c.toDataURL("image/png"); ZB.re(); }; im.src = r.result; };
+  r.onload = () => { const im = new Image(); im.onload = () => { const k = Math.min(1, 256 / Math.max(im.width, im.height)), c = document.createElement("canvas"); c.width = im.width * k; c.height = im.height * k; c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); recordChange("logo image", () => { cfg.logo = c.toDataURL("image/png"); ZB.re(); }); }; im.src = r.result; };
   r.readAsDataURL(f);
 };
 /* Image uploads are resized and stored directly in storefront config; no new API endpoint needed. */
@@ -541,9 +594,9 @@ ZB.readImage = (f, maxWidth, cb) => {
     }; im.src = reader.result;
   }; reader.readAsDataURL(f);
 };
-ZB.catImage = (n, f) => { const name = cats()[n]; if (!name) return; ZB.readImage(f, 700, data => { cfg.catImages[name] = data; ZB.re(); }); };
-ZB.removeCatImage = n => { const name = cats()[n]; if (!name) return; delete cfg.catImages[name]; ZB.re(); };
-ZB.heroImage = (n, f) => { const id = sel; ZB.readImage(f, 1400, data => { const section = cfg.sections.find(x => x.id === id); if (!section || !section.slides[n]) return; section.slides[n].img = data; ZB.re(); }); };
+ZB.catImage = (n, f) => { const name = cats()[n]; if (!name) return; ZB.readImage(f, 700, data => { recordChange("category image", () => { cfg.catImages[name] = data; ZB.re(); }); }); };
+ZB.removeCatImage = n => { const name = cats()[n]; if (!name) return; recordChange("remove category image", () => { delete cfg.catImages[name]; ZB.re(); }); };
+ZB.heroImage = (n, f) => { const id = sel; ZB.readImage(f, 1400, data => { const section = cfg.sections.find(x => x.id === id); if (!section || !section.slides[n]) return; recordChange("hero image", () => { section.slides[n].img = data; ZB.re(); }); }); };
 ZB.save = async function (pub) {
   if (!/^[a-z0-9-]{3,30}$/.test(cfg.slug || "")) return msg("Store address must be 3 to 30 letters, numbers or dashes.", 0);
   msg("Saving", 1);
