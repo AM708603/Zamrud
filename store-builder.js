@@ -9,7 +9,7 @@ const clone = x => JSON.parse(JSON.stringify(x));
 
 /* ---------- defaults ---------- */
 const SEC = {
-  announcement: { type: "announcement", text: "Free delivery across the UAE. Pay cash on delivery.", bg: "", fx: "none", duration: 8, repeat: 1 },
+  announcement: { type: "announcement", text: "Free delivery across the UAE. Pay cash on delivery.", messages: [{text:"Free delivery across the UAE. Pay cash on delivery.",url:""}], mode: "rotate", bg: "", fx: "fade", duration: 8, repeat: 1 },
   hero: { type: "hero", fx: "fade", h: 480, ov: 35, al: "center", slides: [
     { t: "Welcome to our store", s: "Quality products, delivered fast", b: "Shop now", img: "", bg: "#0d9488", cat: "" },
     { t: "New arrivals", s: "Fresh picks every week", b: "Explore", img: "", bg: "#0f766e", cat: "" },
@@ -144,6 +144,7 @@ const norm = c => {
   if (f) { c.wa = c.wa || f.wa || ""; c.footer = c.footer || f.text; }
   c.sections = (c.sections || []).filter(s => s.type !== "footer" && SEC[s.type]).map(s => s.type === "hero" && !s.slides
     ? Object.assign(mk("hero", s.id), { slides: [{ t: s.title, s: s.sub, b: s.btn, img: s.img, bg: s.bg }] }) : s);
+  c.sections.forEach(s => { if(s.type === "announcement" && (!Array.isArray(s.messages) || !s.messages.length)) s.messages=[{text:s.text || "",url:""}]; });
   return c;
 };
 
@@ -254,18 +255,42 @@ ${summary('<a class="b full" href="#/checkout">Continue to checkout</a>', 1)}</d
         const fx = modes.includes(s.fx) ? s.fx : "none";
         const duration = Math.max(2, Math.min(40, Number(s.duration) || 8));
         const looping = +s.repeat !== 0;
-        const content = esc(s.text || "");
-        const moving = fx === "scroll-left" || fx === "scroll-right";
-        const inner = moving
-          ? `<div class="an-track"><span class="an-copy">${content}</span><span class="an-copy" aria-hidden="true">${content}</span></div>`
-          : `<span class="an-copy">${content}</span>`;
-        return `<section data-s="${esc(s.id)}"><div class="an an-${fx}" style="${s.bg ? `background:${esc(s.bg)};color:${tc(s.bg)};` : ""}--an-duration:${duration}s;--an-repeat:${looping ? "infinite" : "1"}">${inner}</div></section>`;
+        const messages = (Array.isArray(s.messages) && s.messages.length ? s.messages : [{text:s.text || "",url:""}]).filter(m => m && String(m.text || "").trim());
+        if (!messages.length) return "";
+        // Only permit normal web and local store paths as announcement destinations.
+        const messageHTML = (m, hidden) => {
+          const label = esc(m.text);
+          const target = String(m.url || "").trim();
+          const safe = /^(https?:\/\/|#\/|\/)(?!\/)/i.test(target);
+          return safe ? `<a class="an-copy" href="${esc(target)}"${/^https?:\/\//i.test(target) ? ' target="_blank" rel="noopener noreferrer"' : ""}${hidden ? ' aria-hidden="true" tabindex="-1"' : ""}>${label}</a>` : `<span class="an-copy"${hidden ? ' aria-hidden="true"' : ""}>${label}</span>`;
+        };
+        const marquee = s.mode === "marquee" || (messages.length === 1 && (fx === "scroll-left" || fx === "scroll-right"));
+        const speed = marquee ? duration : Math.max(2,duration);
+        const inner = marquee
+          ? `<div class="an-track"><span class="an-group">${messages.map(m => messageHTML(m,false)).join('<span class="an-sep" aria-hidden="true">•</span>')}</span><span class="an-group" aria-hidden="true">${messages.map(m => messageHTML(m,true)).join('<span class="an-sep">•</span>')}</span></div>`
+          : `<div class="an-rotator" data-an-rotator="${messages.length}" data-an-effect="${esc(fx)}">${messages.map((m,i) => `<span class="an-item${i ? "" : " active"}"${i ? ' aria-hidden="true"' : ""}>${messageHTML(m,false)}</span>`).join("")}</div>`;
+        const klass = marquee ? (fx === "scroll-right" ? "an-scroll-right" : "an-scroll-left") : "an-rotate an-effect-" + fx;
+        return `<section data-s="${esc(s.id)}"><div class="an ${klass}" style="${s.bg ? `background:${esc(s.bg)};color:${tc(s.bg)};` : ""}--an-duration:${speed}s;--an-repeat:${looping ? "infinite" : "1"}">${inner}</div></section>`;
       }).join("") +
       `<header class="hd ${esc(C.hdr)}${+C.sticky ? " st" : ""}"><div class="hi2"><button type="button" class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>${ic("menu",24)}</button><a href="#/" class="br">${C.logo ? `<img src="${esc(C.logo)}" class="lg" alt="">` : ""}<span>${esc(C.name)}</span></a><nav class="desktop-nav">${cats.slice(0, 6).map(c => `<a href="${cl(c)}">${esc(c)}</a>`).join("")}<a href="#/shop">All products</a></nav>${+C.wishlist ? `<a href="#/wishlist" class="wish-link" aria-label="Wishlist">${ic("star",21)}<span>Wishlist</span></a>` : ""}<a href="#/cart" class="ct" aria-label="Cart">${ic("cart", 22)}<i class="${cnt() ? "" : "z"}">${cnt()}</i></a></div><nav id="mobile-menu" class="mobile-menu" aria-label="Mobile store navigation" hidden><a href="#/">Home</a><a href="#/shop">All products</a>${cats.map(c => `<a href="${cl(c)}">${esc(c)}</a>`).join("")}${+C.wishlist ? `<a href="#/wishlist">Wishlist</a>` : ""}<a href="#/cart">Shopping cart (${cnt()})</a><a href="#/checkout">Checkout</a></nav></header>` +
       `<main class="pg">${v}</main><footer><div class="fc"><div class="fg"><div><b>${esc(C.name)}</b><p>${esc(C.footer)}</p></div><div><b>Shop</b>${links || '<a href="#/shop">All products</a>'}</div><div><b>Contact</b>${wad ? `<a href="https://wa.me/${wad}" target="_blank" rel="noopener" class="fw">${waI(16)}WhatsApp</a>` : ""}${C.phone ? `<a href="tel:${esc(C.phone)}">${esc(C.phone)}</a>` : ""}${C.email ? `<a href="mailto:${esc(C.email)}">${esc(C.email)}</a>` : ""}${soc}</div></div><small>&copy; ${new Date().getFullYear()} ${esc(C.name)}. Cash on delivery across the UAE.</small></div></footer>` +
       (wad && +C.waShow ? `<a class="wa ${C.waPos == "left" ? "wl" : ""}" href="https://wa.me/${wad}?text=${encodeURIComponent(C.waMsg || "Hello")}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">${waI(32, "#fff")}</a>` : "");
     D.querySelectorAll("[data-wish]").forEach(b => { const saved=wish.includes(String(b.dataset.wish)); b.classList.toggle("saved",saved);b.setAttribute("aria-pressed",String(saved)); });
     D.querySelectorAll(".hero").forEach(h => { if (h.querySelectorAll(".sl").length > 1) tm.push(setInterval(() => step(h, 1), 5500)); });
+    D.querySelectorAll("[data-an-rotator]").forEach(root => {
+      const items = [...root.querySelectorAll(".an-item")];
+      if (items.length < 2 || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const bar = root.closest(".an");
+      const seconds = Math.max(2, Math.min(40, parseFloat(bar.style.getPropertyValue("--an-duration")) || 8));
+      let position = 0;
+      const timer = setInterval(() => {
+        if (bar.matches(":hover") || D.hidden) return;
+        items[position].classList.remove("active"); items[position].setAttribute("aria-hidden","true");
+        position = (position + 1) % items.length;
+        items[position].classList.add("active"); items[position].removeAttribute("aria-hidden");
+      }, seconds * 1000);
+      tm.push(timer);
+    });
     if (AN && "IntersectionObserver" in window) {
       io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .08 });
       D.querySelectorAll(AN > 1 ? "main .sh,main .c,main .fi,main .fq,main .pm,main .pi,main .pgl,main .sm,main .fm" : "main .w > .sh,main .w > .g,main .pm,main .pi,main .pgl,main .fts,main .sm,main .fm").forEach((el, i) => { el.classList.add("rv"); if (AN > 1) el.style.transitionDelay = (i % 6) * 70 + "ms"; io.observe(el); });
@@ -320,7 +345,7 @@ function css(t) {
 :focus-visible{outline:2px solid var(--c);outline-offset:2px}
 .hd{background:var(--cd);border-bottom:1px solid var(--bd)}.hd.st{position:sticky;top:0;z-index:20}.hi2{max-width:${W}px;margin:auto;padding:14px 20px;display:flex;align-items:center;gap:28px;flex-wrap:wrap;position:relative}.hd nav{display:flex;gap:24px;flex:1;overflow-x:auto;font-size:14px;font-weight:600;white-space:nowrap;scrollbar-width:none}.hd nav a{color:var(--mu);transition:color .2s}.hd nav a:hover{color:var(--t)}.hd.center .hi2{flex-direction:column;gap:10px}.hd.center nav{flex:none}.hd.center .ct{position:absolute;inset-inline-end:20px;top:50%;margin-top:-17px}.ct{margin-inline-start:auto}
 .br{display:flex;align-items:center;gap:10px;font-family:var(--hf);font-weight:800;font-size:20px}.lg{height:36px;width:auto;border-radius:6px}.ct{position:relative;display:flex;padding:6px;border-radius:50%}.ct i{position:absolute;top:-2px;inset-inline-end:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--c);color:var(--on);font:700 11px/18px sans-serif;text-align:center}.ct i.z{display:none}.ct i.pop{animation:pop .4s}
-.an{background:var(--c);color:var(--on);text-align:center;padding:9px 16px;font-size:13px;font-weight:500;overflow:hidden;position:relative}.an .an-copy{display:inline-block}.an.an-scroll-left,.an.an-scroll-right{padding-inline:0}.an-track{display:flex;width:max-content;min-width:200%;will-change:transform}.an-track .an-copy{width:50%;flex:0 0 50%;white-space:nowrap;padding:0 32px;text-align:center}.an-scroll-left .an-track{animation:zb-an-left var(--an-duration) linear infinite}.an-scroll-right .an-track{animation:zb-an-right var(--an-duration) linear infinite}.an-fade .an-copy{animation:zb-an-fade var(--an-duration) ease-in-out var(--an-repeat) both}.an-slide-up .an-copy{animation:zb-an-slide var(--an-duration) ease-in-out var(--an-repeat) both}.an-pulse .an-copy{animation:zb-an-pulse var(--an-duration) ease-in-out var(--an-repeat) both}.an:hover .an-track,.an:hover .an-copy{animation-play-state:paused}@keyframes zb-an-left{to{transform:translateX(-50%)}}@keyframes zb-an-right{from{transform:translateX(-50%)}to{transform:translateX(0)}}@keyframes zb-an-fade{0%,100%{opacity:1}50%{opacity:.15}}@keyframes zb-an-slide{0%{opacity:0;transform:translateY(100%)}20%,80%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-100%)}}@keyframes zb-an-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.055);opacity:.75}}
+.an{background:var(--c);color:var(--on);text-align:center;padding:9px 16px;font-size:13px;font-weight:500;overflow:hidden;position:relative}.an .an-copy{display:inline-block;color:inherit;text-decoration:none}.an a.an-copy:hover{text-decoration:underline}.an.an-scroll-left,.an.an-scroll-right{padding-inline:0}.an-track{display:flex;width:max-content;min-width:100%;will-change:transform}.an-track .an-group{width:50%;min-width:max-content}.an-group{display:flex;align-items:center;justify-content:space-around;flex:0 0 auto;min-width:50vw;white-space:nowrap}.an-group .an-copy{white-space:nowrap;padding:0 30px}.an-sep{opacity:.65}.an-rotator{display:grid;place-items:center;min-height:1.5em}.an-item{grid-area:1/1;opacity:0;pointer-events:none;visibility:hidden;transition:opacity .45s ease,transform .45s ease;transform:translateY(0)}.an-item.active{opacity:1;pointer-events:auto;visibility:visible}.an-effect-slide-up .an-item{transform:translateY(12px)}.an-effect-slide-up .an-item.active{transform:translateY(0)}.an-effect-pulse .an-item.active{animation:zb-an-pulse var(--an-duration) ease-in-out var(--an-repeat)}.an-scroll-left .an-track{animation:zb-an-left var(--an-duration) linear infinite}.an-scroll-right .an-track{animation:zb-an-right var(--an-duration) linear infinite}.an-fade .an-copy{animation:zb-an-fade var(--an-duration) ease-in-out var(--an-repeat) both}.an-slide-up .an-copy{animation:zb-an-slide var(--an-duration) ease-in-out var(--an-repeat) both}.an-pulse .an-copy{animation:zb-an-pulse var(--an-duration) ease-in-out var(--an-repeat) both}.an:hover .an-track,.an:hover .an-copy{animation-play-state:paused}@keyframes zb-an-left{to{transform:translateX(-50%)}}@keyframes zb-an-right{from{transform:translateX(-50%)}to{transform:translateX(0)}}@keyframes zb-an-fade{0%,100%{opacity:1}50%{opacity:.15}}@keyframes zb-an-slide{0%{opacity:0;transform:translateY(100%)}20%,80%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-100%)}}@keyframes zb-an-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.055);opacity:.75}}
 .hero{position:relative;overflow:hidden}.sl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;background-size:cover;background-position:center;opacity:0;transition:opacity .9s,transform 1.2s;pointer-events:none}.sl.on{opacity:1;pointer-events:auto;transform:none}.sl.slide{transform:translateX(6%)}.sl.zoom{transform:scale(1.1)}.hi{max-width:720px;padding:24px}.hi h1{font-size:clamp(30px,5vw,56px);margin:0 0 12px;letter-spacing:-.02em}.hi p{margin:0 0 26px;font-size:18px;opacity:.92}.sl.left{justify-content:flex-start;text-align:start}.sl.left .hi{margin-inline-start:max(0px,calc((100% - ${W}px)/2))}${an ? ".sl.on .hi{animation:up .8s .15s both}" : ""}
 .ar{position:absolute;top:50%;margin-top:-20px;background:rgba(0,0,0,.35);color:#fff;border:0;width:40px;height:40px;border-radius:50%;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;transition:background .2s}.ar:hover{background:rgba(0,0,0,.6)}.ar.l{left:14px}.ar.r{right:14px}.dt{position:absolute;bottom:14px;left:0;right:0;display:flex;justify-content:center;gap:6px;z-index:2}.dt button{width:8px;height:8px;border-radius:5px;border:0;padding:0;cursor:pointer;background:rgba(255,255,255,.5);transition:all .3s}.dt button.on{background:#fff;width:24px}
 .w{max-width:${W}px;margin:auto;padding:44px 20px}.nrw{max-width:760px}.sh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:20px}.sh h2{font-size:clamp(22px,3vw,30px);margin:0;letter-spacing:-.01em}.lk{font-size:14px;font-weight:600;color:var(--c)}.lk:hover{text-decoration:underline}.body{font-size:16px;max-width:65ch}
@@ -549,11 +574,17 @@ function panel() {
   if (t == "stats") b = S("title","Section title") + items("items",[["value","Big number / value"],["label","Description"]],s);
   if (t == "marquee") b = S("text","Scrolling message") + S("bg","Background","color");
   if (t == "editorial") b = S("title","Heading") + TA("Description",s.body,"ZB.set('body',this.value)") + S("button","Button text") + S("image","Image URL") + SEL("Link to category",s.cat,CATOPT(),"ZB.set('cat',this.value)") + CK("Image on right",s.reverse,"ZB.set('reverse',this.checked?1:0)");
-  if (t == "announcement") b = S("text", "Text") + S("bg", "Background (leave as brand color if unsure)", "color") +
-    SEL("Animation effect", s.fx || "none", [["none","None / Static"],["scroll-left","Scroll left"],["scroll-right","Scroll right"],["fade","Fade in and out"],["slide-up","Slide upward"],["pulse","Gentle pulse"]], "ZB.set('fx',this.value);ZB.re()") +
-    RG("Animation duration (seconds): " + (s.duration || 8), s.duration || 8, 2, 40, "ZB.set('duration',+this.value)") +
-    CK("Repeat animation (fade / slide / pulse)", s.repeat == null ? 1 : s.repeat, "ZB.set('repeat',this.checked?1:0)") +
-    `<p class="text-[11px] text-slate-400">Changes appear in desktop and mobile previews. Scrolling animations repeat continuously and pause on hover. Reduced-motion preferences are respected.</p>`;
+  if (t == "announcement") {
+    const messages = Array.isArray(s.messages) && s.messages.length ? s.messages : [{text:s.text || "",url:""}];
+    b = SEL("Display mode",s.mode || "rotate",[["rotate","Rotate one message at a time"],["marquee","Continuous scrolling messages"]],"ZB.set('mode',this.value);ZB.re()") +
+      S("bg", "Background", "color") +
+      SEL("Animation effect",s.fx || "fade",[["none","Static"],["fade","Fade"],["slide-up","Slide up"],["pulse","Pulse"],["scroll-left","Scroll left"],["scroll-right","Scroll right"]],"ZB.set('fx',this.value);ZB.re()") +
+      RG("Seconds per message / scroll cycle: " + (s.duration || 8),s.duration || 8,2,40,"ZB.set('duration',+this.value)") +
+      `<p class="text-xs text-slate-500 mb-3">Add multiple messages. In Rotate mode, each message appears in sequence. In Marquee mode, messages scroll together. Each can have an optional link.</p>` +
+      messages.map((m,n) => `<div class="border rounded-xl p-3 mb-2"><div class="flex items-center justify-between gap-2 mb-2"><b class="text-xs">Message ${n+1}</b><div class="flex gap-2"><button onclick="ZB.annMove(${n},-1)" ${n===0?'disabled':''} class="text-xs text-brand-700 disabled:opacity-30" title="Move up">↑</button><button onclick="ZB.annMove(${n},1)" ${n===messages.length-1?'disabled':''} class="text-xs text-brand-700 disabled:opacity-30" title="Move down">↓</button><button onclick="ZB.annDelete(${n})" ${messages.length===1?'disabled':''} class="text-xs text-red-500 disabled:opacity-30">Delete</button></div></div>${TA("Announcement text",m.text || "",`ZB.annEdit(${n},'text',this.value)`,2)}${IN("Optional link (https://... or #/shop)",m.url || "",`ZB.annEdit(${n},'url',this.value)`)}</div>`).join("") +
+      `<button onclick="ZB.annAdd()" class="w-full py-2 text-xs font-bold border rounded-xl text-brand-700">+ Add announcement message</button>` +
+      `<p class="text-[11px] text-slate-400 mt-2">Use Undo / Redo to restore message changes. Desktop and mobile previews update automatically.</p>`;
+  }
   if (t == "cats") b = S("title", "Title") + `<p class="text-xs text-slate-500 mb-3">Upload a unique image for each product category. Without a custom image, the first product image is used.</p>` + (cats().length ? cats().map((name,n) => { const image = cfg.catImages[name]; return `<div class="border rounded-xl p-3 mb-2"><b class="block text-xs mb-2">${esc(name)}</b>${image ? `<img src="${esc(image)}" alt="" class="w-full h-24 object-cover rounded-lg mb-2"/>` : ""}<input type="file" accept="image/*" onchange="ZB.catImage(${n},this.files[0])" class="block w-full text-xs"/>${image ? `<button class="text-xs text-red-500 mt-2" onclick="ZB.removeCatImage(${n})">Remove category image</button>` : ""}</div>`; }).join("") : `<p class="text-xs text-slate-400">Add products with categories to enable category images.</p>`);
   if (t == "text") b = S("title", "Title") + TA("Text", s.body, "ZB.set('body',this.value)", 5);
   if (t == "features") b = S("title", "Title (optional)") + items("items", [["i", "", "icon"], ["t", "Heading"], ["d", "Description"]], s);
@@ -574,6 +605,12 @@ ZB.slug = v => recordChange("slug", () => { cfg.slug = slugify(v); prev(); }, tr
 ZB.g = (k, v) => recordChange("g:" + k, () => { cfg[k] = v; prev(); }, true);
 ZB.th = (k, v) => recordChange("th:" + k, () => { cfg.theme[k] = v; prev(); }, true);
 ZB.set = (k, v) => recordChange("set:" + sel + ":" + k, () => { sec()[k] = v; prev(); }, true);
+// Editable announcement message list; legacy single-text sections are migrated on first edit.
+const ensureAnnouncements = s => { if (!Array.isArray(s.messages) || !s.messages.length) s.messages = [{text:s.text || "",url:""}]; return s.messages; };
+ZB.annEdit = (n,k,v) => recordChange("announcement:"+sel+":"+n+":"+k, () => { const list=ensureAnnouncements(sec()); if(list[n]) {list[n][k]=v; if(n===0 && k==="text") sec().text=v;} prev(); }, true);
+ZB.annAdd = () => recordChange("add announcement", () => { ensureAnnouncements(sec()).push({text:"New announcement",url:""}); ZB.re(); });
+ZB.annDelete = n => recordChange("delete announcement", () => { const s=sec(),list=ensureAnnouncements(s); if(list.length>1 && n>=0 && n<list.length) {list.splice(n,1);s.text=list[0].text;ZB.re();} });
+ZB.annMove = (n,d) => recordChange("move announcement", () => {const s=sec(),list=ensureAnnouncements(s),to=n+d;if(n>=0 && n<list.length && to>=0 && to<list.length){list.splice(to,0,list.splice(n,1)[0]);s.text=list[0].text;ZB.re();}});
 ZB.sl = (n, k, v) => recordChange("sl:" + sel + ":" + n + ":" + k, () => { sec().slides[n][k] = v; prev(); }, true);
 ZB.sla = () => recordChange("add slide", () => { sec().slides.push({ t: "New slide", s: "", b: "Shop now", img: "", bg: cfg.theme.c }); ZB.re(); });
 ZB.sld = n => { const s = sec(); if (s.slides.length > 1) recordChange("delete slide", () => { s.slides.splice(n, 1); ZB.re(); }); };
