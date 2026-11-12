@@ -48,6 +48,7 @@
       <button onclick="showTab('orders')" class="sidebar-link w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600" data-tab="orders"><i class="fas fa-shopping-bag w-5 text-center"></i> Client Orders</button>
       <button onclick="showTab('catalog')" class="sidebar-link w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600" data-tab="catalog"><i class="fas fa-store w-5 text-center"></i> Catalog</button>
       <button onclick="showTab('payouts')" class="sidebar-link w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600" data-tab="payouts"><i class="fas fa-coins w-5 text-center"></i> Commission</button>
+      <button onclick="showTab('billing')" class="sidebar-link w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-600" data-tab="billing"><i class="fas fa-credit-card w-5 text-center"></i> Plan &amp; Billing</button>
     </nav>
     <div class="p-3 border-t"><div class="flex items-center gap-3 px-3 py-2"><div class="w-8 h-8 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-xs font-bold" id="avatar">A</div><div class="min-w-0 flex-1"><div class="text-sm font-semibold truncate" id="user-name">Agency</div><div class="text-[11px] text-slate-400" id="user-email"></div></div><button onclick="logout()" class="text-slate-400 hover:text-red-500"><i class="fas fa-sign-out-alt"></i></button></div></div>
   </aside>
@@ -57,6 +58,7 @@
       <span class="text-xs font-bold bg-violet-50 text-violet-700 px-2.5 py-1 rounded-full">Agency</span>
     </header>
     <div class="p-4 sm:p-6">
+      <div id="pay-banner"></div>
       <div id="tab-overview" class="tab-panel active space-y-4">
         <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
           <div class="bg-white rounded-2xl border p-5"><div class="text-xs text-slate-500 uppercase mb-2">Client GMV</div><div class="font-display text-2xl font-extrabold" id="stat-gmv">—</div></div>
@@ -68,6 +70,40 @@
       <div id="tab-orders" class="tab-panel"><div class="bg-white rounded-2xl border overflow-hidden"><div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="bg-slate-50 text-left text-xs text-slate-500 uppercase"><th class="px-4 py-3">Order</th><th class="px-4 py-3">Customer</th><th class="px-4 py-3">Product</th><th class="px-4 py-3">Total</th><th class="px-4 py-3">Status</th><th class="px-4 py-3">Date</th></tr></thead><tbody id="orders-body" class="divide-y"></tbody></table></div></div></div>
       <div id="tab-payouts" class="tab-panel"><div class="bg-white rounded-2xl border overflow-hidden"><table class="w-full text-sm"><thead><tr class="bg-slate-50 text-left text-xs text-slate-500 uppercase"><th class="px-4 py-3">ID</th><th class="px-4 py-3">Amount</th><th class="px-4 py-3">Status</th><th class="px-4 py-3">Date</th></tr></thead><tbody id="payouts-body" class="divide-y"></tbody></table></div></div>
 
+      <div id="tab-billing" class="tab-panel space-y-4">
+        <div class="bg-white rounded-2xl border p-5 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div class="text-xs text-slate-500 uppercase mb-1">Current plan</div>
+            <div class="font-display text-2xl font-extrabold text-brand-700" id="bill-plan">—</div>
+            <div class="text-xs text-slate-400 mt-1" id="bill-expiry"></div>
+          </div>
+          <div class="text-xs text-slate-400"><i class="fas fa-lock"></i> Payments are processed securely by PayTabs. We never see or store your card details.</div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="bg-white rounded-2xl border p-5">
+            <div class="text-sm font-bold text-brand-600 uppercase mb-1">Gold · Monthly</div>
+            <div class="font-display text-2xl font-extrabold mb-1">$120<span class="text-sm text-slate-400 font-semibold">/mo</span></div>
+            <div class="text-xs text-slate-400 mb-4">Unlimited clients · priority support</div>
+            <button id="bill-btn-gold-monthly" onclick="startCheckout('gold','monthly',this)" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold rounded-xl">Pay with card</button>
+          </div>
+          <div class="bg-white rounded-2xl border-2 border-brand-500 p-5">
+            <div class="text-sm font-bold text-brand-600 uppercase mb-1">Gold · Yearly</div>
+            <div class="font-display text-2xl font-extrabold mb-1">$99<span class="text-sm text-slate-400 font-semibold">/mo</span></div>
+            <div class="text-xs text-slate-400 mb-4">Billed $1,188 once a year</div>
+            <button id="bill-btn-gold-yearly" onclick="startCheckout('gold','yearly',this)" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold rounded-xl">Pay with card</button>
+          </div>
+          <div class="bg-white rounded-2xl border p-5">
+            <div class="text-sm font-bold text-slate-500 uppercase mb-1">Diamond · 6 months</div>
+            <div class="font-display text-2xl font-extrabold mb-1">$499<span class="text-sm text-slate-400 font-semibold">/6 mo</span></div>
+            <div class="text-xs text-slate-400 mb-4">Everything in Gold + account manager</div>
+            <button id="bill-btn-diamond-six_months" onclick="startCheckout('diamond','six_months',this)" class="w-full py-2.5 border-2 border-slate-200 hover:border-brand-400 text-slate-700 text-sm font-bold rounded-xl">Pay with card</button>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl border overflow-hidden">
+          <div class="px-4 py-3 border-b text-sm font-bold">Payment history</div>
+          <div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="bg-slate-50 text-left text-xs text-slate-500 uppercase"><th class="px-4 py-3">Ref</th><th class="px-4 py-3">Plan</th><th class="px-4 py-3">Amount</th><th class="px-4 py-3">Status</th><th class="px-4 py-3">Date</th></tr></thead><tbody id="bill-history" class="divide-y"></tbody></table></div>
+        </div>
+      </div>
       <div id="tab-catalog" class="tab-panel space-y-4">
         <div class="flex flex-col lg:flex-row gap-4">
           <aside class="lg:w-56 flex-shrink-0 space-y-4">
@@ -151,11 +187,12 @@ function showTab(id) {
   document.querySelectorAll(".tab-panel").forEach(function (p) { p.classList.remove("active"); });
   document.getElementById("tab-" + id).classList.add("active");
   document.querySelectorAll(".sidebar-link").forEach(function (l) { l.classList.toggle("active", l.dataset.tab === id); });
-  var titles = { overview: "Overview", orders: "Client Orders", catalog: "Catalog", payouts: "Commission" };
+  var titles = { overview: "Overview", orders: "Client Orders", catalog: "Catalog", payouts: "Commission", billing: "Plan & Billing" };
   document.getElementById("page-title").textContent = titles[id] || id;
   if (id === "orders") loadOrders();
   if (id === "catalog") loadCatalog();
   if (id === "payouts") loadPayouts();
+  if (id === "billing") loadBilling();
 }
 
 async function loadOverview() {
@@ -294,6 +331,81 @@ async function enterApp() {
   document.getElementById("user-email").textContent = u.email;
   document.getElementById("avatar").textContent = (u.name || "A").charAt(0).toUpperCase();
   await loadOverview();
+  await handlePaymentReturn();
+}
+
+/* ---------- Plan & Billing (PayTabs) ---------- */
+var PLAN_NAMES = { free: "Free", gold: "Gold", diamond: "Diamond" };
+var BILLING_NAMES = { monthly: "Monthly", yearly: "Yearly", six_months: "6 months" };
+function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+
+async function loadBilling() {
+  try {
+    var data = await api("/me/subscription");
+    var sub = data.subscription || { plan: "free" };
+    document.getElementById("bill-plan").textContent = PLAN_NAMES[sub.plan] || sub.plan;
+    var exp = document.getElementById("bill-expiry");
+    if (sub.plan !== "free" && sub.plan_expires_at) exp.textContent = "Active until " + String(sub.plan_expires_at).slice(0, 10);
+    else if (sub.expired) exp.textContent = "Your previous plan expired on " + String(sub.plan_expires_at).slice(0, 10);
+    else exp.textContent = "Upgrade any time — unlock unlimited clients and priority support.";
+    document.getElementById("bill-history").innerHTML = (data.payments || []).map(function (p) {
+      var color = p.status === "paid" ? "text-green-600" : p.status === "pending" ? "text-amber-600" : "text-red-500";
+      return '<tr><td class="px-4 py-3 font-mono text-xs">' + esc(p.cart_id) + '</td><td class="px-4 py-3">' + esc(PLAN_NAMES[p.plan] || p.plan) + " · " + esc(BILLING_NAMES[p.billing] || p.billing) +
+        '</td><td class="px-4 py-3 font-semibold">' + esc(p.amount) + " " + esc(p.currency) + '</td><td class="px-4 py-3 font-semibold ' + color + '">' + esc(p.status) +
+        '</td><td class="px-4 py-3 text-slate-400">' + esc((p.paid_at || p.created_at || "").slice(0, 10)) + "</td></tr>";
+    }).join("") || '<tr><td colspan="5" class="px-4 py-8 text-center text-slate-400">No payments yet</td></tr>';
+  } catch (e) {
+    document.getElementById("bill-plan").textContent = "—";
+    document.getElementById("bill-expiry").textContent = e.message;
+  }
+}
+
+async function startCheckout(plan, billing, btn) {
+  var label = btn ? btn.textContent : "";
+  if (btn) { btn.disabled = true; btn.textContent = "Redirecting to secure payment…"; }
+  try {
+    var data = await api("/payments/checkout", { method: "POST", body: JSON.stringify({ plan: plan, billing: billing }) });
+    location.href = data.redirect_url;
+  } catch (e) {
+    alert(e.message);
+    if (btn) { btn.disabled = false; btn.textContent = label; }
+  }
+}
+
+function showPayBanner(kind, text) {
+  var styles = { success: "bg-green-50 border-green-200 text-green-800", pending: "bg-amber-50 border-amber-200 text-amber-800", failed: "bg-red-50 border-red-200 text-red-800" };
+  document.getElementById("pay-banner").innerHTML = '<div class="mb-4 rounded-xl border px-4 py-3 text-sm font-medium ' + (styles[kind] || styles.pending) + '">' + esc(text) + "</div>";
+}
+
+async function handlePaymentReturn() {
+  var qs = new URLSearchParams(location.search);
+  var state = qs.get("payment");
+  var ref = qs.get("ref");
+  if (state) {
+    history.replaceState({}, "", location.pathname);
+    showTab("billing");
+    if (state === "success") showPayBanner("success", "Payment received — your plan is now active. Thank you!");
+    else if (state === "pending") {
+      showPayBanner("pending", "Your payment is still being confirmed. This page will update automatically.");
+      for (var i = 0; i < 6 && ref; i++) {
+        await new Promise(function (r) { setTimeout(r, 4000); });
+        try {
+          var st = await api("/payments/status/" + encodeURIComponent(ref));
+          if (st.payment.status === "paid") { showPayBanner("success", "Payment received — your plan is now active. Thank you!"); break; }
+          if (st.payment.status === "failed") { showPayBanner("failed", "The payment did not go through. You have not been charged."); break; }
+        } catch (e) { break; }
+      }
+    } else showPayBanner("failed", "The payment did not go through or was cancelled. You have not been charged.");
+    loadBilling();
+    return true;
+  }
+  // Visitor picked a plan on the pricing page before signing in
+  var pending = sessionStorage.getItem("zamrud_pending_plan");
+  if (pending) {
+    sessionStorage.removeItem("zamrud_pending_plan");
+    try { var c = JSON.parse(pending); showTab("billing"); await startCheckout(c.plan, c.billing, null); return true; } catch (e) {}
+  }
+  return false;
 }
 
 enterApp();
