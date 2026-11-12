@@ -718,8 +718,12 @@
         <div class="agency-card featured bg-white rounded-2xl border-2 p-7 relative">
           <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-brand-600 text-white text-xs font-bold px-4 py-1 rounded-full">MOST POPULAR</div>
           <div class="text-sm font-bold text-brand-600 uppercase tracking-wide mb-1">Gold</div>
-          <div class="font-display text-3xl font-extrabold text-slate-900 mb-1">$120<span class="text-base font-semibold text-slate-400">/mo</span></div>
-          <div class="text-sm text-slate-400 mb-6">or $99/mo billed yearly</div>
+          <div class="font-display text-3xl font-extrabold text-slate-900 mb-1"><span id="gold-price">$120</span><span class="text-base font-semibold text-slate-400">/mo</span></div>
+          <div id="gold-sub" class="text-sm text-slate-400 mb-3">Billed monthly</div>
+          <div class="inline-flex rounded-lg bg-slate-100 p-1 mb-6 text-xs font-bold">
+            <button type="button" id="gold-bill-monthly" onclick="setGoldBilling('monthly')" class="px-3 py-1.5 rounded-md bg-white shadow text-brand-700">Monthly</button>
+            <button type="button" id="gold-bill-yearly" onclick="setGoldBilling('yearly')" class="px-3 py-1.5 rounded-md text-slate-500">Yearly · save 18%</button>
+          </div>
           <ul class="space-y-3 text-sm text-slate-600 mb-8">
             <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Unlimited clients</li>
             <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Affiliate earnings: Unlimited</li>
@@ -728,7 +732,8 @@
             <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Priority support</li>
             <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Social media promotion support</li>
           </ul>
-          <a href="/login?register=1" class="block w-full text-center py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition shadow-md shadow-brand-600/20">Apply for Gold</a>
+          <button type="button" id="btn-gold" onclick="subscribePlan('gold', goldBilling)" class="block w-full text-center py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition shadow-md shadow-brand-600/20">Subscribe to Gold</button>
+          <p class="text-[11px] text-slate-400 text-center mt-2"><i class="fas fa-lock"></i> Secure card payment via PayTabs</p>
         </div>
         <!-- Diamond -->
         <div class="agency-card bg-white rounded-2xl border border-slate-200 p-7 shadow-soft">
@@ -743,7 +748,8 @@
             <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Early access to new products</li>
             <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Quarterly strategy calls</li>
           </ul>
-          <a href="/login?register=1" class="block w-full text-center py-3 border-2 border-slate-200 hover:border-brand-400 text-slate-700 font-bold rounded-xl transition">Apply for Diamond</a>
+          <button type="button" id="btn-diamond" onclick="subscribePlan('diamond', 'six_months')" class="block w-full text-center py-3 border-2 border-slate-200 hover:border-brand-400 text-slate-700 font-bold rounded-xl transition">Subscribe to Diamond</button>
+          <p class="text-[11px] text-slate-400 text-center mt-2"><i class="fas fa-lock"></i> Secure card payment via PayTabs</p>
         </div>
       </div>
 
@@ -957,6 +963,47 @@
     }
 
     window.addEventListener('popstate', () => showView(viewFromPath(), { fromHistory: true }));
+
+    /* ---------- Plan checkout (PayTabs) ---------- */
+    let goldBilling = 'monthly';
+    function setGoldBilling(mode) {
+      goldBilling = mode;
+      const yearly = mode === 'yearly';
+      document.getElementById('gold-price').textContent = yearly ? '$99' : '$120';
+      document.getElementById('gold-sub').textContent = yearly ? 'Billed $1,188 once a year' : 'Billed monthly';
+      const on = 'px-3 py-1.5 rounded-md bg-white shadow text-brand-700';
+      const off = 'px-3 py-1.5 rounded-md text-slate-500';
+      document.getElementById('gold-bill-monthly').className = yearly ? off : on;
+      document.getElementById('gold-bill-yearly').className = yearly ? on : off;
+    }
+
+    async function subscribePlan(plan, billing) {
+      const token = localStorage.getItem('zamrud_token_agency') || localStorage.getItem('zamrud_token');
+      let user = null;
+      try { user = JSON.parse(localStorage.getItem('zamrud_user_agency') || localStorage.getItem('zamrud_user') || 'null'); } catch (e) {}
+      if (!token || !user || user.role !== 'agency') {
+        // Remember the choice, send them to sign up / log in as an agency, then resume at /agency
+        sessionStorage.setItem('zamrud_pending_plan', JSON.stringify({ plan: plan, billing: billing }));
+        location.href = '/login?register=1';
+        return;
+      }
+      const btn = document.getElementById('btn-' + plan);
+      const label = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Redirecting to secure payment…'; }
+      try {
+        const res = await fetch(API + '/payments/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+          body: JSON.stringify({ plan: plan, billing: billing })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.redirect_url) throw new Error(data.error || 'Could not start payment');
+        location.href = data.redirect_url;
+      } catch (e) {
+        alert(e.message);
+        if (btn) { btn.disabled = false; btn.textContent = label; }
+      }
+    }
 
     function toggleMobileMenu() {
       document.getElementById('mobile-menu').classList.toggle('hidden');
