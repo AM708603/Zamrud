@@ -153,7 +153,8 @@
       <button type="button" onclick="showTab('shopify')" class="sidebar-link" data-tab="shopify"><i class="fab fa-shopify"></i><span>Shopify</span></button>
       <button type="button" onclick="showTab('store')" class="sidebar-link" data-tab="store"><i class="fas fa-shop"></i><span>Store</span></button>
       <div class="nav-section">Finance</div>
-      <button type="button" onclick="showTab('payouts')" class="sidebar-link" data-tab="payouts"><i class="fas fa-wallet"></i><span>Payouts</span></button></nav>
+      <button type="button" onclick="showTab('payouts')" class="sidebar-link" data-tab="payouts"><i class="fas fa-wallet"></i><span>Payouts</span></button>
+      <button type="button" onclick="showTab('settings')" class="sidebar-link" data-tab="settings"><i class="fas fa-gear"></i><span>Settings</span></button></nav>
     <div class="p-3 border-t border-white/10">
       <div class="rounded-xl bg-white/5 border border-white/10 p-3 flex items-center gap-3">
         <div id="avatar" class="w-9 h-9 rounded-full bg-brand-500 text-white flex items-center justify-center text-sm font-bold">U</div>
@@ -205,6 +206,7 @@
       <button type="button" class="quick-action" onclick="showTab('products')"><span class="w-9 h-9 rounded-lg bg-violet-50 text-violet-600 flex items-center justify-center"><i class="fas fa-box"></i></span><span><span class="block text-sm font-semibold">My list</span><span class="text-xs text-slate-500">Prices & push</span></span></button>
       <button type="button" class="quick-action" onclick="showTab('shopify')"><span class="w-9 h-9 rounded-lg bg-green-50 text-green-700 flex items-center justify-center"><i class="fab fa-shopify"></i></span><span><span class="block text-sm font-semibold">Shopify</span><span class="text-xs text-slate-500">Connect & sync</span></span></button>
       <button type="button" class="quick-action" onclick="showTab('payouts')"><span class="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center"><i class="fas fa-wallet"></i></span><span><span class="block text-sm font-semibold">Payouts</span><span class="text-xs text-slate-500">Settlements</span></span></button>
+      <button type="button" class="quick-action" onclick="showTab('settings')"><span class="w-9 h-9 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center"><i class="fas fa-gear"></i></span><span><span class="block text-sm font-semibold">Settings</span><span class="text-xs text-slate-500">Profile & withdraw</span></span></button>
     </div>
   </div>
 
@@ -309,6 +311,90 @@
     <h3 class="font-display font-bold">Payouts</h3>
     <div class="panel overflow-hidden"><div class="overflow-x-auto"><table class="data-table"><thead><tr><th>ID</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody id="payouts-body"></tbody></table></div></div>
   </div>
+
+  <div id="tab-settings" class="tab-panel space-y-5">
+    <div class="welcome-banner" style="padding:1.25rem 1.5rem">
+      <div class="relative z-10">
+        <div class="text-teal-100 text-sm font-medium mb-1">Account</div>
+        <h2 class="font-display text-xl font-extrabold">Settings</h2>
+        <p class="text-teal-50/90 text-sm mt-1">Profile, payout details, password, and withdraw requests.</p>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-4">
+      <div class="stat-card lg:col-span-1">
+        <div class="text-xs font-medium text-slate-500 mb-1">Available to withdraw</div>
+        <div id="set-available" class="font-display text-2xl font-extrabold text-slate-900">0 AED</div>
+        <div class="text-xs text-slate-400 mt-2">From delivered orders minus pending/paid payouts. Min 50 AED.</div>
+        <button type="button" onclick="submitPayoutRequest()" class="btn-primary mt-4 w-full">Request payout</button>
+        <p id="set-payout-msg" class="text-xs mt-2 hidden"></p>
+      </div>
+      <div class="panel lg:col-span-2 p-5 space-y-3">
+        <h3 class="font-display font-bold text-slate-900">Request amount (optional)</h3>
+        <p class="text-sm text-slate-500">Leave empty to request your full available balance.</p>
+        <input id="set-payout-amount" type="number" min="50" step="0.01" placeholder="Full balance" class="w-full max-w-xs px-3 py-2.5 text-sm border border-slate-200 rounded-xl"/>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-4">
+      <div class="panel p-5 space-y-3">
+        <h3 class="font-display font-bold text-slate-900">Profile</h3>
+        <div>
+          <label class="text-xs font-medium text-slate-500 mb-1 block">Full name</label>
+          <input id="set-name" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl"/>
+        </div>
+        <div>
+          <label class="text-xs font-medium text-slate-500 mb-1 block">Email</label>
+          <input id="set-email" disabled class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-slate-50 text-slate-500"/>
+        </div>
+        <div>
+          <label class="text-xs font-medium text-slate-500 mb-1 block">Phone / WhatsApp</label>
+          <input id="set-phone" placeholder="+9715..." class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl"/>
+        </div>
+        <button type="button" onclick="saveProfile()" class="btn-primary">Save profile</button>
+        <p id="set-profile-msg" class="text-xs hidden"></p>
+      </div>
+
+      <div class="panel p-5 space-y-3">
+        <h3 class="font-display font-bold text-slate-900">Payout details</h3>
+        <div>
+          <label class="text-xs font-medium text-slate-500 mb-1 block">Method</label>
+          <select id="set-payout-method" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl" onchange="updatePayoutPlaceholder()">
+            <option value="bank">Bank transfer (local account)</option>
+            <option value="paytabs">PayTabs</option>
+            <option value="stripe">Stripe</option>
+            <option value="binance">Binance</option>
+            <option value="paypal">PayPal</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs font-medium text-slate-500 mb-1 block">Account details</label>
+          <textarea id="set-payout-details" rows="4" placeholder="Bank name, account holder, IBAN / account number — or PayTabs / Stripe details" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl"></textarea>
+        </div>
+        <button type="button" onclick="savePayoutDetails()" class="btn-primary">Save payout details</button>
+        <p id="set-paydetails-msg" class="text-xs hidden"></p>
+      </div>
+    </div>
+
+    <div class="panel p-5 space-y-3 max-w-xl">
+      <h3 class="font-display font-bold text-slate-900">Change password</h3>
+      <div>
+        <label class="text-xs font-medium text-slate-500 mb-1 block">Current password</label>
+        <input id="set-pass-current" type="password" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl"/>
+      </div>
+      <div>
+        <label class="text-xs font-medium text-slate-500 mb-1 block">New password</label>
+        <input id="set-pass-new" type="password" minlength="6" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl"/>
+      </div>
+      <div>
+        <label class="text-xs font-medium text-slate-500 mb-1 block">Confirm new password</label>
+        <input id="set-pass-confirm" type="password" minlength="6" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl"/>
+      </div>
+      <button type="button" onclick="savePassword()" class="btn-primary">Update password</button>
+      <p id="set-pass-msg" class="text-xs hidden"></p>
+    </div>
+  </div>
+
 </main></div></div>
 <script>
 
@@ -354,6 +440,130 @@ async function api(path, opts) {
   return data;
 }
 
+
+function flashMsg(id, text, ok) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.className = "text-xs mt-2 " + (ok ? "text-emerald-600" : "text-red-600");
+  el.classList.remove("hidden");
+}
+
+
+function updatePayoutPlaceholder() {
+  var m = document.getElementById("set-payout-method");
+  var ta = document.getElementById("set-payout-details");
+  if (!m || !ta) return;
+  var map = {
+    bank: "Bank name, account holder, IBAN / account number, SWIFT (if needed)",
+    paytabs: "PayTabs profile email or Merchant ID",
+    stripe: "Stripe account email or Connect account ID (acct_...)",
+    binance: "Binance ID / email / wallet",
+    paypal: "PayPal email"
+  };
+  ta.placeholder = map[m.value] || "Payout account details";
+}
+
+async function loadSettings() {
+  try {
+    var me = await api("/me");
+    var u = me.user || {};
+    document.getElementById("set-name").value = u.name || "";
+    document.getElementById("set-email").value = u.email || "";
+    document.getElementById("set-phone").value = u.phone || "";
+    document.getElementById("set-payout-method").value = (u.payout_method === "cash") ? "bank" : (u.payout_method || "bank");
+    if (typeof updatePayoutPlaceholder === "function") updatePayoutPlaceholder();
+    document.getElementById("set-payout-details").value = u.payout_details || "";
+    if (u.name) {
+      document.getElementById("user-name").textContent = u.name;
+      var av = document.getElementById("avatar");
+      if (av) av.textContent = (u.name || "D").charAt(0).toUpperCase();
+    }
+  } catch (e) { console.error(e); }
+  try {
+    var bal = await api("/payouts/balance");
+    document.getElementById("set-available").textContent = (bal.available_aed != null ? Number(bal.available_aed).toLocaleString() : 0) + " AED";
+  } catch (e) {
+    document.getElementById("set-available").textContent = "—";
+  }
+}
+
+async function saveProfile() {
+  try {
+    var data = await api("/me", {
+      method: "PATCH",
+      body: JSON.stringify({
+        name: document.getElementById("set-name").value,
+        phone: document.getElementById("set-phone").value
+      })
+    });
+    if (data.user) {
+      try {
+        var raw = localStorage.getItem(USER_KEY) || localStorage.getItem("zamrud_user");
+        var u = raw ? JSON.parse(raw) : {};
+        u.name = data.user.name;
+        localStorage.setItem(USER_KEY, JSON.stringify(u));
+        localStorage.setItem("zamrud_user", JSON.stringify(u));
+        document.getElementById("user-name").textContent = data.user.name;
+      } catch (e) {}
+    }
+    flashMsg("set-profile-msg", "Profile saved", true);
+  } catch (e) {
+    flashMsg("set-profile-msg", e.message, false);
+  }
+}
+
+async function savePayoutDetails() {
+  try {
+    await api("/me", {
+      method: "PATCH",
+      body: JSON.stringify({
+        payout_method: document.getElementById("set-payout-method").value,
+        payout_details: document.getElementById("set-payout-details").value
+      })
+    });
+    flashMsg("set-paydetails-msg", "Payout details saved", true);
+  } catch (e) {
+    flashMsg("set-paydetails-msg", e.message, false);
+  }
+}
+
+async function savePassword() {
+  var cur = document.getElementById("set-pass-current").value;
+  var nw = document.getElementById("set-pass-new").value;
+  var cf = document.getElementById("set-pass-confirm").value;
+  if (nw !== cf) return flashMsg("set-pass-msg", "New passwords do not match", false);
+  if (nw.length < 6) return flashMsg("set-pass-msg", "Password must be at least 6 characters", false);
+  try {
+    await api("/me/password", {
+      method: "POST",
+      body: JSON.stringify({ current_password: cur, new_password: nw })
+    });
+    document.getElementById("set-pass-current").value = "";
+    document.getElementById("set-pass-new").value = "";
+    document.getElementById("set-pass-confirm").value = "";
+    flashMsg("set-pass-msg", "Password updated", true);
+  } catch (e) {
+    flashMsg("set-pass-msg", e.message, false);
+  }
+}
+
+async function submitPayoutRequest() {
+  var amountVal = document.getElementById("set-payout-amount").value;
+  var body = {};
+  if (amountVal) body.amount = Number(amountVal);
+  if (!confirm("Submit payout request" + (amountVal ? (" for " + amountVal + " AED") : " for full available balance") + "?")) return;
+  try {
+    var data = await api("/payouts/request", { method: "POST", body: JSON.stringify(body) });
+    flashMsg("set-payout-msg", "Request submitted for " + data.payout.amount_aed + " AED", true);
+    loadSettings();
+    if (typeof loadPayouts === "function") loadPayouts();
+  } catch (e) {
+    flashMsg("set-payout-msg", e.message, false);
+  }
+}
+
+
 function logout() {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(USER_KEY);
@@ -367,12 +577,13 @@ function showTab(id) {
   document.querySelectorAll(".tab-panel").forEach(function (p) { p.classList.remove("active"); });
   document.getElementById("tab-" + id).classList.add("active");
   document.querySelectorAll(".sidebar-link").forEach(function (l) { l.classList.toggle("active", l.dataset.tab === id); });
-  var titles = { overview: "Overview", orders: "Orders", products: "My Products", catalog: "Catalog", payouts: "Payouts", shopify: "Shopify", store: "Store Builder" };
+  var titles = { overview: "Overview", orders: "Orders", products: "My Products", catalog: "Catalog", payouts: "Payouts", shopify: "Shopify", store: "Store Builder", settings: "Settings" };
   document.getElementById("page-title").textContent = titles[id] || id;
   if (id === "orders") loadOrders();
   if (id === "products") loadMyProducts();
   if (id === "catalog") loadCatalog();
   if (id === "payouts") loadPayouts();
+  if (id === "settings") loadSettings();
   if (id === "shopify") loadShops();
   if (id === "store") { if (window.ZB && typeof ZB.open === "function") ZB.open(); else console.warn("Store builder not loaded"); }
 }
