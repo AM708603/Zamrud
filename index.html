@@ -1134,7 +1134,7 @@
       document.getElementById('mobile-menu').classList.toggle('hidden');
     }
 
-    /* toggleLang provided by i18n module */
+    
 
     function productCard(p) {
       const tagBadge = p.tag === 'hot' ? '<span class="absolute top-2 left-2 badge-hot text-white text-[10px] font-bold px-2 py-0.5 rounded-full">HOT</span>'
@@ -1156,17 +1156,17 @@
             <h3 class="font-semibold text-sm text-slate-800 leading-snug mb-2 line-clamp-2">${p.name}</h3>
             <div class="flex items-end justify-between">
               <div>
-                <div class="text-xs text-slate-400">${typeof t==='function'?t('our_cost'):'Our cost'}</div>
+                <div class="text-xs text-slate-400">${typeof t==='function'?t('Our cost'):'Our cost'}</div>
                 <div class="font-bold text-slate-900">${p.cost} AED</div>
               </div>
               <div class="text-right">
-                <div class="text-xs text-slate-400">${typeof t==='function'?t('your_profit'):'Your profit'}</div>
+                <div class="text-xs text-slate-400">${typeof t==='function'?t('Your profit'):'Your profit'}</div>
                 <div class="font-bold text-brand-600">+${p.profit} AED</div>
               </div>
             </div>
             <div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
-              <span>${typeof t==='function'?t('sell_at'):'Sell at:'} ${p.suggested} AED</span>
-              <span class="text-green-600 font-medium">${p.stock} ${typeof t==='function'?t('in_stock'):'in stock'}</span>
+              <span>${typeof t==='function'?t('Sell at:'):'Sell at:'} ${p.suggested} AED</span>
+              <span class="text-green-600 font-medium">${p.stock} ${typeof t==='function'?t('in stock'):'in stock'}</span>
             </div>
           </div>
         </div>`;
@@ -1386,164 +1386,232 @@
 </script>
 
 
+
+
+
 <script>
-(function() {
-  const I18N = {
-    en: {
-      lang_label: "العربية",
-      top_inventory: "Our Own UAE Inventory",
-      top_margins: "Higher Profit Margins",
-      top_delivery: "1–2 Day Delivery",
-      top_support: "Support",
-      nav_home: "Home",
-      nav_catalog: "Catalog",
-      nav_catalog_full: "Product Catalog",
-      nav_how: "How it Works",
-      nav_pricing: "Pricing",
-      nav_pricing_fees: "Pricing & Fees",
-      nav_agency: "Agency",
-      nav_agency_prog: "Agency Program",
-      nav_login: "Log in",
-      nav_start_free: "Start Free",
-      nav_create: "Create Free Account",
-      hero_badge: "Our Own Inventory · Not a Marketplace",
-      hero_title: "Dropship from Our UAE Warehouses",
-      hero_body: "We stock, own and fulfill every product. No third-party sellers. That means higher profit margins, reliable stock, and faster delivery for your customers.",
-      hero_stat1: "Higher margins",
-      hero_stat2: "95% local stock",
-      hero_stat3: "Weekly payouts",
-      step1_title: "Create Account",
-      step1_desc: "Free. No company docs needed.",
-      step2_title: "Browse & List",
-      step2_desc: "Pick from our catalog. Set your price.",
-      step3_title: "Connect Store",
-      step3_desc: "Shopify, Salla, Zid or manual.",
-      step4_title: "We Fulfill",
-      step4_desc: "Pack, COD call, ship from UAE.",
-      step5_title: "Get Paid",
-      step5_desc: "Profit every Friday. Bank or Binance.",
-      see_process: "See full process →",
-      cta_start_selling: "Start Selling",
-      cta_get_started: "Get Started",
-      cta_gold: "Apply for Gold",
-      cta_diamond: "Apply for Diamond",
-      cta_agency: "Apply to Agency Program",
-      catalog_title: "Product Catalog",
-      catalog_search: "Product name...",
-      filter_instock: "In Stock (Our Warehouse)",
-      empty_catalog: "No products match your filters",
-      footer_tagline: "UAE's premium dropshipping platform with own inventory.",
-      already_account: "Already have an account?",
-      our_cost: "Our cost",
-      your_profit: "Your profit",
-      sell_at: "Sell at:",
-      in_stock: "in stock",
-      low_stock: "Low Stock",
-      hot: "HOT",
-      new: "NEW",
-      high_margin: "HIGH $",
-    },
-    ar: {
-      lang_label: "English",
-      top_inventory: "مخزوننا الخاص في الإمارات",
-      top_margins: "هوامش ربح أعلى",
-      top_delivery: "توصيل خلال ١–٢ يوم",
-      top_support: "الدعم",
-      nav_home: "الرئيسية",
-      nav_catalog: "الكتالوج",
-      nav_catalog_full: "كتالوج المنتجات",
-      nav_how: "كيف يعمل",
-      nav_pricing: "الأسعار",
-      nav_pricing_fees: "الأسعار والرسوم",
-      nav_agency: "الوكالات",
-      nav_agency_prog: "برنامج الوكالات",
-      nav_login: "تسجيل الدخول",
-      nav_start_free: "ابدأ مجاناً",
-      nav_create: "إنشاء حساب مجاني",
-      hero_badge: "مخزوننا الخاص · لسنا سوقاً وسيطاً",
-      hero_title: "درّوبشيب من مستودعاتنا في الإمارات",
-      hero_body: "نحن نملك ونخزن ونشحن كل منتج. لا يوجد بائعون طرف ثالث. وهذا يعني هوامش ربح أعلى، وتوفراً موثوقاً، وتوصيلاً أسرع لعملائك.",
-      hero_stat1: "هوامش أعلى",
-      hero_stat2: "٩٥٪ مخزون محلي",
-      hero_stat3: "دفعات أسبوعية",
-      step1_title: "إنشاء حساب",
-      step1_desc: "مجاني. بدون مستندات شركة.",
-      step2_title: "تصفح وأضف",
-      step2_desc: "اختر من كتالوجنا وحدد سعرك.",
-      step3_title: "اربط متجرك",
-      step3_desc: "Shopify أو سلة أو زيد أو يدوياً.",
-      step4_title: "نحن ننفّذ",
-      step4_desc: "تعبئة، تأكيد الدفع عند الاستلام، وشحن من الإمارات.",
-      step5_title: "استلم أرباحك",
-      step5_desc: "أرباحك كل جمعة. بنك أو بينانس.",
-      see_process: "اطلع على العملية كاملة ←",
-      cta_start_selling: "ابدأ البيع",
-      cta_get_started: "ابدأ الآن",
-      cta_gold: "قدّم على الباقة الذهبية",
-      cta_diamond: "قدّم على باقة الماسي",
-      cta_agency: "قدّم على برنامج الوكالات",
-      catalog_title: "كتالوج المنتجات",
-      catalog_search: "اسم المنتج...",
-      filter_instock: "متوفر (مستودعنا)",
-      empty_catalog: "لا توجد منتجات مطابقة",
-      footer_tagline: "منصة دروبشيبينغ متميزة في الإمارات بمخزون خاص.",
-      already_account: "لديك حساب بالفعل؟",
-      our_cost: "تكلفتنا",
-      your_profit: "ربحك",
-      sell_at: "سعر البيع:",
-      in_stock: "متوفر",
-      low_stock: "مخزون منخفض",
-      hot: "الأكثر طلباً",
-      new: "جديد",
-      high_margin: "ربح عالٍ",
-    }
+(function () {
+  /* Full EN ↔ AR phrase book for static landing UI */
+  const AR = {
+    "Our Own UAE Inventory": "مخزوننا الخاص في الإمارات",
+    "Higher Profit Margins": "هوامش ربح أعلى",
+    "1–2 Day Delivery": "توصيل خلال ١–٢ يوم",
+    "Support": "الدعم",
+    "Home": "الرئيسية",
+    "Catalog": "الكتالوج",
+    "Product Catalog": "كتالوج المنتجات",
+    "How it Works": "كيف يعمل",
+    "How It Works": "كيف يعمل",
+    "Pricing": "الأسعار",
+    "Pricing & Fees": "الأسعار والرسوم",
+    "Agency": "الوكالات",
+    "Agency Program": "برنامج الوكالات",
+    "Log in": "تسجيل الدخول",
+    "Start Free": "ابدأ مجاناً",
+    "Create Free Account": "إنشاء حساب مجاني",
+    "Our Own Inventory · Not a Marketplace": "مخزوننا الخاص · لسنا سوقاً وسيطاً",
+    "Dropship from Our UAE Warehouses": "درّوبشيب من مستودعاتنا في الإمارات",
+    "We stock, own and fulfill every product. No third-party sellers. That means higher profit margins, reliable stock, and faster delivery for your customers.": "نحن نملك ونخزن ونشحن كل منتج. لا يوجد بائعون طرف ثالث. وهذا يعني هوامش ربح أعلى، وتوفراً موثوقاً، وتوصيلاً أسرع لعملائك.",
+    "Higher margins": "هوامش أعلى",
+    "95% local stock": "٩٥٪ مخزون محلي",
+    "Weekly payouts": "دفعات أسبوعية",
+    "We Own the Inventory. You Keep More Profit.": "نحن نملك المخزون. وأنت تحتفظ بربح أكبر.",
+    "Our Own Stock": "مخزوننا الخاص",
+    "40–60% Profit Margins": "هوامش ربح ٤٠–٦٠٪",
+    "Reliable Quality & Stock": "جودة وتوفر موثوق",
+    "From Sign-up to Payday": "من التسجيل إلى استلام الأرباح",
+    "Five simple steps. No inventory investment. Profit every Friday.": "خمس خطوات بسيطة. بدون استثمار في المخزون. أرباحك كل جمعة.",
+    "Create Account": "إنشاء حساب",
+    "Free. No company docs needed.": "مجاني. بدون مستندات شركة.",
+    "Browse & List": "تصفح وأضف",
+    "Pick from our catalog. Set your price.": "اختر من كتالوجنا وحدد سعرك.",
+    "Connect Store": "اربط متجرك",
+    "Shopify, Salla, Zid or manual.": "Shopify أو سلة أو زيد أو يدوياً.",
+    "We Fulfill": "نحن ننفّذ",
+    "Pack, COD call, ship from UAE.": "تعبئة، تأكيد الدفع عند الاستلام، وشحن من الإمارات.",
+    "Get Paid": "استلم أرباحك",
+    "Profit every Friday. Bank or Binance.": "أرباحك كل جمعة. بنك أو بينانس.",
+    "See full process →": "اطلع على العملية كاملة ←",
+    "Popular Categories": "الفئات الشائعة",
+    "Trending This Week": "الأكثر رواجاً هذا الأسبوع",
+    "High-margin products from our warehouses performing in UAE": "منتجات بهامش ربح عالٍ من مستودعاتنا وتنجح في الإمارات",
+    "Manage Clients. Earn Extra Commission.": "أدِر عملاءك. واربح عمولة إضافية.",
+    "Ready to start earning in the UAE?": "هل أنت مستعد لبدء الربح في الإمارات؟",
+    "Join thousands of resellers selling from our warehouses. Free to start. Higher margins because we own the stock.": "انضم إلى آلاف البائعين الذين يبيعون من مستودعاتنا. ابدأ مجاناً. هوامش أعلى لأننا نملك المخزون.",
+    "Filters": "التصفيات",
+    "No products found": "لا توجد منتجات",
+    "Try adjusting your filters.": "جرّب تعديل عوامل التصفية.",
+    "How Zamrud Works": "كيف يعمل زمرد",
+    "Simple process. Our inventory. Your profit. Built for UAE resellers.": "عملية بسيطة. مخزوننا. ربحك. مصمّم لبائعي الإمارات.",
+    "Register free": "سجّل مجاناً",
+    "Name, email, WhatsApp. No trade license or company documents. Instant portal access.": "الاسم والبريد وواتساب. بدون رخصة تجارية أو مستندات شركة. دخول فوري للوحة التحكم.",
+    "Browse our catalog & set prices": "تصفح كتالوجنا وحدد الأسعار",
+    "Every product is from our warehouses. Clear cost, suggested retail, and estimated profit. Filter by margin or category.": "كل منتج من مستودعاتنا. تكلفة واضحة وسعر مقترح وربح تقديري. صفِّ حسب الهامش أو الفئة.",
+    "Connect your store": "اربط متجرك",
+    "Shopify, Salla, Zid, EasyOrders — or upload orders manually / via WhatsApp.": "Shopify أو سلة أو زيد أو EasyOrders — أو ارفع الطلبات يدوياً / عبر واتساب.",
+    "We confirm, pack & deliver": "نؤكد ونعبّئ ونوصل",
+    "Receive profit every Friday": "استلم أرباحك كل جمعة",
+    "We deduct product cost + 18 AED shipping. Remaining profit hits your bank or Binance every Friday.": "نخصم تكلفة المنتج + ١٨ درهم شحن. ويتبقى ربحك في حسابك البنكي أو بينانس كل جمعة.",
+    "Transparent Pricing": "أسعار شفافة",
+    "What you pay vs. what you earn": "ما تدفعه مقابل ما تربحه",
+    "No monthly fees. No hidden charges. Higher margins because we own the inventory.": "بدون رسوم شهرية. بدون رسوم خفية. هوامش أعلى لأننا نملك المخزون.",
+    "Per order up to 3 kg · COD call + packaging included": "لكل طلب حتى ٣ كجم · مكالمة تأكيد الدفع عند الاستلام + التعبئة مشمولة",
+    "Only on returned / rejected orders": "فقط على الطلبات المرتجعة / المرفوضة",
+    "No subscription · Unlimited access to our catalog": "بدون اشتراك · وصول غير محدود لكتالوجنا",
+    "Manage Clients.Earn Up to 25,000 AED Extra / Month": "أدِر العملاء. واربح حتى ٢٥٬٠٠٠ درهم إضافية شهرياً",
+    "Manage Clients. Earn Up to 25,000 AED Extra / Month": "أدِر العملاء. واربح حتى ٢٥٬٠٠٠ درهم إضافية شهرياً",
+    "One Account": "حساب واحد",
+    "Extra Commission": "عمولة إضافية",
+    "Priority Support": "دعم أولوية",
+    "Winning Assets": "أصول ناجحة",
+    "Agency Plans": "باقات الوكالة",
+    "How the Agency Program Works": "كيف يعمل برنامج الوكالات",
+    "Agency FAQ": "أسئلة شائعة عن الوكالات",
+    "Manage all client stores from a single dashboard": "أدِر كل متاجر العملاء من لوحة واحدة",
+    "Earn on every client order — up to 25K AED / month": "اربح على كل طلب للعميل — حتى ٢٥ ألف درهم / شهر",
+    "Dedicated account manager for you and your clients": "مدير حساب مخصص لك ولعملائك",
+    "Exclusive products, creatives & ad strategies": "منتجات حصرية وإبداعات واستراتيجيات إعلانات",
+    "Choose your plan · Scale your agency · Earn cashback rewards": "اختر باقتك · وسّع وكالتك · واحصل على استرداد نقدي",
+    "Secure card payment via PayTabs": "دفع آمن بالبطاقة عبر PayTabs",
+    "Submit your agency details. Approval usually within 48 hours.": "قدّم بيانات وكالتك. الموافقة عادة خلال ٤٨ ساعة.",
+    "Add client stores under your account. They sell from our inventory.": "أضف متاجر العملاء تحت حسابك. يبيعون من مخزوننا.",
+    "Use our winning products & creatives. We fulfill every order.": "استخدم منتجاتنا وإبداعاتنا الناجحة. نحن ننفّذ كل طلب.",
+    "Get paid weekly on client delivered orders + your own sales.": "استلم أرباحك أسبوعياً على طلبات العملاء المسلّمة + مبيعاتك.",
+    "Same as regular sellers — every Friday. Commission from client orders is included in your weekly payout.": "نفس البائعين العاديين — كل جمعة. عمولة طلبات العملاء ضمن دفعتك الأسبوعية.",
+    "No. You manage everything under your agency account. Clients can optionally get view-only access if needed.": "لا. تدير كل شيء من حساب الوكالة. يمكن للعملاء الحصول على صلاحية عرض فقط عند الحاجة.",
+    "Start selling from our warehouses in under 2 minutes": "ابدأ البيع من مستودعاتنا في أقل من دقيقتين",
+    "Already have an account?": "لديك حساب بالفعل؟",
+    "Already have an account? Log in": "لديك حساب بالفعل؟ سجّل الدخول",
+    "Premium UAE dropshipping with our own inventory. Higher margins. Local warehouses. Agency support.": "دروبشيبينغ متميز في الإمارات بمخزوننا الخاص. هوامش أعلى. مستودعات محلية. ودعم للوكالات.",
+    "Start Selling": "ابدأ البيع",
+    "Get Started": "ابدأ الآن",
+    "Apply for Gold": "قدّم على الباقة الذهبية",
+    "Apply for Diamond": "قدّم على باقة الماسي",
+    "Apply to Agency Program": "قدّم على برنامج الوكالات",
+    "Our cost": "تكلفتنا",
+    "Your profit": "ربحك",
+    "Sell at:": "سعر البيع:",
+    "in stock": "متوفر",
+    "Low Stock": "مخزون منخفض",
+    "In Stock (Our Warehouse)": "متوفر (مستودعنا)",
+    "Product name...": "اسم المنتج...",
+    "Category": "الفئة",
+    "Reset filters": "إعادة تعيين التصفيات",
+    "Beauty & Personal Care": "الجمال والعناية الشخصية",
+    "Mobile Accessories": "إكسسوارات الجوال",
+    "Home & Kitchen": "المنزل والمطبخ",
+    "Sports & Fitness": "الرياضة واللياقة",
+    "Car Accessories": "إكسسوارات السيارات",
+    "Toys & Kids": "الألعاب والأطفال",
+    "Popular": "الأكثر شعبية",
+    "Highest profit": "أعلى ربح",
+    "Cost: low to high": "التكلفة: من الأقل للأعلى",
+    "Cost: high to low": "التكلفة: من الأعلى للأقل",
+    "Newest": "الأحدث",
+    "HOT": "الأكثر طلباً",
+    "NEW": "جديد",
+    "Our Cost": "تكلفتنا",
+    "Suggested Price": "السعر المقترح",
+    "Est. Profit": "الربح التقديري",
+    "In Our Warehouse": "في مستودعنا",
+    "Profit Calculator": "حاسبة الربح",
+    "Selling price": "سعر البيع",
+    "Our cost (own inventory)": "تكلفتنا (مخزون خاص)",
+    "Shipping + COD": "الشحن + الدفع عند الاستلام",
+    "Net Profit": "صافي الربح",
+    "12,000+ products from our own UAE warehouses · Higher margins · Ready to list": "أكثر من ١٢٬٠٠٠ منتج من مستودعاتنا في الإمارات · هوامش أعلى · جاهزة للعرض",
+    "UAE": "الإمارات",
+    "العربية": "English",
+    "English": "العربية"
   };
 
-  let currentLang = localStorage.getItem("zamrud_lang") || "en";
+  /* Build reverse map for EN restore from current Arabic text when needed */
+  const EN_FROM_AR = {};
+  Object.keys(AR).forEach(function (en) { EN_FROM_AR[AR[en]] = en; });
 
-  function applyLanguage(lang) {
-    currentLang = lang === "ar" ? "ar" : "en";
-    localStorage.setItem("zamrud_lang", currentLang);
-    const dict = I18N[currentLang];
-    document.documentElement.lang = currentLang;
-    document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
-    document.body.classList.toggle("lang-ar", currentLang === "ar");
+  let lang = localStorage.getItem("zamrud_lang") || "en";
 
-    document.querySelectorAll("[data-i18n]").forEach(function (el) {
-      const key = el.getAttribute("data-i18n");
-      if (dict[key] != null) el.textContent = dict[key];
+  function normalize(s) {
+    return String(s || "").replace(/\s+/g, " ").trim();
+  }
+
+  const TEXT_ORIG = new WeakMap();
+
+  function translateTree(root, toLang) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function (node) {
+      if (!node.parentElement) return;
+      const tag = node.parentElement.tagName;
+      if (tag === "SCRIPT" || tag === "STYLE" || tag === "NOSCRIPT") return;
+      // Skip text inside elements already handled as whole (icons-only etc.)
+      if (node.parentElement.closest("script, style, noscript")) return;
+
+      const raw = node.nodeValue;
+      const text = normalize(raw);
+      if (!text || text.length < 2) return;
+      if (/^[\d\s.,+%+\-–—AED$]+$/i.test(text)) return;
+
+      if (!TEXT_ORIG.has(node)) TEXT_ORIG.set(node, text);
+      const original = TEXT_ORIG.get(node);
+
+      if (toLang === "ar") {
+        const ar = AR[original] || AR[text];
+        if (ar) node.nodeValue = raw.includes(text) ? raw.replace(text, ar) : ar;
+      } else {
+        if (original) node.nodeValue = raw.includes(text) ? raw.replace(text, original) : original;
+      }
     });
-    document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
-      const key = el.getAttribute("data-i18n-placeholder");
-      if (dict[key] != null) el.setAttribute("placeholder", dict[key]);
+
+    // placeholders
+    root.querySelectorAll("input[placeholder], textarea[placeholder]").forEach(function (el) {
+      if (!el.dataset.i18nPh) el.dataset.i18nPh = el.getAttribute("placeholder") || "";
+      const ph = el.dataset.i18nPh;
+      if (toLang === "ar" && AR[ph]) el.setAttribute("placeholder", AR[ph]);
+      else el.setAttribute("placeholder", ph);
     });
-    document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
-      const key = el.getAttribute("data-i18n-html");
-      if (dict[key] != null) el.innerHTML = dict[key];
+
+    // options in selects
+    root.querySelectorAll("select option").forEach(function (el) {
+      const text = normalize(el.textContent);
+      if (!el.dataset.i18nEn) el.dataset.i18nEn = text;
+      const original = el.dataset.i18nEn;
+      if (toLang === "ar" && AR[original]) el.textContent = AR[original];
+      else el.textContent = original;
     });
+  }
+
+  function applyLanguage(next) {
+    lang = next === "ar" ? "ar" : "en";
+    localStorage.setItem("zamrud_lang", lang);
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    document.body.classList.toggle("lang-ar", lang === "ar");
+
+    translateTree(document.body, lang);
 
     const label = document.getElementById("lang-label");
-    if (label) label.textContent = dict.lang_label;
+    if (label) label.textContent = lang === "ar" ? "English" : "العربية";
 
-    // Hero body paragraph if marked
-    const heroBody = document.querySelector("[data-i18n-html='hero_body']");
-    if (heroBody) heroBody.innerHTML = dict.hero_body;
+    try { if (typeof renderHomeProducts === "function") renderHomeProducts(); } catch (e) {}
+    try { if (typeof filterProducts === "function") filterProducts(); } catch (e) {}
   }
 
   window.toggleLang = function () {
-    applyLanguage(currentLang === "en" ? "ar" : "en");
-    try { if (typeof renderHomeProducts === "function") renderHomeProducts(); } catch (e) {}
-    try { if (typeof filterProducts === "function") filterProducts(); } catch (e) {}
+    applyLanguage(lang === "en" ? "ar" : "en");
   };
   window.setLang = applyLanguage;
-  window.t = function (key) {
-    const dict = I18N[currentLang] || I18N.en;
-    return dict[key] != null ? dict[key] : (I18N.en[key] || key);
+  window.getLang = function () { return lang; };
+  window.t = function (keyOrEn) {
+    if (lang !== "ar") return keyOrEn;
+    return AR[keyOrEn] || keyOrEn;
   };
-  window.getLang = function () { return currentLang; };
 
   document.addEventListener("DOMContentLoaded", function () {
-    applyLanguage(currentLang);
+    // Capture English originals, then apply saved language
+    translateTree(document.body, "en");
+    applyLanguage(lang);
   });
 })();
 </script>
