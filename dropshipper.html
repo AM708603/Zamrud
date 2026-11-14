@@ -355,11 +355,14 @@
         <p id="set-profile-msg" class="text-xs hidden"></p>
       </div>
 
-      <div class="panel p-5 space-y-3">
-        <h3 class="font-display font-bold text-slate-900">Payout details</h3>
+      <div class="panel p-5 space-y-4">
         <div>
-          <label class="text-xs font-medium text-slate-500 mb-1 block">Method</label>
-          <select id="set-payout-method" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl" onchange="updatePayoutPlaceholder()">
+          <h3 class="font-display font-bold text-slate-900">Payout details</h3>
+          <p class="text-sm text-slate-500 mt-0.5">We use these details to send your weekly profit. Fill every required field for the method you choose.</p>
+        </div>
+        <div>
+          <label class="text-xs font-medium text-slate-500 mb-1 block">Payout method <span class="text-rose-500">*</span></label>
+          <select id="set-payout-method" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl" onchange="switchPayoutMethod()">
             <option value="bank">Bank transfer (local account)</option>
             <option value="paytabs">PayTabs</option>
             <option value="stripe">Stripe</option>
@@ -367,10 +370,134 @@
             <option value="paypal">PayPal</option>
           </select>
         </div>
-        <div>
-          <label class="text-xs font-medium text-slate-500 mb-1 block">Account details</label>
-          <textarea id="set-payout-details" rows="4" placeholder="Bank name, account holder, IBAN / account number — or PayTabs / Stripe details" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl"></textarea>
+
+        <!-- BANK -->
+        <div id="payout-fields-bank" class="payout-method-fields space-y-3">
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div class="sm:col-span-2">
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Account holder name <span class="text-rose-500">*</span></label>
+              <input id="pd-bank-holder" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl" placeholder="Name as on bank account"/>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Bank name <span class="text-rose-500">*</span></label>
+              <input id="pd-bank-name" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl" placeholder="e.g. Emirates NBD, HBL, Meezan"/>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Country <span class="text-rose-500">*</span></label>
+              <input id="pd-bank-country" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl" placeholder="e.g. UAE, Pakistan"/>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Currency</label>
+              <select id="pd-bank-currency" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl">
+                <option value="AED">AED</option>
+                <option value="USD">USD</option>
+                <option value="PKR">PKR</option>
+                <option value="SAR">SAR</option>
+                <option value="EUR">EUR</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">IBAN <span class="text-rose-500">*</span></label>
+              <input id="pd-bank-iban" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl font-mono" placeholder="AEpp nnnn nnnn nnnn nnnn nnn"/>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Account number</label>
+              <input id="pd-bank-account" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl font-mono" placeholder="If no IBAN"/>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">SWIFT / BIC</label>
+              <input id="pd-bank-swift" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl font-mono" placeholder="For international transfers"/>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Branch / notes</label>
+              <input id="pd-bank-notes" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl" placeholder="Optional"/>
+            </div>
+          </div>
         </div>
+
+        <!-- PAYTABS -->
+        <div id="payout-fields-paytabs" class="payout-method-fields space-y-3 hidden">
+          <div class="rounded-xl bg-brand-50 border border-brand-100 text-brand-800 text-xs px-3 py-2">Payouts settled through PayTabs to the merchant profile below.</div>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">PayTabs account email <span class="text-rose-500">*</span></label>
+              <input id="pd-pt-email" type="email" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl" placeholder="merchant@email.com"/>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Merchant ID <span class="text-rose-500">*</span></label>
+              <input id="pd-pt-merchant" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl font-mono" placeholder="PayTabs Profile / Merchant ID"/>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Profile ID</label>
+              <input id="pd-pt-profile" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl font-mono" placeholder="Optional"/>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Registered name</label>
+              <input id="pd-pt-name" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl" placeholder="Name on PayTabs account"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- STRIPE -->
+        <div id="payout-fields-stripe" class="payout-method-fields space-y-3 hidden">
+          <div class="rounded-xl bg-violet-50 border border-violet-100 text-violet-800 text-xs px-3 py-2">Connect Stripe account so profits can be transferred to your linked bank.</div>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Stripe account email <span class="text-rose-500">*</span></label>
+              <input id="pd-stripe-email" type="email" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl" placeholder="you@email.com"/>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Stripe Connect account ID</label>
+              <input id="pd-stripe-acct" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl font-mono" placeholder="acct_xxxxxxxxxxxxx"/>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Full name on Stripe</label>
+              <input id="pd-stripe-name" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl" placeholder="Legal name"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- BINANCE -->
+        <div id="payout-fields-binance" class="payout-method-fields space-y-3 hidden">
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Binance ID / UID <span class="text-rose-500">*</span></label>
+              <input id="pd-bn-id" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl font-mono" placeholder="Binance UID"/>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Binance email</label>
+              <input id="pd-bn-email" type="email" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl" placeholder="email@domain.com"/>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Network</label>
+              <select id="pd-bn-network" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl">
+                <option value="BINANCE">Binance internal transfer</option>
+                <option value="TRC20">USDT TRC20</option>
+                <option value="BEP20">USDT BEP20</option>
+                <option value="ERC20">USDT ERC20</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Wallet address (if external)</label>
+              <input id="pd-bn-wallet" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl font-mono" placeholder="Only if not internal transfer"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAYPAL -->
+        <div id="payout-fields-paypal" class="payout-method-fields space-y-3 hidden">
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">PayPal email <span class="text-rose-500">*</span></label>
+              <input id="pd-pp-email" type="email" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl" placeholder="paypal@email.com"/>
+            </div>
+            <div>
+              <label class="text-xs font-medium text-slate-500 mb-1 block">Account name</label>
+              <input id="pd-pp-name" class="w-full px-3 py-2.5 text-sm border border-slate-200 rounded-xl" placeholder="Name on PayPal"/>
+            </div>
+          </div>
+        </div>
+
         <button type="button" onclick="savePayoutDetails()" class="btn-primary">Save payout details</button>
         <p id="set-paydetails-msg" class="text-xs hidden"></p>
       </div>
@@ -450,19 +577,93 @@ function flashMsg(id, text, ok) {
 }
 
 
-function updatePayoutPlaceholder() {
-  var m = document.getElementById("set-payout-method");
-  var ta = document.getElementById("set-payout-details");
-  if (!m || !ta) return;
-  var map = {
-    bank: "Bank name, account holder, IBAN / account number, SWIFT (if needed)",
-    paytabs: "PayTabs profile email or Merchant ID",
-    stripe: "Stripe account email or Connect account ID (acct_...)",
-    binance: "Binance ID / email / wallet",
-    paypal: "PayPal email"
-  };
-  ta.placeholder = map[m.value] || "Payout account details";
+
+
+function switchPayoutMethod() {
+  var method = (document.getElementById("set-payout-method") || {}).value || "bank";
+  ["bank", "paytabs", "stripe", "binance", "paypal"].forEach(function (m) {
+    var el = document.getElementById("payout-fields-" + m);
+    if (el) el.classList.toggle("hidden", m !== method);
+  });
 }
+
+function collectPayoutDetails() {
+  var method = document.getElementById("set-payout-method").value;
+  var d = { method: method };
+  if (method === "bank") {
+    d.account_holder = (document.getElementById("pd-bank-holder").value || "").trim();
+    d.bank_name = (document.getElementById("pd-bank-name").value || "").trim();
+    d.country = (document.getElementById("pd-bank-country").value || "").trim();
+    d.currency = document.getElementById("pd-bank-currency").value || "AED";
+    d.iban = (document.getElementById("pd-bank-iban").value || "").trim().replace(/\s+/g, "");
+    d.account_number = (document.getElementById("pd-bank-account").value || "").trim();
+    d.swift = (document.getElementById("pd-bank-swift").value || "").trim();
+    d.notes = (document.getElementById("pd-bank-notes").value || "").trim();
+    if (!d.account_holder || !d.bank_name || !d.country) throw new Error("Account holder, bank name and country are required");
+    if (!d.iban && !d.account_number) throw new Error("IBAN or account number is required");
+  } else if (method === "paytabs") {
+    d.email = (document.getElementById("pd-pt-email").value || "").trim();
+    d.merchant_id = (document.getElementById("pd-pt-merchant").value || "").trim();
+    d.profile_id = (document.getElementById("pd-pt-profile").value || "").trim();
+    d.registered_name = (document.getElementById("pd-pt-name").value || "").trim();
+    if (!d.email || !d.merchant_id) throw new Error("PayTabs email and Merchant ID are required");
+  } else if (method === "stripe") {
+    d.email = (document.getElementById("pd-stripe-email").value || "").trim();
+    d.account_id = (document.getElementById("pd-stripe-acct").value || "").trim();
+    d.registered_name = (document.getElementById("pd-stripe-name").value || "").trim();
+    if (!d.email) throw new Error("Stripe account email is required");
+  } else if (method === "binance") {
+    d.binance_id = (document.getElementById("pd-bn-id").value || "").trim();
+    d.email = (document.getElementById("pd-bn-email").value || "").trim();
+    d.network = document.getElementById("pd-bn-network").value || "BINANCE";
+    d.wallet = (document.getElementById("pd-bn-wallet").value || "").trim();
+    if (!d.binance_id) throw new Error("Binance ID / UID is required");
+  } else if (method === "paypal") {
+    d.email = (document.getElementById("pd-pp-email").value || "").trim();
+    d.account_name = (document.getElementById("pd-pp-name").value || "").trim();
+    if (!d.email) throw new Error("PayPal email is required");
+  }
+  return d;
+}
+
+function fillPayoutDetails(raw, method) {
+  var d = {};
+  try {
+    d = typeof raw === "string" ? JSON.parse(raw || "{}") : (raw || {});
+  } catch (e) {
+    // legacy plain text
+    d = { notes: raw || "" };
+  }
+  method = method || d.method || "bank";
+  var sel = document.getElementById("set-payout-method");
+  if (sel) sel.value = method;
+  switchPayoutMethod();
+
+  if (method === "bank" || d.iban || d.bank_name) {
+    if (document.getElementById("pd-bank-holder")) document.getElementById("pd-bank-holder").value = d.account_holder || "";
+    if (document.getElementById("pd-bank-name")) document.getElementById("pd-bank-name").value = d.bank_name || "";
+    if (document.getElementById("pd-bank-country")) document.getElementById("pd-bank-country").value = d.country || "";
+    if (document.getElementById("pd-bank-currency")) document.getElementById("pd-bank-currency").value = d.currency || "AED";
+    if (document.getElementById("pd-bank-iban")) document.getElementById("pd-bank-iban").value = d.iban || "";
+    if (document.getElementById("pd-bank-account")) document.getElementById("pd-bank-account").value = d.account_number || "";
+    if (document.getElementById("pd-bank-swift")) document.getElementById("pd-bank-swift").value = d.swift || "";
+    if (document.getElementById("pd-bank-notes")) document.getElementById("pd-bank-notes").value = d.notes || (typeof raw === "string" && !raw.trim().startsWith("{") ? raw : "") || "";
+  }
+  if (document.getElementById("pd-pt-email")) document.getElementById("pd-pt-email").value = d.email || "";
+  if (document.getElementById("pd-pt-merchant")) document.getElementById("pd-pt-merchant").value = d.merchant_id || "";
+  if (document.getElementById("pd-pt-profile")) document.getElementById("pd-pt-profile").value = d.profile_id || "";
+  if (document.getElementById("pd-pt-name")) document.getElementById("pd-pt-name").value = d.registered_name || "";
+  if (document.getElementById("pd-stripe-email")) document.getElementById("pd-stripe-email").value = d.email || "";
+  if (document.getElementById("pd-stripe-acct")) document.getElementById("pd-stripe-acct").value = d.account_id || "";
+  if (document.getElementById("pd-stripe-name")) document.getElementById("pd-stripe-name").value = d.registered_name || "";
+  if (document.getElementById("pd-bn-id")) document.getElementById("pd-bn-id").value = d.binance_id || "";
+  if (document.getElementById("pd-bn-email")) document.getElementById("pd-bn-email").value = d.email || "";
+  if (document.getElementById("pd-bn-network")) document.getElementById("pd-bn-network").value = d.network || "BINANCE";
+  if (document.getElementById("pd-bn-wallet")) document.getElementById("pd-bn-wallet").value = d.wallet || "";
+  if (document.getElementById("pd-pp-email")) document.getElementById("pd-pp-email").value = d.email || "";
+  if (document.getElementById("pd-pp-name")) document.getElementById("pd-pp-name").value = d.account_name || "";
+}
+
 
 async function loadSettings() {
   try {
@@ -471,9 +672,7 @@ async function loadSettings() {
     document.getElementById("set-name").value = u.name || "";
     document.getElementById("set-email").value = u.email || "";
     document.getElementById("set-phone").value = u.phone || "";
-    document.getElementById("set-payout-method").value = (u.payout_method === "cash") ? "bank" : (u.payout_method || "bank");
-    if (typeof updatePayoutPlaceholder === "function") updatePayoutPlaceholder();
-    document.getElementById("set-payout-details").value = u.payout_details || "";
+    fillPayoutDetails(u.payout_details, (u.payout_method === "cash") ? "bank" : (u.payout_method || "bank"));
     if (u.name) {
       document.getElementById("user-name").textContent = u.name;
       var av = document.getElementById("avatar");
@@ -515,11 +714,13 @@ async function saveProfile() {
 
 async function savePayoutDetails() {
   try {
+    var details = collectPayoutDetails();
+    var method = details.method;
     await api("/me", {
       method: "PATCH",
       body: JSON.stringify({
-        payout_method: document.getElementById("set-payout-method").value,
-        payout_details: document.getElementById("set-payout-details").value
+        payout_method: method,
+        payout_details: JSON.stringify(details)
       })
     });
     flashMsg("set-paydetails-msg", "Payout details saved", true);
