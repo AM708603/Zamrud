@@ -189,6 +189,9 @@
     }
     .stat-pop { transition: transform .25s ease; }
     .stat-pop:hover { transform: scale(1.03); }
+    body.lang-ar { font-family: Inter, "Segoe UI", Tahoma, sans-serif; }
+    body.lang-ar .font-display { font-family: "Plus Jakarta Sans", Inter, Tahoma, sans-serif; }
+    html[dir="rtl"] .nav-link::after { transform-origin: right; }
     .section-line {
       height: 3px; width: 48px; border-radius: 999px;
       background: linear-gradient(90deg, #14b8a6, #fbbf24);
@@ -202,12 +205,12 @@
   <div class="bg-brand-950 text-white text-sm py-2.5 px-4">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
       <div class="flex items-center gap-5">
-        <span class="flex items-center gap-1.5 font-medium"><i class="fas fa-warehouse text-gold-400"></i> Our Own UAE Inventory</span>
-        <span class="hidden sm:flex items-center gap-1.5"><i class="fas fa-percent text-gold-400"></i> Higher Profit Margins</span>
-        <span class="hidden md:flex items-center gap-1.5"><i class="fas fa-truck-fast text-gold-400"></i> 1–2 Day Delivery</span>
+        <span class="flex items-center gap-1.5 font-medium"><i class="fas fa-warehouse text-gold-400"></i> <span data-i18n="top_inventory">Our Own UAE Inventory</span></span>
+        <span class="hidden sm:flex items-center gap-1.5"><i class="fas fa-percent text-gold-400"></i> <span data-i18n="top_margins">Higher Profit Margins</span></span>
+        <span class="hidden md:flex items-center gap-1.5"><i class="fas fa-truck-fast text-gold-400"></i> <span data-i18n="top_delivery">1–2 Day Delivery</span></span>
       </div>
       <div class="flex items-center gap-4">
-        <a href="/contact" class="hover:text-gold-400 transition flex items-center gap-1.5"><i class="fab fa-whatsapp"></i> Support</a>
+        <a href="/contact" class="hover:text-gold-400 transition flex items-center gap-1.5"><i class="fab fa-whatsapp"></i> <span data-i18n="top_support">Support</span></a>
         <button onclick="toggleLang()" class="hover:text-gold-400 transition flex items-center gap-1.5">
           <i class="fas fa-globe"></i> <span id="lang-label">العربية</span>
         </button>
@@ -230,17 +233,17 @@
         </a>
 
         <div class="hidden lg:flex items-center gap-0.5">
-          <a href="/" data-view="home" onclick="event.preventDefault();showView('home')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Home</a>
+          <a href="/" data-view="home" onclick="event.preventDefault();showView('home')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition" data-i18n="nav_home">Home</a>
           <a href="/catalog" data-view="catalog" onclick="event.preventDefault();showView('catalog')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Catalog</a>
-          <a href="/how-it-works" data-view="how-it-works" onclick="event.preventDefault();showView('how-it-works')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">How it Works</a>
+          <a href="/how-it-works" data-view="how-it-works" onclick="event.preventDefault();showView('how-it-works')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition"><span data-i18n="nav_how">How it Works</span></a>
           <a href="/pricing" data-view="pricing" onclick="event.preventDefault();showView('pricing')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Pricing</a>
           <a href="/agency-program" data-view="agency" onclick="event.preventDefault();showView('agency')" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition">Agency</a>
         </div>
 
         <div class="flex items-center gap-2 sm:gap-3">
-          <a href="/login" class="px-4 py-2.5 text-sm font-semibold text-slate-600 hover:text-brand-600 transition hidden sm:inline">Log in</a>
+          <a href="/login" class="px-4 py-2.5 text-sm font-semibold text-slate-600 hover:text-brand-600 transition hidden sm:inline"><span data-i18n="nav_login">Log in</span></a>
           <a href="/login?register=1" class="px-5 py-2.5 text-sm font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl shadow-md shadow-brand-600/25 transition">
-            Start Free
+            <span data-i18n="nav_start_free">Start Free</span>
           </a>
           <button onclick="toggleMobileMenu()" class="lg:hidden p-2.5 text-slate-600 hover:bg-slate-100 rounded-xl">
             <i class="fas fa-bars text-lg"></i>
@@ -250,13 +253,13 @@
     </div>
     <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-100 bg-white">
       <div class="px-4 py-3 space-y-0.5">
-        <a href="/" data-view="home" onclick="event.preventDefault();showView('home');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Home</a>
-        <a href="/catalog" data-view="catalog" onclick="event.preventDefault();showView('catalog');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Product Catalog</a>
-        <a href="/how-it-works" data-view="how-it-works" onclick="event.preventDefault();showView('how-it-works');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">How it Works</a>
-        <a href="/pricing" data-view="pricing" onclick="event.preventDefault();showView('pricing');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Pricing & Fees</a>
-        <a href="/agency-program" data-view="agency" onclick="event.preventDefault();showView('agency');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Agency Program</a>
-        <a href="/login" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50">Log in</a>
-        <a href="/login?register=1" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-bold text-brand-700 bg-brand-50 mt-1">Create Free Account</a>
+        <a href="/" data-view="home" onclick="event.preventDefault();showView('home');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50" data-i18n="nav_home">Home</a>
+        <a href="/catalog" data-view="catalog" onclick="event.preventDefault();showView('catalog');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50"><span data-i18n="nav_catalog_full">Product Catalog</span></a>
+        <a href="/how-it-works" data-view="how-it-works" onclick="event.preventDefault();showView('how-it-works');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50"><span data-i18n="nav_how">How it Works</span></a>
+        <a href="/pricing" data-view="pricing" onclick="event.preventDefault();showView('pricing');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50"><span data-i18n="nav_pricing_fees">Pricing & Fees</span></a>
+        <a href="/agency-program" data-view="agency" onclick="event.preventDefault();showView('agency');toggleMobileMenu()" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50"><span data-i18n="nav_agency_prog">Agency Program</span></a>
+        <a href="/login" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50"><span data-i18n="nav_login">Log in</span></a>
+        <a href="/login?register=1" class="block w-full text-left px-3 py-2.5 rounded-lg text-sm font-bold text-brand-700 bg-brand-50 mt-1"><span data-i18n="nav_create">Create Free Account</span></a>
       </div>
     </div>
   </nav>
@@ -278,30 +281,30 @@
           <div>
             <div class="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-sm mb-6">
               <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-              <span class="font-medium">Our Own Inventory · Not a Marketplace</span>
+              <span class="font-medium"><span data-i18n="hero_badge">Our Own Inventory · Not a Marketplace</span></span>
             </div>
             <h1 class="font-display text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold leading-[1.15] tracking-tight mb-6">
               Dropship from<br />
               <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-amber-200">Our UAE Warehouses</span>
             </h1>
             <p class="text-lg text-brand-100/90 mb-5 max-w-lg leading-relaxed">
-              We stock, own and fulfill every product. No third-party sellers. 
-              That means <strong class="text-white">higher profit margins</strong>, reliable stock, and faster delivery for your customers.
+              <span data-i18n-html="hero_body">We stock, own and fulfill every product. No third-party sellers. 
+              That means <strong class="text-white">higher profit margins</strong>, reliable stock, and faster delivery for your customers.</span>
             </p>
             <div class="flex flex-wrap gap-3 mb-8">
               <div class="flex items-center gap-2 text-sm bg-white/10 rounded-lg px-3 py-1.5">
-                <i class="fas fa-check text-gold-400"></i> Higher margins
+                <i class="fas fa-check text-gold-400"></i> <span data-i18n="hero_stat1">Higher margins</span>
               </div>
               <div class="flex items-center gap-2 text-sm bg-white/10 rounded-lg px-3 py-1.5">
-                <i class="fas fa-check text-gold-400"></i> 95% local stock
+                <i class="fas fa-check text-gold-400"></i> <span data-i18n="hero_stat2">95% local stock</span>
               </div>
               <div class="flex items-center gap-2 text-sm bg-white/10 rounded-lg px-3 py-1.5">
-                <i class="fas fa-check text-gold-400"></i> Weekly payouts
+                <i class="fas fa-check text-gold-400"></i> <span data-i18n="hero_stat3">Weekly payouts</span>
               </div>
             </div>
             <div class="flex flex-wrap gap-3">
               <a href="/login?register=1" class="px-7 py-3.5 bg-gold-500 hover:bg-gold-400 text-slate-900 font-bold rounded-xl shadow-lg shadow-gold-500/30 transition flex items-center gap-2.5">
-                Start Selling Free <i class="fas fa-arrow-right text-sm"></i>
+                <span data-i18n="cta_start_selling">Start Selling</span> Free <i class="fas fa-arrow-right text-sm"></i>
               </a>
               <button onclick="showView('catalog')" class="px-7 py-3.5 glass hover:bg-white/15 font-semibold rounded-xl transition flex items-center gap-2.5">
                 Browse Catalog <i class="fas fa-box-open text-sm"></i>
@@ -405,7 +408,7 @@
       </div>
     </section>
 
-    <!-- How it Works -->
+    <!-- <span data-i18n="nav_how">How it Works</span> -->
     <section class="py-16 bg-slate-100/70">
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
         <div class="text-center mb-12">
@@ -415,32 +418,32 @@
         <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-5">
           <div class="bg-white rounded-2xl p-6 shadow-soft border border-slate-100 text-center relative">
             <div class="w-11 h-11 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center text-lg font-bold mx-auto mb-4 font-display">1</div>
-            <h3 class="font-semibold mb-1.5">Create Account</h3>
-            <p class="text-sm text-slate-500">Free. No company docs needed.</p>
+            <h3 class="font-semibold mb-1.5"><span data-i18n="step1_title">Create Account</span></h3>
+            <p class="text-sm text-slate-500"><span data-i18n="step1_desc">Free. No company docs needed.</span></p>
           </div>
           <div class="bg-white rounded-2xl p-6 shadow-soft border border-slate-100 text-center">
             <div class="w-11 h-11 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center text-lg font-bold mx-auto mb-4 font-display">2</div>
-            <h3 class="font-semibold mb-1.5">Browse & List</h3>
-            <p class="text-sm text-slate-500">Pick from our catalog. Set your price.</p>
+            <h3 class="font-semibold mb-1.5"><span data-i18n="step2_title">Browse & List</span></h3>
+            <p class="text-sm text-slate-500"><span data-i18n="step2_desc">Pick from our catalog. Set your price.</span></p>
           </div>
           <div class="bg-white rounded-2xl p-6 shadow-soft border border-slate-100 text-center">
             <div class="w-11 h-11 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center text-lg font-bold mx-auto mb-4 font-display">3</div>
-            <h3 class="font-semibold mb-1.5">Connect Store</h3>
-            <p class="text-sm text-slate-500">Shopify, Salla, Zid or manual.</p>
+            <h3 class="font-semibold mb-1.5"><span data-i18n="step3_title">Connect Store</span></h3>
+            <p class="text-sm text-slate-500"><span data-i18n="step3_desc">Shopify, Salla, Zid or manual.</span></p>
           </div>
           <div class="bg-white rounded-2xl p-6 shadow-soft border border-slate-100 text-center">
             <div class="w-11 h-11 bg-brand-100 text-brand-700 rounded-xl flex items-center justify-center text-lg font-bold mx-auto mb-4 font-display">4</div>
-            <h3 class="font-semibold mb-1.5">We Fulfill</h3>
-            <p class="text-sm text-slate-500">Pack, COD call, ship from UAE.</p>
+            <h3 class="font-semibold mb-1.5"><span data-i18n="step4_title">We Fulfill</span></h3>
+            <p class="text-sm text-slate-500"><span data-i18n="step4_desc">Pack, COD call, ship from UAE.</span></p>
           </div>
           <div class="bg-white rounded-2xl p-6 shadow-soft border border-slate-100 text-center">
             <div class="w-11 h-11 bg-gold-500 text-white rounded-xl flex items-center justify-center text-lg font-bold mx-auto mb-4 font-display">5</div>
-            <h3 class="font-semibold mb-1.5">Get Paid</h3>
-            <p class="text-sm text-slate-500">Profit every Friday. Bank or Binance.</p>
+            <h3 class="font-semibold mb-1.5"><span data-i18n="step5_title">Get Paid</span></h3>
+            <p class="text-sm text-slate-500"><span data-i18n="step5_desc">Profit every Friday. Bank or Binance.</span></p>
           </div>
         </div>
         <div class="text-center mt-8">
-          <button onclick="showView('how-it-works')" class="text-brand-600 font-semibold hover:underline text-sm">See full process →</button>
+          <button onclick="showView('how-it-works')" class="text-brand-600 font-semibold hover:underline text-sm"><span data-i18n="see_process">See full process →</span></button>
         </div>
       </div>
     </section>
@@ -510,7 +513,7 @@
           <div class="absolute top-0 right-0 w-80 h-80 bg-brand-400/10 rounded-full blur-3xl"></div>
           <div class="relative grid md:grid-cols-2 gap-8 items-center">
             <div>
-              <div class="inline-flex items-center gap-2 bg-white/10 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider mb-4">Agency Program</div>
+              <div class="inline-flex items-center gap-2 bg-white/10 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider mb-4"><span data-i18n="nav_agency_prog">Agency Program</span></div>
               <h2 class="font-display text-2xl md:text-3xl font-extrabold mb-3">Manage Clients. Earn Extra Commission.</h2>
               <p class="text-brand-100 text-sm leading-relaxed mb-6">Built for marketing agencies, freelancers and growth partners. Manage multiple client stores under one account and earn up to <strong class="text-gold-400">25,000 AED</strong> extra per month.</p>
               <button onclick="showView('agency')" class="px-6 py-3 bg-gold-500 hover:bg-gold-400 text-slate-900 font-bold rounded-xl transition">Explore Agency Plans →</button>
@@ -542,9 +545,9 @@
     <section class="py-16 bg-white">
       <div class="max-w-3xl mx-auto px-4 text-center">
         <h2 class="font-display text-3xl font-extrabold text-slate-900 mb-4">Ready to start earning in the UAE?</h2>
-        <p class="text-slate-500 mb-8">Join thousands of resellers selling from our warehouses. Free to start. Higher margins because we own the stock.</p>
+        <p class="text-slate-500 mb-8">Join thousands of resellers selling from our warehouses. Free to start. <span data-i18n="hero_stat1">Higher margins</span> because we own the stock.</p>
         <div class="flex flex-wrap justify-center gap-3">
-          <a href="/login?register=1" class="px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg shadow-brand-600/25 transition inline-block">Create Free Account</a>
+          <a href="/login?register=1" class="px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg shadow-brand-600/25 transition inline-block"><span data-i18n="nav_create">Create Free Account</span></a>
           <button onclick="showView('catalog')" class="px-8 py-3.5 bg-white border-2 border-slate-200 hover:border-brand-300 text-slate-700 font-semibold rounded-xl transition">Browse Products</button>
         </div>
       </div>
@@ -555,8 +558,8 @@
   <div id="view-catalog" class="view">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
       <div class="mb-6">
-        <h1 class="font-display text-2xl font-extrabold text-slate-900">Product Catalog</h1>
-        <p class="text-slate-500 text-sm mt-1">12,000+ products from <strong class="text-brand-700">our own UAE warehouses</strong> · Higher margins · Ready to list</p>
+        <h1 class="font-display text-2xl font-extrabold text-slate-900"><span data-i18n="nav_catalog_full">Product Catalog</span></h1>
+        <p class="text-slate-500 text-sm mt-1">12,000+ products from <strong class="text-brand-700">our own UAE warehouses</strong> · <span data-i18n="hero_stat1">Higher margins</span> · Ready to list</p>
       </div>
       <div class="flex flex-col lg:flex-row gap-6">
         <aside class="lg:w-64 flex-shrink-0">
@@ -569,7 +572,7 @@
               <label class="text-xs font-medium text-slate-500 mb-1.5 block">Search</label>
               <div class="relative">
                 <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                <input id="search-input" type="text" placeholder="Product name..." oninput="filterProducts()"
+                <input id="search-input" type="text" placeholder="Product name..." data-i18n-placeholder="catalog_search" oninput="filterProducts()"
                   class="w-full pl-9 pr-3 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent" />
               </div>
             </div>
@@ -701,7 +704,7 @@
     <div class="max-w-5xl mx-auto px-4 sm:px-6 py-12">
       <div class="text-center mb-12">
         <h1 class="font-display text-3xl font-extrabold text-slate-900 mb-3">Transparent Pricing</h1>
-        <p class="text-slate-500 max-w-xl mx-auto">No monthly fees. No hidden charges. Higher margins because we own the inventory.</p>
+        <p class="text-slate-500 max-w-xl mx-auto">No monthly fees. No hidden charges. <span data-i18n="hero_stat1">Higher margins</span> because we own the inventory.</p>
       </div>
       <div class="grid md:grid-cols-3 gap-6 mb-12">
         <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-soft text-center">
@@ -807,7 +810,7 @@
         </div>
         <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-soft text-center">
           <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center mx-auto mb-3 text-xl"><i class="fas fa-headset"></i></div>
-          <h3 class="font-bold mb-1">Priority Support</h3>
+          <h3 class="font-bold mb-1">Priority <span data-i18n="top_support">Support</span></h3>
           <p class="text-sm text-slate-500">Dedicated account manager for you and your clients</p>
         </div>
         <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-soft text-center">
@@ -834,7 +837,7 @@
             <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Standard support</li>
             <li class="flex items-start gap-2"><i class="fas fa-check text-brand-500 mt-0.5"></i> Basic reporting</li>
           </ul>
-          <a href="/login?register=1" class="block w-full text-center py-3 border-2 border-slate-200 hover:border-brand-400 text-slate-700 font-bold rounded-xl transition">Get Started</a>
+          <a href="/login?register=1" class="block w-full text-center py-3 border-2 border-slate-200 hover:border-brand-400 text-slate-700 font-bold rounded-xl transition"><span data-i18n="cta_get_started">Get Started</span></a>
         </div>
         <!-- Gold -->
         <div class="agency-card featured bg-white rounded-2xl border-2 p-7 relative">
@@ -877,7 +880,7 @@
 
       <!-- How Agency Works -->
       <div class="bg-slate-50 rounded-3xl p-8 md:p-10 border border-slate-100 mb-12">
-        <h2 class="font-display text-xl font-extrabold text-slate-900 mb-6 text-center">How the Agency Program Works</h2>
+        <h2 class="font-display text-xl font-extrabold text-slate-900 mb-6 text-center">How the <span data-i18n="nav_agency_prog">Agency Program</span> Works</h2>
         <div class="grid md:grid-cols-4 gap-6">
           <div class="text-center">
             <div class="w-10 h-10 bg-brand-600 text-white rounded-xl flex items-center justify-center font-bold mx-auto mb-3">1</div>
@@ -926,7 +929,7 @@
       </div>
 
       <div class="text-center mt-12">
-        <a href="/login?register=1" class="px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg shadow-brand-600/25 transition inline-block">Apply to Agency Program</a>
+        <a href="/login?register=1" class="px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg shadow-brand-600/25 transition inline-block"><span data-i18n="cta_agency">Apply to <span data-i18n="nav_agency_prog">Agency Program</span></span></a>
       </div>
     </div>
   </div>
@@ -937,7 +940,7 @@
       <div class="bg-white rounded-3xl border border-slate-200 shadow-card p-8">
         <div class="text-center mb-8">
           <div class="w-12 h-12 bg-gradient-to-br from-brand-500 to-brand-700 text-white rounded-xl flex items-center justify-center text-xl font-bold mx-auto mb-4 shadow-lg shadow-brand-500/30">Z</div>
-          <h1 class="font-display text-2xl font-extrabold text-slate-900">Create Free Account</h1>
+          <h1 class="font-display text-2xl font-extrabold text-slate-900"><span data-i18n="nav_create">Create Free Account</span></h1>
           <p class="text-sm text-slate-500 mt-1">Start selling from our warehouses in under 2 minutes</p>
         </div>
         <form onsubmit="event.preventDefault(); alert('Demo: Account created successfully!'); showView('home');" class="space-y-4">
@@ -957,9 +960,9 @@
             <input type="checkbox" required class="mt-0.5 rounded text-brand-600 focus:ring-brand-500" />
             <span>I agree to the <a href="/terms" target="_blank" class="text-brand-600 hover:underline">Terms</a> and <a href="/privacy" target="_blank" class="text-brand-600 hover:underline">Privacy Policy</a></span>
           </label>
-          <button type="submit" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition shadow-md shadow-brand-600/20">Create Free Account</button>
+          <button type="submit" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition shadow-md shadow-brand-600/20"><span data-i18n="nav_create">Create Free Account</span></button>
         </form>
-        <p class="text-center text-sm text-slate-500 mt-6">Already have an account? <a href="/login" class="text-brand-600 font-semibold hover:underline">Log in</a></p>
+        <p class="text-center text-sm text-slate-500 mt-6">Already have an account? <a href="/login" class="text-brand-600 font-semibold hover:underline"><span data-i18n="nav_login">Log in</span></a></p>
       </div>
       <div class="mt-6 text-center text-xs text-slate-400 space-y-1">
         <p>✓ Our own inventory · Higher profit margins</p>
@@ -977,22 +980,22 @@
             <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white font-bold">Z</div>
             <span class="text-lg font-bold text-white font-display">Zamrud</span>
           </div>
-          <p class="text-sm text-slate-400 leading-relaxed">Premium UAE dropshipping with our own inventory. Higher margins. Local warehouses. Agency support.</p>
+          <p class="text-sm text-slate-400 leading-relaxed">Premium UAE dropshipping with our own inventory. <span data-i18n="hero_stat1">Higher margins</span>. Local warehouses. Agency support.</p>
         </div>
         <div>
           <h4 class="font-semibold text-white mb-3 text-sm">Platform</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="/catalog" data-view="catalog" onclick="event.preventDefault();showView('catalog')" class="hover:text-white transition">Product Catalog</a></li>
-            <li><a href="/how-it-works" data-view="how-it-works" onclick="event.preventDefault();showView('how-it-works')" class="hover:text-white transition">How it Works</a></li>
+            <li><a href="/catalog" data-view="catalog" onclick="event.preventDefault();showView('catalog')" class="hover:text-white transition"><span data-i18n="nav_catalog_full">Product Catalog</span></a></li>
+            <li><a href="/how-it-works" data-view="how-it-works" onclick="event.preventDefault();showView('how-it-works')" class="hover:text-white transition"><span data-i18n="nav_how">How it Works</span></a></li>
             <li><a href="/pricing" data-view="pricing" onclick="event.preventDefault();showView('pricing')" class="hover:text-white transition">Pricing</a></li>
-            <li><a href="/agency-program" data-view="agency" onclick="event.preventDefault();showView('agency')" class="hover:text-white transition">Agency Program</a></li>
+            <li><a href="/agency-program" data-view="agency" onclick="event.preventDefault();showView('agency')" class="hover:text-white transition"><span data-i18n="nav_agency_prog">Agency Program</span></a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-semibold text-white mb-3 text-sm">Support</h4>
+          <h4 class="font-semibold text-white mb-3 text-sm"><span data-i18n="top_support">Support</span></h4>
           <ul class="space-y-2 text-sm">
             <li><a href="/help-center" class="hover:text-white transition">Help Center</a></li>
-            <li><a href="/contact" class="hover:text-white transition">WhatsApp Support</a></li>
+            <li><a href="/contact" class="hover:text-white transition">WhatsApp <span data-i18n="top_support">Support</span></a></li>
             <li><a href="/contact" class="hover:text-white transition">Contact Us</a></li>
           </ul>
         </div>
@@ -1006,7 +1009,7 @@
         </div>
       </div>
       <div class="border-t border-slate-800 pt-6 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500">
-        <p>© 2026 Zamrud UAE. All rights reserved. Own inventory. Higher margins.</p>
+        <p>© 2026 Zamrud UAE. All rights reserved. Own inventory. <span data-i18n="hero_stat1">Higher margins</span>.</p>
         <div class="flex items-center gap-4">
           <a href="#" class="hover:text-white"><i class="fab fa-whatsapp text-lg"></i></a>
           <a href="#" class="hover:text-white"><i class="fab fa-instagram text-lg"></i></a>
@@ -1131,10 +1134,7 @@
       document.getElementById('mobile-menu').classList.toggle('hidden');
     }
 
-    function toggleLang() {
-      const label = document.getElementById('lang-label');
-      label.textContent = label.textContent === 'العربية' ? 'English' : 'العربية';
-    }
+    /* toggleLang provided by i18n module */
 
     function productCard(p) {
       const tagBadge = p.tag === 'hot' ? '<span class="absolute top-2 left-2 badge-hot text-white text-[10px] font-bold px-2 py-0.5 rounded-full">HOT</span>'
@@ -1156,17 +1156,17 @@
             <h3 class="font-semibold text-sm text-slate-800 leading-snug mb-2 line-clamp-2">${p.name}</h3>
             <div class="flex items-end justify-between">
               <div>
-                <div class="text-xs text-slate-400">Our cost</div>
+                <div class="text-xs text-slate-400">${typeof t==='function'?t('our_cost'):'Our cost'}</div>
                 <div class="font-bold text-slate-900">${p.cost} AED</div>
               </div>
               <div class="text-right">
-                <div class="text-xs text-slate-400">Your profit</div>
+                <div class="text-xs text-slate-400">${typeof t==='function'?t('your_profit'):'Your profit'}</div>
                 <div class="font-bold text-brand-600">+${p.profit} AED</div>
               </div>
             </div>
             <div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
-              <span>Sell at: ${p.suggested} AED</span>
-              <span class="text-green-600 font-medium">${p.stock} in stock</span>
+              <span>${typeof t==='function'?t('sell_at'):'Sell at:'} ${p.suggested} AED</span>
+              <span class="text-green-600 font-medium">${p.stock} ${typeof t==='function'?t('in_stock'):'in stock'}</span>
             </div>
           </div>
         </div>`;
@@ -1287,7 +1287,7 @@
               <div class="flex justify-between font-bold text-brand-700 pt-2 border-t border-slate-200"><span>Net Profit</span><span>+${netProfit} AED</span></div>
             </div>
             <div class="flex gap-2">
-              <a href="/login?register=1" class="flex-1 text-center py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl transition">Start Selling</a>
+              <a href="/login?register=1" class="flex-1 text-center py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl transition"><span data-i18n="cta_start_selling">Start Selling</span></a>
             </div>
           </div>
         </div>
@@ -1381,6 +1381,169 @@
       if (grid) mo.observe(grid, { childList: true });
       if (home) mo.observe(home, { childList: true });
     }
+  });
+})();
+</script>
+
+
+<script>
+(function() {
+  const I18N = {
+    en: {
+      lang_label: "العربية",
+      top_inventory: "Our Own UAE Inventory",
+      top_margins: "Higher Profit Margins",
+      top_delivery: "1–2 Day Delivery",
+      top_support: "Support",
+      nav_home: "Home",
+      nav_catalog: "Catalog",
+      nav_catalog_full: "Product Catalog",
+      nav_how: "How it Works",
+      nav_pricing: "Pricing",
+      nav_pricing_fees: "Pricing & Fees",
+      nav_agency: "Agency",
+      nav_agency_prog: "Agency Program",
+      nav_login: "Log in",
+      nav_start_free: "Start Free",
+      nav_create: "Create Free Account",
+      hero_badge: "Our Own Inventory · Not a Marketplace",
+      hero_title: "Dropship from Our UAE Warehouses",
+      hero_body: "We stock, own and fulfill every product. No third-party sellers. That means higher profit margins, reliable stock, and faster delivery for your customers.",
+      hero_stat1: "Higher margins",
+      hero_stat2: "95% local stock",
+      hero_stat3: "Weekly payouts",
+      step1_title: "Create Account",
+      step1_desc: "Free. No company docs needed.",
+      step2_title: "Browse & List",
+      step2_desc: "Pick from our catalog. Set your price.",
+      step3_title: "Connect Store",
+      step3_desc: "Shopify, Salla, Zid or manual.",
+      step4_title: "We Fulfill",
+      step4_desc: "Pack, COD call, ship from UAE.",
+      step5_title: "Get Paid",
+      step5_desc: "Profit every Friday. Bank or Binance.",
+      see_process: "See full process →",
+      cta_start_selling: "Start Selling",
+      cta_get_started: "Get Started",
+      cta_gold: "Apply for Gold",
+      cta_diamond: "Apply for Diamond",
+      cta_agency: "Apply to Agency Program",
+      catalog_title: "Product Catalog",
+      catalog_search: "Product name...",
+      filter_instock: "In Stock (Our Warehouse)",
+      empty_catalog: "No products match your filters",
+      footer_tagline: "UAE's premium dropshipping platform with own inventory.",
+      already_account: "Already have an account?",
+      our_cost: "Our cost",
+      your_profit: "Your profit",
+      sell_at: "Sell at:",
+      in_stock: "in stock",
+      low_stock: "Low Stock",
+      hot: "HOT",
+      new: "NEW",
+      high_margin: "HIGH $",
+    },
+    ar: {
+      lang_label: "English",
+      top_inventory: "مخزوننا الخاص في الإمارات",
+      top_margins: "هوامش ربح أعلى",
+      top_delivery: "توصيل خلال ١–٢ يوم",
+      top_support: "الدعم",
+      nav_home: "الرئيسية",
+      nav_catalog: "الكتالوج",
+      nav_catalog_full: "كتالوج المنتجات",
+      nav_how: "كيف يعمل",
+      nav_pricing: "الأسعار",
+      nav_pricing_fees: "الأسعار والرسوم",
+      nav_agency: "الوكالات",
+      nav_agency_prog: "برنامج الوكالات",
+      nav_login: "تسجيل الدخول",
+      nav_start_free: "ابدأ مجاناً",
+      nav_create: "إنشاء حساب مجاني",
+      hero_badge: "مخزوننا الخاص · لسنا سوقاً وسيطاً",
+      hero_title: "درّوبشيب من مستودعاتنا في الإمارات",
+      hero_body: "نحن نملك ونخزن ونشحن كل منتج. لا يوجد بائعون طرف ثالث. وهذا يعني هوامش ربح أعلى، وتوفراً موثوقاً، وتوصيلاً أسرع لعملائك.",
+      hero_stat1: "هوامش أعلى",
+      hero_stat2: "٩٥٪ مخزون محلي",
+      hero_stat3: "دفعات أسبوعية",
+      step1_title: "إنشاء حساب",
+      step1_desc: "مجاني. بدون مستندات شركة.",
+      step2_title: "تصفح وأضف",
+      step2_desc: "اختر من كتالوجنا وحدد سعرك.",
+      step3_title: "اربط متجرك",
+      step3_desc: "Shopify أو سلة أو زيد أو يدوياً.",
+      step4_title: "نحن ننفّذ",
+      step4_desc: "تعبئة، تأكيد الدفع عند الاستلام، وشحن من الإمارات.",
+      step5_title: "استلم أرباحك",
+      step5_desc: "أرباحك كل جمعة. بنك أو بينانس.",
+      see_process: "اطلع على العملية كاملة ←",
+      cta_start_selling: "ابدأ البيع",
+      cta_get_started: "ابدأ الآن",
+      cta_gold: "قدّم على الباقة الذهبية",
+      cta_diamond: "قدّم على باقة الماسي",
+      cta_agency: "قدّم على برنامج الوكالات",
+      catalog_title: "كتالوج المنتجات",
+      catalog_search: "اسم المنتج...",
+      filter_instock: "متوفر (مستودعنا)",
+      empty_catalog: "لا توجد منتجات مطابقة",
+      footer_tagline: "منصة دروبشيبينغ متميزة في الإمارات بمخزون خاص.",
+      already_account: "لديك حساب بالفعل؟",
+      our_cost: "تكلفتنا",
+      your_profit: "ربحك",
+      sell_at: "سعر البيع:",
+      in_stock: "متوفر",
+      low_stock: "مخزون منخفض",
+      hot: "الأكثر طلباً",
+      new: "جديد",
+      high_margin: "ربح عالٍ",
+    }
+  };
+
+  let currentLang = localStorage.getItem("zamrud_lang") || "en";
+
+  function applyLanguage(lang) {
+    currentLang = lang === "ar" ? "ar" : "en";
+    localStorage.setItem("zamrud_lang", currentLang);
+    const dict = I18N[currentLang];
+    document.documentElement.lang = currentLang;
+    document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+    document.body.classList.toggle("lang-ar", currentLang === "ar");
+
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      const key = el.getAttribute("data-i18n");
+      if (dict[key] != null) el.textContent = dict[key];
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
+      const key = el.getAttribute("data-i18n-placeholder");
+      if (dict[key] != null) el.setAttribute("placeholder", dict[key]);
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+      const key = el.getAttribute("data-i18n-html");
+      if (dict[key] != null) el.innerHTML = dict[key];
+    });
+
+    const label = document.getElementById("lang-label");
+    if (label) label.textContent = dict.lang_label;
+
+    // Hero body paragraph if marked
+    const heroBody = document.querySelector("[data-i18n-html='hero_body']");
+    if (heroBody) heroBody.innerHTML = dict.hero_body;
+  }
+
+  window.toggleLang = function () {
+    applyLanguage(currentLang === "en" ? "ar" : "en");
+    try { if (typeof renderHomeProducts === "function") renderHomeProducts(); } catch (e) {}
+    try { if (typeof filterProducts === "function") filterProducts(); } catch (e) {}
+  };
+  window.setLang = applyLanguage;
+  window.t = function (key) {
+    const dict = I18N[currentLang] || I18N.en;
+    return dict[key] != null ? dict[key] : (I18N.en[key] || key);
+  };
+  window.getLang = function () { return currentLang; };
+
+  document.addEventListener("DOMContentLoaded", function () {
+    applyLanguage(currentLang);
   });
 })();
 </script>
